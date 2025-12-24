@@ -1,0 +1,599 @@
+/*-- scss:defaults --*/
+
+/* Paleta */
+$bg: #0b1220;
+$panel: rgba(255, 255, 255, 0.07);
+$panel-border: rgba(255, 255, 255, 0.18);
+$text: rgba(255, 255, 255, 0.92);
+$text-strong: rgba(255, 255, 255, 0.98);
+$muted: rgba(255, 255, 255, 0.72);
+
+$accent: #38bdf8;   // celeste
+$accent2: #a78bfa;  // violeta
+
+/* Tipografía */
+$font-family-sans-serif: ui-sans-serif, system-ui, -apple-system,
+  "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial,
+  "Noto Sans", "Liberation Sans", sans-serif;
+
+
+/*-- scss:rules --*/
+
+/* =========================
+   Base Reveal
+   ========================= */
+
+.reveal {
+  font-family: $font-family-sans-serif;
+  font-size: 34px; /* ajusta 32–36 si quieres */
+  color: $text;
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal a { color: $accent; }
+.reveal strong { color: $text-strong; }
+
+/* Fondo con gradiente suave */
+.reveal-viewport {
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(56,189,248,0.18), transparent 55%),
+    radial-gradient(900px 600px at 85% 20%, rgba(167,139,250,0.14), transparent 55%),
+    $bg;
+}
+
+/* Títulos */
+.reveal .slides h1,
+.reveal .slides h2,
+.reveal .slides h3 {
+  color: $text-strong;
+  letter-spacing: -0.02em;
+}
+
+.reveal .slides h1 {
+  font-size: 1.55em;
+  margin-bottom: 0.60em;
+  text-align: center; /* H1 centrado (portada de unidad) */
+}
+
+.reveal .slides h2 {
+  font-size: 1.25em;
+  margin-bottom: 0.60em;
+  text-align: left; /* H2 a la izquierda */
+}
+
+.reveal .slides p,
+.reveal .slides li {
+  color: rgba(255,255,255,0.88);
+}
+
+/* Dar aire al contenido para que no choque con chrome */
+.reveal .slides section {
+  padding-top: 102px;
+  padding-bottom: 90px;
+  background: transparent;
+}
+
+/* Apagar UI nativa que estorba */
+.reveal .slide-number { display: none !important; }
+.reveal .progress { display: none !important; }
+
+
+/* =========================
+   Chrome (header / footer)
+   ========================= */
+
+/* Wrapper */
+.deck-chrome {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Asegurar que el chrome use la misma fuente del deck */
+.deck-chrome,
+.deck-chrome * {
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+/* -------- Header -------- */
+
+.deck-header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+
+  /* centrado real */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 18px 24px 10px 24px;
+}
+
+/* Barra/acento superior */
+.deck-header::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 10px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(56,189,248,0.85), rgba(167,139,250,0.75));
+  opacity: 0.85;
+}
+
+/* Semana: centrada, mayúsculas OK */
+.deck-week {
+  margin-top: 6px;
+  font-size: 0.70em;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: $muted;
+  text-align: center;
+}
+
+/* Título (deckTitle) centrado y más grande */
+.deck-title {
+  margin-top: 8px;
+  font-size: 0.86em;
+  font-weight: 600;
+  color: rgba(255,255,255,0.95);
+  text-align: center;
+
+  max-width: min(980px, 88vw);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* -------- Footer -------- */
+/*
+  - No usamos margin-left para “mover” el footer (rompe 15/85).
+  - Usamos padding-left extra para no chocar con el menú de Reveal.
+*/
+.deck-footer {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  /* 108px ≈ 1–1.5cm; ajusta 96–120 si hiciera falta */
+  padding: 18px 24px 18px 108px;
+}
+
+/* 15% pill */
+.deck-footer-left {
+  flex: 0 0 15%;
+  min-width: 240px;
+  display: flex;
+  align-items: center;
+}
+
+/* 85% progress */
+.deck-footer-right {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+}
+
+/* Píldora (box del footer) */
+.deck-pill {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(6px);
+
+  font-size: 0.72em;
+  font-weight: 600;
+  color: rgba(255,255,255,0.94);
+
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Progress bar */
+.deck-progress {
+  width: 100%;
+  height: 18px;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  overflow: hidden;
+
+  display: block;
+}
+
+/* Fill: SIN !important en width para que JS pueda actualizar */
+.deck-progress-fill {
+  height: 100%;
+  width: 0%; /* JS lo actualiza */
+  border-radius: 999px;
+
+  background: linear-gradient(90deg, rgba(56,189,248,0.95), rgba(167,139,250,0.85));
+  transition: width 300ms ease;
+}
+
+
+/* =========================
+   Lectura premium
+   ========================= */
+
+.reveal .slides p {
+  line-height: 1.45;
+  margin: 0.55em 0;
+}
+
+/* “Medida” (ancho óptimo) para texto */
+.reveal .slides section > :is(p, ul, ol, blockquote, pre, table, .box, .callout) {
+  max-width: 38em; /* ajuste fino: 34–44em */
+}
+
+/* Citas más “editoriales” */
+.reveal blockquote {
+  margin: 0.9em 0;
+  padding: 0.85em 1.0em;
+  border-left: 4px solid rgba(56,189,248,0.55);
+  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  color: rgba(255,255,255,0.90);
+}
+
+.reveal blockquote p { margin: 0; }
+
+.reveal hr {
+  border: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.16);
+  margin: 0.9em 0;
+}
+
+
+/* =========================
+   Data / academia (tablas, figuras, código)
+   ========================= */
+
+/* Importante:
+   - Evitar “caja doble”: el contenedor pro del código será .cell.
+   - Dejar pre genérico neutro.
+*/
+.reveal pre {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.reveal pre code {
+  font-size: 0.78em;
+  line-height: 1.35em;
+}
+
+/* Inline code */
+.reveal :not(pre) > code {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 10px;
+  padding: 0.10em 0.35em;
+  color: rgba(255,255,255,0.92);
+}
+
+/* Tablas */
+.reveal table {
+  width: 100%;
+  max-width: 44em;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px);
+}
+
+.reveal table th,
+.reveal table td {
+  padding: 10px 12px;
+  vertical-align: top;
+}
+
+.reveal table th {
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.94);
+  font-weight: 650;
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+}
+
+.reveal table td {
+  color: rgba(255,255,255,0.88);
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+
+.reveal table tr:last-child td { border-bottom: 0; }
+
+.reveal table tbody tr:nth-child(2n) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* Figuras */
+.reveal figure { margin: 0.9em 0; }
+
+.reveal figcaption {
+  margin-top: 0.35em;
+  font-size: 0.62em;
+  color: rgba(255,255,255,0.72);
+}
+
+.reveal img { border-radius: 14px; }
+
+
+/* =========================
+   Branding ligero (callouts, badges, secciones)
+   ========================= */
+
+.reveal .callout {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(6px);
+  margin: 0.9em 0;
+}
+
+.reveal .callout-title {
+  font-weight: 700;
+  font-size: 0.78em;
+  margin-bottom: 0.45em;
+  color: rgba(255,255,255,0.96);
+}
+
+.reveal .callout-note { border-left: 4px solid rgba(56,189,248,0.65); }
+.reveal .callout-tip { border-left: 4px solid rgba(167,139,250,0.55); }
+.reveal .callout-warning { border-left: 4px solid rgba(255, 200, 87, 0.55); }
+
+.badge {
+  display: inline-block;
+  padding: 0.18em 0.55em;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06);
+  font-size: 0.62em;
+  font-weight: 650;
+  color: rgba(255,255,255,0.90);
+  letter-spacing: 0.02em;
+}
+
+.accent-line {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(56,189,248,0.85), rgba(167,139,250,0.75));
+  opacity: 0.90;
+  margin: 0.55em 0 0.8em 0;
+}
+
+/* Slide de sección (H1 “solo”) un poco más “capítulo” */
+.reveal .slides section:has(h1):not(:has(h2)) h1 {
+  font-size: 1.75em;
+  margin-bottom: 0.35em;
+}
+
+.reveal .slides section:has(h1):not(:has(h2)) h1::after {
+  content: "";
+  display: block;
+  height: 4px;
+  width: min(320px, 46vw);
+  margin: 0.35em auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(56,189,248,0.85), rgba(167,139,250,0.75));
+  opacity: 0.90;
+}
+
+/* Micro-animación de fragmentos */
+.reveal .fragment {
+  transition: opacity 240ms ease, transform 240ms ease;
+  transform: translateY(6px);
+}
+
+.reveal .fragment.visible { transform: translateY(0); }
+
+
+/* =========================
+   Code cells (Quarto) — estética coherente dark/glass
+   ========================= */
+
+.reveal .cell,
+.reveal div.cell {
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255,255,255,0.16) !important;
+  background: rgba(255,255,255,0.05) !important;
+  backdrop-filter: blur(6px) !important;
+  margin: 0.85em 0 !important;
+}
+
+/* input/output wrappers */
+.reveal .cell .cell-input,
+.reveal .cell .cell-output {
+  background: transparent !important;
+}
+
+/* wrappers comunes de Quarto */
+.reveal div.sourceCode,
+.reveal pre.sourceCode,
+.reveal pre code {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* input */
+.reveal .cell .cell-input {
+  border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+}
+
+.reveal .cell .cell-input pre,
+.reveal .cell .cell-input pre.sourceCode,
+.reveal .cell .cell-input div.sourceCode {
+  margin: 0 !important;
+  padding: 14px 16px !important;
+}
+
+/* output */
+.reveal .cell .cell-output {
+  margin: 0 !important;
+  padding: 12px 16px !important;
+  background: rgba(0,0,0,0.14) !important;
+}
+
+.reveal .cell .cell-output pre {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* texto en código y output */
+.reveal .cell pre,
+.reveal .cell code,
+.reveal .cell .cell-output,
+.reveal .cell .cell-output pre,
+.reveal .cell .cell-output code {
+  color: rgba(255,255,255,0.90) !important;
+  font-size: 0.78em !important;
+  line-height: 1.35em !important;
+}
+
+/* números de línea */
+.reveal .sourceCode .lineNumbers,
+.reveal td.lineNumbers {
+  color: rgba(255,255,255,0.35) !important;
+}
+
+
+/* =========================
+   Syntax highlighting (R) — prioriza highlight.js + fallback Pandoc
+   ========================= */
+
+/* ---- highlight.js (recomendado) ---- */
+.reveal pre code.hljs {
+  color: #E5E7EB !important;
+}
+
+/* funciones / títulos (hljs suele usar title) */
+.reveal pre code .hljs-title,
+.reveal pre code .hljs-built_in {
+  color: #7DD3FC !important;
+  font-weight: 600 !important;
+}
+
+/* keywords */
+.reveal pre code .hljs-keyword {
+  color: #C4B5FD !important;
+  font-weight: 650 !important;
+}
+
+/* strings */
+.reveal pre code .hljs-string {
+  color: #FCA5A5 !important;
+}
+
+/* numbers */
+.reveal pre code .hljs-number {
+  color: #FCD34D !important;
+}
+
+/* comments */
+.reveal pre code .hljs-comment {
+  color: #9CA3AF !important;
+  font-style: italic !important;
+}
+
+/* punctuation/operators — contraste alto */
+.reveal pre code .hljs-operator,
+.reveal pre code .hljs-punctuation,
+.reveal pre code .hljs-symbol {
+  color: #F3F4F6 !important;
+  font-weight: 650 !important;
+}
+
+/* ---- fallback Pandoc (si no se activa hljs) ---- */
+.reveal pre code span.fu {
+  color: #8BE9FD !important;
+  font-weight: 650 !important;
+}
+
+.reveal pre code span.kw {
+  color: #C4B5FD !important;
+  font-weight: 650 !important;
+}
+
+.reveal pre code span.st { color: #FCA5A5 !important; }
+
+.reveal pre code span.dv,
+.reveal pre code span.bn,
+.reveal pre code span.fl {
+  color: #FCD34D !important;
+}
+
+.reveal pre code span.co {
+  color: #9CA3AF !important;
+  font-style: italic !important;
+}
+
+/* operadores/puntuación (solo sirve si Pandoc tokeniza separado) */
+.reveal pre code span.op,
+.reveal pre code span.pn,
+.reveal pre code span.br {
+  color: #F3F4F6 !important;
+  font-weight: 650 !important;
+}
+
+/* Layout seguro para 2 paneles (no toca .columns) */
+.reveal .two-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.2rem;
+  align-items: start;
+}
+
+/* Variantes por si quieres 55/45 */
+.reveal .two-panels.w55-45 { grid-template-columns: 55% 45%; }
+.reveal .two-panels.w60-40 { grid-template-columns: 60% 40%; }
+
+/* Aire interno */
+.reveal .two-panels > div {
+  min-width: 0;
+}
+
+/* Evitar que el code/fig se pegue a bordes del panel */
+.reveal .two-panels pre,
+.reveal .two-panels .cell,
+.reveal .two-panels figure {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+
+```scss
+.reveal .cell-output img,
+.reveal .cell-output svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+

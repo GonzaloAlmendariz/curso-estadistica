@@ -1,0 +1,28 @@
+project:
+  type: default
+  output-dir: _site
+  resources:
+    - includes/
+
+format:
+  revealjs:
+    theme: [default, "./styles/reveal-custom.scss"]
+    highlight-style: github-dark
+    highlight-method: highlightjs
+    slide-number: false
+    progress: false
+    transition: fade
+    center: false
+    preview-links: true
+    include-in-header:
+      - includes/chrome.html
+    include-after-body:
+      - includes/chrome.js
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  code-line-numbers: false
+
+editor: visual
