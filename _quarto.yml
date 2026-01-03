@@ -6,23 +6,27 @@ project:
 
 format:
   revealjs:
+    math:
+      method: mathjax
     theme: [default, "./styles/reveal-custom.scss"]
     highlight-style: github-dark
     highlight-method: highlightjs
+    code-line-numbers: false
     slide-number: false
     progress: false
     transition: fade
     center: false
     preview-links: true
+    fig-format: svg
     include-in-header:
       - includes/chrome.html
     include-after-body:
       - includes/chrome.js
+lang: es
 
 execute:
   echo: false
   warning: false
   message: false
-  code-line-numbers: false
 
 editor: visual

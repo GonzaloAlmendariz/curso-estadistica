@@ -67,6 +67,15 @@ $font-family-sans-serif: ui-sans-serif, system-ui, -apple-system,
 .reveal .slides p,
 .reveal .slides li {
   color: rgba(255,255,255,0.88);
+  font-size: 0.82em;   /* baja el cuerpo ~10% */
+  line-height: 1.45;
+}
+
+/* Texto justificado por defecto (solo cuerpo) */
+.reveal .slides p,
+.reveal .slides li {
+  text-align: justify;
+  hyphens: auto;
 }
 
 /* Dar aire al contenido para que no choque con chrome */
@@ -465,15 +474,15 @@ $font-family-sans-serif: ui-sans-serif, system-ui, -apple-system,
   padding: 0 !important;
 }
 
-/* texto en código y output */
+/* texto en código y output (NO fijar color base con !important) */
 .reveal .cell pre,
 .reveal .cell code,
 .reveal .cell .cell-output,
 .reveal .cell .cell-output pre,
 .reveal .cell .cell-output code {
-  color: rgba(255,255,255,0.90) !important;
   font-size: 0.78em !important;
   line-height: 1.35em !important;
+  color: inherit !important; /* clave */
 }
 
 /* números de línea */
@@ -587,13 +596,350 @@ $font-family-sans-serif: ui-sans-serif, system-ui, -apple-system,
   margin: 0;
 }
 
+/* ===== Kable dark (para Reveal) ===== */
 
-```scss
-.reveal .cell-output img,
-.reveal .cell-output svg {
-  display: block;
+.reveal table.kable-dark{
   width: 100%;
-  height: auto;
-  margin: 0 auto;
+  max-width: 44em;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(6px);
+  color: rgba(255,255,255,0.90);
 }
+
+.reveal table.kable-dark caption{
+  caption-side: top;
+  text-align: left;
+  padding: 0 0 10px 0;
+  color: rgba(255,255,255,0.92);
+  font-weight: 650;
+}
+
+.reveal table.kable-dark caption .kcap-sub{
+  display: inline-block;
+  margin-top: 4px;
+  color: rgba(255,255,255,0.72);
+  font-weight: 500;
+  font-size: 0.78em;
+}
+
+.reveal table.kable-dark thead th{
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.95);
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.reveal table.kable-dark tbody td{
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+
+.reveal table.kable-dark tbody tr:nth-child(2n) td{
+  background: rgba(255,255,255,0.02);
+}
+
+.reveal table.kable-dark tbody tr:last-child td{
+  border-bottom: 0;
+}
+
+/* Compacto para slides */
+.reveal table.kable-compact thead th,
+.reveal table.kable-compact tbody td{
+  padding: 6px 10px;
+  font-size: 0.72em;
+  line-height: 1.25;
+}
+
+/* ======================================================
+   QUARTO CALLOUTS — Eliminar barra/encabezado coloreado (TODOS los estilos)
+   Mantiene icono/emoji + mejora alineación
+   ====================================================== */
+
+/* 1) Neutralizar variables que suelen pintar el header */
+.callout {
+  --callout-color: transparent !important;           /* clave: corta fondos por variable */
+  --callout-title-color: inherit !important;
+  --callout-icon-color: currentColor !important;
+}
+
+/* 2) Quitar fondo/bordes/sombras del header (cualquier callout-style) */
+.callout > .callout-header {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+/* 3) Por si la “barra” es un pseudo-elemento del header */
+.callout > .callout-header::before,
+.callout > .callout-header::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 4) Quitar “caja” interna que a veces pinta Quarto (title/icon containers) */
+.callout > .callout-header .callout-title-container,
+.callout > .callout-header .callout-icon-container {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* 5) Alineación vertical: icono/emoji + título */
+.callout > .callout-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.55rem;
+  padding: 0 !important;
+  margin: 0 0 0.85rem 0 !important;
+}
+
+.callout > .callout-header .callout-icon-container,
+.callout > .callout-header .callout-title-container {
+  display: flex !important;
+  align-items: center !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.callout .callout-title {
+  margin: 0 !important;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  line-height: 1.1 !important;
+}
+
+.callout > .callout-header i,
+.callout > .callout-header svg {
+  line-height: 1 !important;
+  transform: translateY(0) !important;
+  opacity: 0.80;
+}
+
+/* 6) Línea separadora minimalista (si se quiere) */
+.callout > .callout-header + .callout-body {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  .callout > .callout-header + .callout-body {
+    border-top-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* 7) Tu acento lateral por tipo (sin barra superior) */
+.callout { border-left: 4px solid rgba(120, 120, 120, 0.35); }
+.callout-note { border-left-color: rgba(90, 130, 180, 0.55); }
+.callout-tip { border-left-color: rgba(90, 160, 120, 0.55); }
+.callout-important { border-left-color: rgba(120, 110, 100, 0.60); }
+.callout-warning { border-left-color: rgba(200, 130, 70, 0.65); }
+.callout-caution { border-left-color: rgba(210, 95, 95, 0.65); }
+
+/* 8) Centrado opcional sin inline */
+.callout.centered { text-align: center; }
+.callout.centered > .callout-header { justify-content: center !important; }
+
+.callout[class*="callout-"] > .callout-header,
+.callout[class*="callout-"] > .callout-header * {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* =========================
+   Fix radicales (raíces) en Reveal
+   ========================= */
+
+.reveal .math,
+.reveal .katex,
+.reveal .MathJax {
+  line-height: 1.2;
+}
+
+.reveal .katex .sqrt > .vlist-t {
+  margin-top: 0.1em;
+}
+
+/* Cargar STIX Two Math */
+@import url("https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap");
+
+/* Fuente base matemática */
+.reveal mjx-container[jax="CHTML"] {
+  font-family: "STIX Two Math", "Latin Modern Math", "Cambria Math", serif !important;
+  font-weight: 400;
+  line-height: 1.15 !important;
+}
+
+/* -------------------------
+   Cursiva SOLO para variables
+   (letras latinas y griegas)
+   ------------------------- */
+
+/* Letras matemáticas (x, y, n, X, etc.) */
+.reveal mjx-container mjx-mi {
+  font-style: italic !important;
+}
+
+/* Letras griegas (mu, sigma, etc.) */
+.reveal mjx-container mjx-mo[texclass="ORD"] {
+  font-style: italic;
+}
+
+/* -------------------------
+   Mantener operadores rectos
+   ------------------------- */
+
+.reveal mjx-container mjx-mo,
+.reveal mjx-container mjx-mn {
+  font-style: normal !important; /* +, =, −, números */
+}
+
+/* -------------------------
+   Display math: aire editorial
+   ------------------------- */
+
+.reveal mjx-container[display="true"] {
+  margin: 0.35em 0 !important;
+}
+
+
+/* =========================
+   Tablas (Quarto/Reveal) — reducir tamaño y mejorar legibilidad
+   ========================= */
+
+/* Cualquier tabla dentro de slides */
+.reveal .slides table {
+  font-size: 0.62em;   /* ajusta 0.55–0.70 según tu tabla */
+  line-height: 1.25;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Celdas: menos “alto” y más compacto */
+.reveal .slides th,
+.reveal .slides td {
+  padding: 0.30em 0.45em;
+  vertical-align: middle;
+}
+
+/* Encabezado: un poco más destacado pero sobrio */
+.reveal .slides th {
+  font-weight: 650;
+}
+
+/* Si usas kable/gt, a veces el caption también queda enorme */
+.reveal .slides caption {
+  font-size: 0.55em;
+  color: rgba(255,255,255,0.72);
+  margin-top: 0.35em;
+}
+
+/* =========================
+   Tablas — ocupar todo el ancho del slide
+   ========================= */
+
+/* Contenedor de tablas en Reveal */
+.reveal .slides section table {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Asegurar que el wrapper no limite */
+.reveal .slides section .table,
+.reveal .slides section .table-container {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* =========================
+   Título (caption) de tablas centrado
+   ========================= */
+
+.reveal .slides table caption {
+  text-align: center !important;
+  font-size: 0.55em;            /* coherente con tablas en slides */
+  color: rgba(255,255,255,0.72);
+  margin-bottom: 0.35em;        /* separación con la tabla */
+}
+
+/* =========================
+   Tablas — header SIN bordes curvos
+   ========================= */
+
+/* Quitar redondeo SOLO del header */
+.reveal .slides table thead,
+.reveal .slides table thead th {
+  border-radius: 0 !important;
+}
+
+/* Asegurar que las celdas del header sean rectas */
+.reveal .slides table th {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+/* Código ligeramente más pequeño (solo donde se use) */
+.code-sm pre,
+.code-sm code {
+  font-size: 0.78em;
+  line-height: 1.25;
+}
+
+/* =========================
+   SYNTAX 
+   ========================= */
+
+/* --- PANDOC (span.fu/kw/st/co/dv/op) --- */
+.reveal pre code span.fu { color: #7DD3FC !important; font-weight: 650 !important; } /* funciones */
+.reveal pre code span.kw { color: #C4B5FD !important; font-weight: 650 !important; } /* keywords */
+.reveal pre code span.st { color: #FCA5A5 !important; }                              /* strings */
+.reveal pre code span.dv,
+.reveal pre code span.bn,
+.reveal pre code span.fl { color: #FCD34D !important; }                              /* números */
+.reveal pre code span.co { color: #9CA3AF !important; font-style: italic !important; }/* comentarios */
+.reveal pre code span.op { color: rgba(255,255,255,0.82) !important; }               /* operadores */
+.reveal pre code .hljs-title,
+.reveal pre code .hljs-built_in { color: #7DD3FC !important; font-weight: 650 !important; }
+.reveal pre code .hljs-keyword  { color: #C4B5FD !important; font-weight: 650 !important; }
+.reveal pre code .hljs-string   { color: #FCA5A5 !important; }
+.reveal pre code .hljs-number   { color: #FCD34D !important; }
+.reveal pre code .hljs-comment  { color: #9CA3AF !important; font-style: italic !important; }
+
+/* Bloques de código sin lenguaje (ej. CSV, texto plano) */
+.reveal pre,
+.reveal pre code {
+  color: #fff !important;
+}
+
+/* Bloques tipo “texto plano” (CSV, ejemplos) — estable en navegador */
+.reveal pre,
+.reveal pre code {
+  color: #fff !important;
+  white-space: pre !important;      /* no reflow raro */
+  overflow-x: auto !important;      /* si se pasa, scroll */
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace !important;
+}
+
+/* Evita que el tema fuerce colores por tokenización */
+.reveal pre code span {
+  color: inherit !important;
+}
+
 

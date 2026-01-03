@@ -1,0 +1,8 @@
+---
+title: "Test"
+format:
+  revealjs:
+    theme: [default, "./styles/reveal-custom.scss"]
+---
+
+## Hola

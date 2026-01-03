@@ -1,0 +1,16 @@
+---
+title: "Curso Estadística"
+subtitle: "Estadística descriptiva con R"
+author: "Gonzalo Almendariz"
+format:
+  revealjs:
+    width: 1280
+    height: 720
+    margin: 0.06
+    title-slide-attributes:
+      data-background-gradient: "linear-gradient(135deg, #0b1220, #111827)"
+execute:
+  echo: false
+  warning: false
+  message: false
+---

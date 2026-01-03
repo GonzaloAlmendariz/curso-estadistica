@@ -1,0 +1,1316 @@
+---
+title: "Semana 1: Conceptos básicos de estadística e introducción a R"
+format: revealjs
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+library(tidyverse)
+library(scales)
+library(knitr)
+```
+
+# 1.1 ¿Qué es la estadística?
+
+------------------------------------------------------------------------
+
+::::: columns
+::: {.column width="55%"}
+La estadística tiene una presencia constante en nuestra vida, aunque rara vez le prestemos atención.\
+Está en las decisiones que tomamos, en las recomendaciones que recibimos y en cómo entendemos el mundo que nos rodea.
+:::
+
+::: {.column width="45%"}
+![](assets/vida_cotidiana.png){width="100%"}
+:::
+:::::
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## 
+
+::::: columns
+::: {.column width="55%"}
+La **media aritmética** es una medida de tendencia central que resume un conjunto de valores numéricos mediante un único número.
+
+Sin embargo, la media es sensible a valores extremos, por lo que su interpretación debe hacerse con cautela.
+:::
+
+::: {.column width="45%"}
+```{r, echo=TRUE}
+mean(c(15, 34, 85))
+```
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## 
+
+::::: {.two-panels .w55-45}
+<div>
+
+```{r, eval=FALSE, echo=TRUE}
+# Crear un vector de datos
+x <- c(15,
+       34,
+       85)
+
+# Calcular la media
+mean(x)
+
+# Visualizar la distribución
+hist(
+  x,
+  main = "Distribución de los valores",
+  xlab = "Valores",
+  col  = "steelblue"
+)
+```
+
+</div>
+
+<div>
+
+```{r,out.width="100%", fig.align="center", fig.height= 8}
+# Vector
+x = c(15, 34, 85)
+
+# Gráfico
+hist(
+  x,
+  main = "Distribución de los valores",
+  xlab = "Valores",
+  col  = "steelblue"
+)
+```
+
+</div>
+:::::
+
+------------------------------------------------------------------------
+
+Hoy existimos inmersos en datos: cada visita al médico, cada interacción en línea o compra registrada por un dispositivo móvil produce información que alimenta sistemas sobre quiénes somos y qué deseamos. Este flujo constante de datos ha hecho que la estadística sea una herramienta poderosa en varios campos de nuestra sociedad.
+
+------------------------------------------------------------------------
+
+De Agresti (2023):
+
+La base de la estadística es la capacidad de recolectar, organizar, analizar, interpretar y presentar datos. La Ciencia Estadística es un conjunto metódico de herramientas y técnicas que nos permite no solo recolectar datos, sino también analizarlos con profundidad e inferir conclusiones significativas
+
+# 1.2 Los datos
+
+------------------------------------------------------------------------
+
+Los datos son nuestra principal fuente de información. **Son mediciones, observaciones o registros recopilados para analizar y comprender fenómenos específicos**. Por ejemplo, el número de personas en Perú, los departamentos donde nacieron, el nivel de educación en una población, o la relación entre la tasa de empleo y la educación, son todos ejemplos de datos.
+
+Sin datos, nuestra capacidad para explorar, describir e interpretar la realidad sería limitada. Estos son la clave para transformar preguntas en respuestas y evidencia en conocimiento.
+
+------------------------------------------------------------------------
+
+Los datos se generan a partir de **mediciones realizadas sobre individuos, grupos, o eventos**. Estos pueden recopilarse mediante encuestas, censos, observaciones directas, registros administrativos o experimentos.
+
+------------------------------------------------------------------------
+
+Debemos tener claro la diferencia entre unidad de observación, observación y variable:
+
+-   **Unidad de observación:** Es la entidad sobre la que se recopilan los datos, como una persona, un hogar, una empresa, o una región.
+
+    -   Ejemplo: Cada votante en una elección sería una unidad de observación.
+
+-   **Observación:** Es un conjunto específico de valores medidos o registrados para una unidad de observación. Generalmente, cada observación corresponde a una fila en un conjunto de datos tabular.
+
+    -   Ejemplo: La información de un votante, incluyendo su edad, género y su preferencia electoral, sería una observación.
+
+-   **Variable:** Es una característica o atributo medido sobre las unidades de datos. Cada columna en un conjunto de datos representa una variable.
+
+    -   Ejemplo: "Edad", "Nivel educativo" y "Preferencia electoral" son variables.
+
+------------------------------------------------------------------------
+
+::::: columns
+::: {.column width="35%"}
+Un **conjunto de datos** es una colección organizada de todas las observaciones recolectadas. Por lo general, se presenta en formato tabular, donde las filas representan las observaciones y las columnas representan las variables.
+:::
+
+::: {.column width="65%"}
+![](images/Observación-2.png){fig-align="center"}
+:::
+:::::
+
+# 1.3 Variables y variabilidad
+
+------------------------------------------------------------------------
+
+::::: columns
+::: {.column width="55%"}
+Las variables representan las características o propiedades de los elementos que se están estudiando. Por ejemplo, en un estudio sobre comportamiento electoral, cada persona observada presenta **características distintas**.
+
+La **edad**, el **nivel educativo** o la **preferencia política** no toman un único valor, sino que **varían entre individuos**.
+
+A estas características se les denomina **variables**, precisamente porque su valor **no es fijo**, sino que cambia de una observación a otra.
+:::
+
+::: {.column width="45%"}
+```{r}
+edad <- c(
+  18, 22, 25, 29, 31,
+  34, 37, 41, 45, 48,
+  52, 56, 60, 63, 67
+)
+
+sexo <- c(
+  "Mujer", "Hombre", "Mujer", "Hombre", "Mujer",
+  "Hombre", "Mujer", "Hombre", "Mujer", "Hombre",
+  "Mujer", "Hombre", "Mujer", "Hombre", "Mujer"
+)
+
+region <- c(
+  "Lima", "Lima", "Lima", "Lima", "Lima",
+  "Cusco", "Cusco", "Cusco",
+  "Piura", "Piura", "Piura", "Piura",
+  "Arequipa", "Arequipa", "Arequipa"
+)
+
+paste(
+  "Edad:", edad,
+  "| Sexo:", sexo,
+  "| Región:", region
+)
+```
+:::
+:::::
+
+------------------------------------------------------------------------
+
+Un gráfico nos permite observar cómo se distribuyen los valores de una variable y detectar posibles diferencias o patrones en su variación.
+
+```{r, fig.align='center'}
+datos <- data.frame(
+  edad = edad,
+  region = region
+)
+paleta_region <- c(
+  "Lima"      = "#38BDF8",  # celeste principal (acento)
+  "Piura"     = "#22C55E",  # verde sobrio
+  "Cusco"     = "#F59E0B",  # ámbar elegante
+  "Arequipa"  = "#A78BFA"   # violeta suave
+)
+datos_region <- datos |>
+  count(region) |>
+  mutate(
+    porcentaje = n / sum(n),
+    etiqueta = scales::percent(porcentaje, accuracy = 1)
+  )
+
+ggplot(datos_region, aes(x = "", y = porcentaje, fill = region)) +
+  geom_col(width = 0.6) +
+  geom_text(
+    aes(label = etiqueta),
+    position = position_stack(vjust = 0.5),
+    color = "white",
+    size = 4
+  ) +
+  coord_flip() +
+  scale_fill_manual(values = paleta_region) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "Distribución porcentual por región",
+    x = NULL,
+    y = NULL,
+    fill = "Región"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank(),
+    plot.title = element_text(face = "bold"),
+    legend.position = "bottom"
+  )
+```
+
+# 1.4 Tipos de variables
+
+------------------------------------------------------------------------
+
+Es importante tener en cuenta que **no todas las características son medidas de la misma forma**. Los datos recolectados pueden ser de diferentes tipos, lo cual influye en cómo se analizan e interpretan. Los dos tipos principales de datos son:
+
+-   numéricos
+
+    ```{r}
+    edad
+    ```
+
+-   categóricos
+
+    ```{r}
+    region
+    ```
+
+------------------------------------------------------------------------
+
+## Variables Numéricas
+
+Los datos numéricos se refieren a cualquier tipo de información que puede ser medida y expresada en números. Estos datos pueden ser manipulados matemáticamente y se dividen en dos subcategorías:
+
+```{r, fig.align='center', fig.height=8, fig.width=20}
+ggplot(datos, aes(x = edad)) +
+  geom_histogram(
+    bins = 6,
+    fill = "#38BDF8",
+    color = "white",
+    alpha = 0.9
+  ) +
+  labs(
+    title = "Distribución de la edad",
+    x = "Edad",
+    y = "Frecuencia"
+  ) +
+  theme_minimal(base_size = 20) 
+```
+
+------------------------------------------------------------------------
+
+1.  **Varibles Continuas:** Pueden tomar cualquier valor dentro de un rango continuo. Estos datos no están restringidos a valores enteros y pueden incluir fracciones y decimales. Por ejemplo:
+
+    -   **Ingreso mensual de un hogar**: El ingreso puede variar desde cero hasta cualquier cantidad máxima, sin limitaciones específicas. Puede ser 2000.50, 3000.75, etc.
+
+    -   **Tiempo dedicado a ver televisión por semana**: Este tiempo puede ser fraccionado en minutos y segundos, variando de forma continua. Por ejemplo, 5.5 horas, 10.25 horas, etc.
+
+2.  **Varibles Discretas:** Toman valores específicos y separados. Estos datos son contables y no pueden ser fraccionados. Por ejemplo:
+
+    -   **Número de votantes en una elección**: Se cuenta en números enteros (1000, 2000, etc.).
+
+    -   **Conteo de delitos en una ciudad**: El número de incidentes reportados se registra en valores enteros como 150, 300, etc.
+
+------------------------------------------------------------------------
+
+## Varibles Categóricas
+
+Los datos categóricos se refieren a información que puede ser dividida en grupos distintos, cada uno de los cuales representa una categoría o una cualidad diferente. Estos datos no tienen un valor numérico intrínseco y se dividen en tres subcategorías:
+
+```{r, fig.align='center', fig.height=8, fig.width=20, fig.dpi=300}
+
+datos_sexo <- data.frame(sexo = sexo)
+
+
+paleta_sexo <- c(
+  "Mujer"   = "#38BDF8",  # celeste principal
+  "Hombre" = "#A78BFA"   # violeta suave
+)
+
+
+datos_sexo_pct <- datos_sexo |>
+  count(sexo) |>
+  mutate(
+    porcentaje = n / sum(n),
+    etiqueta = percent(porcentaje, accuracy = 1)
+  )
+
+# Gráfico
+ggplot(datos_sexo_pct, aes(x = "", y = porcentaje, fill = sexo)) +
+  geom_col(width = 0.6) +
+  geom_text(
+    aes(label = etiqueta),
+    position = position_stack(vjust = 0.5),
+    color = "white",
+    size = 8
+  ) +
+  coord_flip() +
+  scale_fill_manual(values = paleta_sexo) +
+  scale_y_continuous(labels = percent) +
+  labs(
+    title = "Distribución porcentual por sexo",
+    x = NULL,
+    y = NULL,
+    fill = "Sexo"
+  ) +
+  theme_minimal(base_size = 20) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank(),
+    plot.title = element_text(face = "bold"),
+    legend.position = "bottom"
+  )
+```
+
+------------------------------------------------------------------------
+
+1.  **Varibles Nominales:** No tienen un orden intrínseco. Estos datos representan categorías sin un orden específico. Por ejemplo:
+
+    -   **Nacionalidad**: Perú, Colombia, Venezuela.
+
+    -   **Preferencias políticas**: Liberal, conservador, independiente.
+
+2.  **Varibles Binaria:** Estos datos pueden ser tratados como casos especiales de las variables nominales. Solo pueden tomar uno de dos valores posibles. También llamados variables dicotómicas, representando una de dos categorías opuestas. Por ejemplo:
+
+    -   **0/1**: Presencia o ausencia de una característica.
+
+    -   **Sí/No**: Respuesta a una pregunta específica.
+
+    -   **Verdadero/Falso**: Estado de una condición.
+
+3.  **Varibles Ordinales:** Tienen un orden o jerarquía implícita. Aunque las categorías son ordenadas, la diferencia entre ellas no necesariamente es igual. Por ejemplo:
+
+    -   **Escala de satisfacción con el gobierno**: Muy insatisfecho, insatisfecho, neutral, satisfecho, muy satisfecho.
+
+    -   **Nivel de educación:** Primaria, secundaria, universidad, posgrado.
+
+# 1.5 Descripción de datos
+
+------------------------------------------------------------------------
+
+La estadística descriptiva se encarga de resumir y describir las características principales de un conjunto de datos. Al trabajar con bases de datos, estas pueden contener cientos o incluso miles de observaciones, es necesaria una forma de poder condensar esta información en un formato más comprensible y manejable. Para ello, hacemos uso de herramientas como tablas, gráficos y medidas descriptivas.
+
+------------------------------------------------------------------------
+
+::::: columns
+::: {.column width="45%"}
+Tomemos como ejemplo a este conjuntos de datos:
+:::
+
+::: {.column width="55%"}
+```{r}
+edad <- c(
+  18, 22, 25, 29, 31, 34, 37, 41, 45, 48,
+  52, 55, 58, 61, 64, 27, 33, 39, 46, 50
+)
+
+sexo <- c(
+  "Mujer", "Hombre", "Mujer", "Hombre", "Mujer",
+  "Hombre", "Mujer", "Hombre", "Mujer", "Hombre",
+  "Mujer", "Hombre", "Mujer", "Hombre", "Mujer",
+  "Mujer", "Hombre", "Mujer", "Hombre", "Mujer"
+)
+
+region <- c(
+  "Lima", "Lima", "Cusco", "Cusco", "Arequipa",
+  "Arequipa", "Piura", "Piura", "Lima", "Lima",
+  "Cusco", "Cusco", "Arequipa", "Arequipa", "Piura",
+  "Lima", "Cusco", "Arequipa", "Piura", "Lima"
+)
+
+educacion <- c(
+  "Secundaria", "Universitaria", "Universitaria", "Técnica",
+  "Universitaria", "Técnica", "Secundaria", "Universitaria",
+  "Universitaria", "Técnica", "Secundaria", "Universitaria",
+  "Universitaria", "Técnica", "Secundaria", "Universitaria",
+  "Técnica", "Universitaria", "Secundaria", "Universitaria"
+)
+
+ocupacion <- c(
+  "Ocupado", "Ocupado", "Estudiante", "Ocupado",
+  "Ocupado", "Ocupado", "Desocupado", "Ocupado",
+  "Ocupado", "Ocupado", "Desocupado", "Ocupado",
+  "Ocupado", "Ocupado", "Desocupado", "Ocupado",
+  "Ocupado", "Ocupado", "Desocupado", "Ocupado"
+)
+
+datos <- data.frame(
+  edad = edad,
+  sexo = sexo,
+  region = region,
+  educacion = educacion,
+  ocupacion = ocupacion
+)
+
+datos
+```
+:::
+:::::
+
+------------------------------------------------------------------------
+
+**Gráficos:** Una manera visual de entender la información. Por ejemplo, en un estudio sobre el impacto de una política educativa, podríamos usar gráficos de barras para mostrar el porcentaje de personas que apoyan o rechazan la política, o tablas para presentar la distribución de los encuestados por nivel educativo.
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(scales)
+
+paleta_region <- c(
+  "Lima"     = "#38BDF8",
+  "Cusco"    = "#F59E0B",
+  "Piura"    = "#22C55E",
+  "Arequipa" = "#A78BFA"
+)
+
+datos_region_ocup <- datos |>
+  count(ocupacion, region) |>
+  group_by(ocupacion) |>
+  mutate(
+    porcentaje = n / sum(n),
+    etiqueta = percent(porcentaje, accuracy = 1)
+  ) |>
+  ungroup()
+
+ggplot(datos_region_ocup,
+       aes(x = ocupacion, y = porcentaje, fill = region)) +
+  geom_col(width = 0.7) +
+  geom_text(
+    aes(label = etiqueta),
+    position = position_stack(vjust = 0.5),
+    color = "white",
+    size = 4.8
+  ) +
+  scale_fill_manual(values = paleta_region) +
+  scale_y_continuous(labels = percent) +
+  labs(
+    title = "Distribución porcentual por región según ocupación",
+    x = "Situación laboral",
+    y = "",
+    fill = "Región"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold"),
+    legend.position = "bottom"
+  )
+```
+
+------------------------------------------------------------------------
+
+**Tablas :** Organizan la información de manera estructurada, permitiendo resumir los datos y facilitar su lectura. Por ejemplo, una tabla de frecuencias puede mostrar cuántas personas pertenecen a cada nivel educativo.
+
+```{r}
+
+tabla_cruce_mejor <- datos |>
+  count(sexo, region, ocupacion) |>
+  group_by(sexo) |>
+  mutate(
+    porcentaje = round(100 * n / sum(n), 1),
+    celda = paste0(n, " (", porcentaje, "%)")
+  ) |>
+  ungroup() |>
+  select(sexo, ocupacion, region, celda) |>
+  pivot_wider(
+    names_from = region,
+    values_from = celda,
+    values_fill = "0 (0%)"
+  )
+kable(
+  tabla_cruce_mejor,
+  format  = "html",
+  caption = " Distribución de personas por sexo, región y situación laboral",
+  escape  = FALSE,
+  table.attr = "class='kable kable-dark kable-compact'"
+)
+```
+
+------------------------------------------------------------------------
+
+**Medidas de resumen:** Las medidas de resumen son valores numéricos que permiten sintetizar y describir la información contenida en una variable. Su objetivo es reducir grandes cantidades de datos a unos pocos indicadores que faciliten su interpretación.
+
+En términos generales, las medidas de resumen pueden agruparse en tres tipos:
+
+-   **Medidas de tendencia central**, que indican un valor representativo o típico del conjunto de datos.
+
+-   **Medidas de posición**, que señalan la ubicación relativa de una observación dentro de la distribución.
+
+-   **Medidas de dispersión**, que informan cuánta variabilidad existe entre los valores observados.
+
+------------------------------------------------------------------------
+
+Dentro de las medidas de tendencia central, las más utilizadas son:
+
+-   La media (o promedio), que se obtiene sumando todos los valores y dividiendo entre el número de observaciones: $$ \bar{x} = \frac{\sum x}{n} $$
+
+-   La mediana, que corresponde al valor central de los datos cuando estos se ordenan de menor a mayor.
+
+------------------------------------------------------------------------
+
+Sin embargo, conocer solo un valor central no es suficiente. Dos conjuntos de datos pueden tener la misma media o mediana, pero comportarse de manera muy distinta. Por ello, es necesario considerar también la dispersión.
+
+Una de las medidas de dispersión más importantes es la desviación estándar, que indica, en promedio, cuánto se alejan los valores de la variable respecto a la media. Su expresión es:
+
+$$ s = \sqrt{\frac{\sum (x_i - \bar{x})^2}{n}} $$
+
+Cuanto mayor es la desviación estándar, mayor es la variabilidad de los datos, cuando es pequeña, los valores tienden a concentrarse alrededor de la media.
+
+------------------------------------------------------------------------
+
+Estas medidas permiten describir el comportamiento general de una variable y comparar distribuciones.
+
+```{r}
+# Cálculo de medidas de resumen para la variable edad
+media <- mean(datos$edad)
+mediana <- median(datos$edad)
+desv_std <- sd(datos$edad)
+
+tabla_resumen <- tibble(
+  Medida = c(
+    "Media",
+    "Mediana",
+    "Desviación estándar"
+  ),
+  Descripción = c(
+    "Promedio de las edades",
+    "Valor central al ordenar las edades",
+    "Variabilidad de las edades respecto a la media"
+  ),
+  Valor = c(
+    round(media, 1),
+    mediana,
+    round(desv_std, 1)
+  )
+)
+
+kable(
+  tabla_resumen,
+  format  = "html",
+  caption = "Medidas de resumen de la variable edad",
+  col.names = c("Medida", "Descripción", "Valor"),
+  table.attr = "class='kable kable-dark kable-compact'"
+)
+```
+
+# 1.6 Introducción al muestreo
+
+------------------------------------------------------------------------
+
+Cuando investigamos distintos fenómenos de interés, una de las primeras preguntas que surge es cómo recolectar datos de una población amplia sin la necesidad de observar o medir a cada una de sus unidades. Esta tarea puede ser especialmente compleja en contextos donde la población es muy grande o está distribuida en espacios extensos, y donde abarcarla por completo resulta prácticamente imposible debido a limitaciones de tiempo, recursos y logística. Por ello, el muestreo se convierte en una herramienta indispensable.
+
+El muestreo permite estudiar solo una parte de la población en lugar de examinarla en su totalidad, simplificando así el proceso de recolección de datos. La idea principal es seleccionar un grupo más pequeño, llamado **muestra**, que refleje adecuadamente las características de la población total.
+
+------------------------------------------------------------------------
+
+::: {.callout-important style="text-align: center;" appearance="minimal"}
+**MUESTREO:** Procedimiento mediante el cual se selecciona una parte de una población con el objetivo de obtener información que permita describir, analizar o inferir características del conjunto total, sin necesidad de observar todas sus unidades.
+:::
+
+![](images/clipboard-2421254692.png){fig-align="center" width="1941"}
+
+------------------------------------------------------------------------
+
+Al hablar de muestreo, es inevitable considerar la **representatividad**.
+
+::: {.callout-important appearance="minimal"}
+**REPRESENTATIVIDAD:** Característica de la muestra que asegura que la muestra refleje las características clave de la población total, de modo que los resultados obtenidos puedan generalizarse más allá de los casos observados.
+:::
+
+Si una muestra no es representativa, las conclusiones a las que lleguemos pueden estar sesgadas y no ser aplicables al conjunto de la población.
+
+------------------------------------------------------------------------
+
+Para asegurar la representatividad, la selección de la muestra debe ser lo más imparcial posible, y aquí es donde la **aleatoriedad** juega un papel crucial.
+
+![](images/clipboard-2419650231.png){fig-align="center"}
+
+La aleatoriedad ayuda a que cada unidad de la población tenga la misma probabilidad de ser seleccionada, aumentando la posibilidad de que la muestra reproduzca las características relevantes del conjunto.
+
+------------------------------------------------------------------------
+
+## Tipos de muestreo
+
+Una muestra será representativa si todos los sujetos de la población tienen la misma posibilidad de ser seleccionados y si el tamaño de la muestra refleja adecuadamente las características de la población en términos de la distribución de las variables estudiadas
+
+En el muestreo probabilístico, cada individuo de la población tiene una probabilidad conocida y no nula de ser seleccionado. Esto garantiza que la muestra sea representativa y que las conclusiones puedan generalizarse a la población total.
+
+------------------------------------------------------------------------
+
+**Aleatorio simple:** Cada miembro de la población tiene la misma probabilidad de ser seleccionado.
+
+![](images/clipboard-2694907636.png){fig-align="center" width="761"}
+
+::: {.callout-note appearance="minimal"}
+**Ejemplo:** En un estudio sobre la percepción de los servicios municipales en una ciudad, se obtiene una lista de los residentes inscritos en el padrón electoral. Luego, asigna un número a cada residente y selecciona al azar a 300 personas.
+:::
+
+------------------------------------------------------------------------
+
+**Estratificado:** Se divide la población en subgrupos homogéneos o estratos (como género, edad o nivel educativo) y se selecciona una muestra aleatoria dentro de cada uno. Esto asegura que todos los estratos estén representados.
+
+![](images/clipboard-2180006173.png){fig-align="center" width="760"}
+
+::: {.callout-note appearance="minimal"}
+**Ejemplo:** Para estudiar la participación laboral en un país, se divide la población en estratos basados en niveles educativos: primaria, secundaria, técnica y universitaria. Una vez separados los estratos de realiza una selección aleatoria en cada uno.
+:::
+
+------------------------------------------------------------------------
+
+**Sistemático:** Se selecciona cada "k-ésimo" individuo de una lista organizada.
+
+![](images/clipboard-775707761.png){fig-align="center" width="760"}
+
+::: {.callout-note appearance="minimal"}
+**Ejemplo:** En una encuesta sobre hábitos de consumo en mercados locales, se obtiene una lista de 1,000 comerciantes registrados. Se decide seleccionar a cada décimo comerciante de la lista (k=10), comenzando por un número inicial que se elige al azar.
+:::
+
+------------------------------------------------------------------------
+
+**Por conglomerados:** Se divide la población en grupos naturales, como barrios o comunidades, y se seleccionan algunos de estos conglomerados para estudiar a todos sus miembros.
+
+![](images/clipboard-3087470620.png){fig-align="center" width="761"}
+
+::: {.callout-note appearance="minimal"}
+**Ejemplo:** En un estudio sobre acceso a educación en comunidades rurales, se seleccionan tres provincias al azar dentro de una región. Luego, en cada provincia, se eligen dos distritos y se encuestan a todas las familias de estos distritos.
+:::
+
+# 1.7 Introducción a R
+
+------------------------------------------------------------------------
+
+:::::: columns
+:::: {.column width="60%"}
+::: columns
+R es un lenguaje de programación y un entorno de software **creado específicamente para el análisis estadístico y la representación gráfica**. Fue desarrollado en la década de 1990 por los estadísticos Ross Ihaka y Robert Gentleman.
+
+El lenguaje R fue desarrollado como un esfuerzo por diseñar una herramienta que facilite la **aplicación de métodos estadísticos** desde básicos hasta avanzados y que sea lo suficientemente flexible para adaptarse a diversas necesidades de investigación y análisis.
+:::
+::::
+
+::: {.column width="40%"}
+![](images/R_logo.svg){fig-align="center" width="597"}
+:::
+::::::
+
+------------------------------------------------------------------------
+
+Cuando decimos que R es un **"lenguaje de programación"**, nos referimos a que, en este sistema, los usuarios **escribimos código**, y es la máquina la que se encarga de ejecutar las instrucciones.
+
+```{r, eval=FALSE, echo=TRUE}
+ggplot(datos, aes(x = edad)) +
+  geom_histogram(
+    bins = 6,
+    fill = "#38BDF8",
+    color = "white",
+    alpha = 0.9
+  ) +
+  labs(
+    title = "Distribución de la edad",
+    x = "Edad",
+    y = "Frecuencia"
+  ) +
+  theme_minimal(base_size = 20) 
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig-height: 9
+#| fig-width: 20
+ggplot(datos, aes(x = edad)) +
+  geom_histogram(
+    bins = 6,
+    fill = "#38BDF8",
+    color = "white",
+    alpha = 0.9
+  ) +
+  labs(
+    title = "Distribución de la edad",
+    x = "Edad",
+    y = "Frecuencia"
+  ) +
+  theme_minimal(base_size = 20) 
+```
+
+------------------------------------------------------------------------
+
+## Crear y configurar tu carpeta de trabajo
+
+1.  **Crea una carpeta específica**:
+
+    -   En tu dispositivo, crea una nueva carpeta para tu proyecto (por ejemplo, "MiProyectoR"). Este será el lugar donde guardarás todos los archivos relacionados.
+
+2.  **Establece la carpeta como directorio de trabajo**:
+
+    -   En RStudio, ve al panel **Files**, ubicado generalmente en la parte inferior derecha.
+
+    -   Puedes usar el botón **New Folder** para crear una nueva carpeta si aún no lo has hecho.
+
+    -   Navega hasta la carpeta que creaste y selecciona **More \> Set As Working Directory**. Esto le dice a RStudio que todos los archivos guardados o abiertos estarán relacionados con esta carpeta. Verás en la consola un mensaje como:
+
+    ```{r, eval=FALSE, echo=TRUE}
+    setwd("ruta/de/tu/carpeta")
+    ```
+
+    **Setwd** viene de **Set Working Directory**.
+
+------------------------------------------------------------------------
+
+## Crear un archivo de script
+
+Cuando trabajamos en R, utilizamos diferentes tipos de archivos para organizar y guardar nuestro trabajo. Dos formatos comunes son el **archivo R Script** y el **documento Quarto**. Ambos se utilizan para escribir código, pero cumplen propósitos diferentes que es importante entender.
+
+Un **archivo R Script** es un archivo simple donde escribimos y guardamos nuestras instrucciones de código. Sirve como un registro de los comandos que ejecutamos, permitiendo reutilizarlos o ajustarlos más adelante. Sin embargo, este tipo de archivo no incluye espacio para explicaciones extensas ni muestra los resultados directamente junto al código.
+
+------------------------------------------------------------------------
+
+::::: columns
+::: {.column width="60%"}
+En cambio, un **documento Quarto** va más allá al permitir combinar texto explicativo, bloques de código y los resultados generados (como tablas y gráficos) en un solo archivo. Además, es posible exportar el archivo final en formatos como HTML, PDF o Word, haciéndolo ideal para documentar y compartir análisis de manera profesional (de hecho, esta diapositiva esta hecha en Quarto). Esta capacidad de integrar explicación, análisis y presentación en un mismo lugar hace que Quarto sea particularmente útil para aprender y comunicar análisis de datos. En este curso, vamos a utilizar **Quarto**.
+:::
+
+::: {.column width="40%"}
+![](images/clipboard-990247434.png){fig-align="center"}
+:::
+:::::
+
+------------------------------------------------------------------------
+
+**Flujo de trabajo en R**
+
+![](images/clipboard-2496463605.png){fig-align="center"}
+
+# 1.8 Objetos básicos en R
+
+------------------------------------------------------------------------
+
+En R, cualquier entidad que se cree y preserve en la memoria durante una sesión se llama objeto. Puede ser un número, un texto, un conjunto de datos, una función, un gráfico y así sucesivamente. Puedes almacenar datos en objetos y luego usarlos para cálculos o análisis. Para poder hacer ello, utilizamos el operador `=` o `<-` para asignar un valor a un objeto. Por ejemplo, podemos asignar el resultado de una operación a un objeto:
+
+```{r}
+#| echo: true
+# Asignar el valor 10 al objeto 'a'
+a = 10
+
+# Asignar el resultado de una suma al objeto 'b'
+b <- 4 + 7
+```
+
+------------------------------------------------------------------------
+
+Una vez que un objeto ha sido asignado, podemos utilizarlo en operaciones posteriores:
+
+```{r}
+#| echo: true
+a
+```
+
+```{r}
+#| echo: true
+b
+```
+
+```{r}
+#| echo: true
+# Sumar las objetos 'a' y 'b'
+a + b
+```
+
+------------------------------------------------------------------------
+
+### Nombrar un objeto
+
+Podemos declarar (nombrar) a un objeto como deseemos, pero su nombre no debe tener espacios. Por eso, a veces usamos guiones bajos (`_`) para conectar dos palabras, por ejemplo, `mi_objeto` o `resultado_final`.
+
+```{r}
+#| echo: true
+suma_resultado = a + b
+```
+
+```{r}
+#| echo: true
+suma_resultado
+```
+
+Las objetos se almacenan en el entorno (environment) de R.
+
+------------------------------------------------------------------------
+
+## Funciones
+
+Anteriormente mencionamos que R es un lenguaje de programación que nos permite comunicarnos con la computadora para que esta realice tareas utilizando nuestros datos (input) y nos devuelva un resultado (output). Para que estas tareas se lleven a cabo, primero debemos indicarle a la computadora cómo hacerlo, y estas indicaciones se dan a través de **funciones**. Las funciones son instrucciones representadas por palabras seguidas de paréntesis, que le dicen a R que ejecute una acción específica.
+
+![](images/clipboard-2980090527.png){fig-align="center" width="904"}
+
+------------------------------------------------------------------------
+
+Las funciones en R pueden recibir **argumentos** (los valores que se colocan dentro del paréntesis). Estos argumentos pueden ser tanto los datos a procesar como instrucciones adicionales que le indican a la función cómo debe realizar la tarea.
+
+Por ejemplo, la función `sum()` sirve para sumar múltiples valores.
+
+```{r}
+#| echo: true
+# Sumar 10, 20 y 30
+sum(10, 20, 30)
+```
+
+------------------------------------------------------------------------
+
+La función `round()` redondea un número, y podemos especificar cuántos decimales queremos conservar. Aquí, el primer argumento `x`es el número a redondear, y el segundo `digits` es una instrucción que indica cuántos decimales mantener.
+
+```{r}
+#| echo: true
+round(x = 2.54934, 
+      digits = 2)
+```
+
+En muchos casos, cuando se respetan el orden de los argumentos de la función, no es necesario declarar explícitamente sus nombres.
+
+```{r}
+#| echo: true
+round(2.54934, 2)
+```
+
+------------------------------------------------------------------------
+
+Las funciones son fundamentales para trabajar en R, son la columna vertebral del lenguaje y nos permiten realizar tareas de todo tipo, desde cálculos simples hasta análisis complejos de datos. Muchas funciones ya vienen incluidas en R, pero otras han sido creadas por la comunidad y se encuentran en **paquetes** (que exploraremos más adelante).
+
+------------------------------------------------------------------------
+
+| **Categoría** | **Función** | **Descripción** |
+|------------------------|------------------------|------------------------|
+| **Matemáticas y Estadísticas** |  |  |
+| Realizan cálculos matemáticos o análisis estadísticos sobre los datos. | `sum()` | Suma todos los valores proporcionados. |
+|  | `mean()` | Calcula el promedio de un conjunto de datos. |
+|  | `sd()` | Calcula la desviación estándar de un conjunto de datos. |
+|  | `round()` | Redondea un número al número de decimales especificado. |
+|  | `log()` | Calcula el logaritmo de un número en la base especificada (por defecto, base e). |
+
+------------------------------------------------------------------------
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Manipulación de Datos** |  |  |
+| Estas funciones permiten estructurar, transformar y filtrar conjuntos de datos para su análisis. | `length()` | Devuelve la longitud de un vector o lista. |
+|  | `head()` | Muestra las primeras filas de un conjunto de datos. |
+|  | `tail()` | Muestra las últimas filas de un conjunto de datos. |
+|  | `subset()` | Extrae subconjuntos de datos según una condición especificada. |
+|  | `merge()` | Combina dos conjuntos de datos en función de una clave común. |
+
+------------------------------------------------------------------------
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Visualización** |  |  |
+| Ayudan a crear gráficos y representaciones visuales de los datos para facilitar su interpretación. | `plot()` | Crea gráficos básicos a partir de datos. |
+|  | `hist()` | Genera un histograma para datos continuos. |
+|  | `boxplot()` | Crea un diagrama de caja para representar la dispersión de los datos. |
+|  | `barplot()` | Genera un gráfico de barras. |
+
+------------------------------------------------------------------------
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Control de Flujo** |  |  |
+| Permiten estructurar el código para que se ejecute en función de condiciones específicas. | `if()` | Ejecuta una acción si se cumple una condición. |
+|  | `else()` | Proporciona una alternativa cuando la condición de `if` no se cumple. |
+|  | `for()` | Itera a través de una secuencia y ejecuta una acción para cada elemento. |
+|  | `while()` | Repite una acción mientras se cumpla una condición. |
+
+------------------------------------------------------------------------
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Entrada/Salida** |  |  |
+| Facilitan leer datos de archivos y guardar los resultados en diversos formatos. | `read.csv()` | Lee datos desde un archivo CSV y los convierte en un marco de datos. |
+|  | `write.csv()` | Guarda un marco de datos en un archivo CSV. |
+|  | `readRDS()` | Carga datos guardados en formato RDS. |
+|  | `saveRDS()` | Guarda datos en formato RDS. |
+
+------------------------------------------------------------------------
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Modelado Estadístico** |  |  |
+| Permiten ajustar modelos y realizar análisis estadísticos avanzados. | `lm()` | Ajusta modelos lineales simples o múltiples. |
+|  | `glm()` | Ajusta modelos lineales generalizados. |
+|  | `summary()` | Proporciona un resumen estadístico de un modelo o conjunto de datos. |
+
+------------------------------------------------------------------------
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Transformación de Texto** |  |  |
+| Ayudan a operar sobre cadenas de texto, como combinarlas, dividirlas o cambiar su formato. | `paste()` | Combina varias cadenas de texto en una sola. |
+|  | `strsplit()` | Divide una cadena en partes según un separador. |
+|  | `toupper()` | Convierte texto a mayúsculas. |
+|  | `tolower()` | Convierte texto a minúsculas. |
+
+------------------------------------------------------------------------
+
+|  |  |  |
+|------------------------|------------------------|------------------------|
+| **Trabajo con Fechas** |  |  |
+| Facilitan trabajar con datos que incluyen fechas y horas. | `Sys.Date()` | Devuelve la fecha actual del sistema. |
+|  | `as.Date()` | Convierte datos en formato de fecha. |
+|  | `difftime()` | Calcula la diferencia entre dos fechas. |
+
+# 1.9 Exploración inicial y manejo de librerías
+
+------------------------------------------------------------------------
+
+## Paquetes
+
+En R, muchas de las cosas que queremos hacer se pueden realizar con "paquetes". En R, un paquete es generalmente un conjunto de herramientas con funciones específicas para realizar tareas específicas. Existen paquetes para prácticamente todo. Por ejemplo, el paquete `dplyr` es un paquete ampliamente utilizado para la manipulación de datos como filtrar valores o crear nuevas columnas.
+
+![](images/clipboard-2986164547.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+### Instalar un paquete
+
+Me gusta pensar que instalar un paquete en R es similar a ir a la tienda y comprar una caja de herramientas. Después de comprarla, la mueves a tu propio almacén para asegurarte de que la tendrás cuando la necesites. Esto solo necesita hacerse una vez por paquete, a menos que quieras actualizarlo (tener la última versión).
+
+Con R, instalamos un paquete con una función llamada `install.packages()` seguida del nombre del paquete entre comillas.
+
+```{r}
+#| echo: true
+#| eval: false
+install.packages('dplyr')
+```
+
+------------------------------------------------------------------------
+
+### Cargar un paquete
+
+Cuando cargas un paquete en R, es como si sacaras la caja de herramientas del almacén y la pusieras en tu mesa de trabajo. Solo entonces las herramientas dentro de la caja te son accesibles para tus proyectos. Haces esto cada vez que comienzas un nuevo documento o una sesión de R.
+
+Para hacerlo, usamos la función `library()`.
+
+```{r}
+#| echo: true
+#| eval: false
+library(dplyr)
+```
+
+------------------------------------------------------------------------
+
+### Usar una función sin cargar el paquete
+
+Puedes lograr esto con `::` si quieres usar una función completa de otro paquete, pero no quieres cargar el paquete completo. Esto es como sacar una herramienta específica de la caja, pero no poner toda la caja en tu mesa de trabajo.
+
+Por ejemplo, el paquete `psych` tiene una función `describe` que produce un resumen estadístico detallado de un conjunto de datos dado. Si queremos aplicarlo en un conjunto de datos predeterminado en R como `iris`, podemos hacerlo sin cargar todo `psych`:
+
+```{r}
+#| echo: true
+#| eval: false
+# Usar la función describe del paquete psych con el conjunto de datos iris
+psych::describe(iris)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| echo: true
+psych::describe(iris)
+```
+
+------------------------------------------------------------------------
+
+::::: columns
+::: {.column width="70%"}
+En resumen:
+
+-   **Instalación del paquete**: se realiza una sola vez mediante `install.packages()`, lo que permite que el paquete quede almacenado en el sistema y disponible para futuras sesiones.
+
+-   **Carga del paquete**: se efectúa en cada sesión con `library()`, colocando el paquete en el entorno de trabajo y habilitando todas sus funciones para su uso directo.
+
+-   **Uso puntual de una función**: puede realizarse mediante el operador `::`, que permite acceder a una función específica del paquete sin necesidad de cargarlo completamente.
+:::
+
+::: {.column width="30%"}
+![](images/clipboard-464253528.png){fig-align="center" width="286"}
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Elementos
+
+En R, los **elementos** son las unidades básicas que componen los datos. Estos elementos tienen un **tipo de dato** que define su naturaleza, cómo pueden manipularse y las operaciones que pueden realizarse con ellos. Los **tipos de elementos** en R están directamente relacionados con los **tipos de variables** utilizados en análisis estadístico que vimos en el capítulo anterior, como variables numéricas (continuas y discretas), categóricas (nominales y ordinales) y lógicas (binarias).
+
+------------------------------------------------------------------------
+
+**a. Logical (Lógicos)**
+
+-   Representan valores binarios: `TRUE` o `FALSE`.
+-   Asociados a variables dicotómicas en estadística.
+
+```{r}
+#| echo: true
+x = TRUE   
+y = FALSE
+```
+
+```{r}
+#| echo: true
+x
+```
+
+```{r}
+#| echo: true
+y
+```
+
+------------------------------------------------------------------------
+
+**b. Integer (Enteros)**
+
+-   Representan números enteros, como conteos o cantidades.
+-   Se definen agregando una "L" después del número.
+
+```{r}
+#| echo: true
+x = 42L  
+y = -3L
+```
+
+```{r}
+#| echo: true
+x
+```
+
+```{r}
+#| echo: true
+y
+```
+
+------------------------------------------------------------------------
+
+**c. Numeric (Numéricos)**
+
+-   Representan números decimales o reales, como medidas continuas.
+-   Incluyen valores positivos, negativos y fracciones.
+
+```{r}
+#| echo: true
+x = 7.85  
+y = -23.2
+```
+
+```{r}
+#| echo: true
+x
+```
+
+```{r}
+#| echo: true
+y
+```
+
+------------------------------------------------------------------------
+
+**d. Character (Cadenas de Texto)**
+
+-   Representan texto o cadenas de caracteres.
+-   Utilizados para datos categóricos o nominales.
+
+```{r}
+#| echo: true
+x = "Peru"  
+y = "Colombia"
+```
+
+```{r}
+#| echo: true
+x
+```
+
+```{r}
+#| echo: true
+y
+```
+
+------------------------------------------------------------------------
+
+| **Tipo de Variable** | **Definición** | **En R** |
+|------------------------|------------------------|------------------------|
+| **Numéricas Continuas** | Valores dentro de un rango continuo, como altura, peso, temperatura. | **Numeric**: Representa decimales o reales. |
+| **Numéricas Discretas** | Valores enteros que representan conteos, como número de personas o hijos. | **Integer**: Representa números enteros, sin decimales. |
+| **Categóricas Nominales** | Categorías sin un orden inherente, como colores o géneros. | **Character**: Representa texto (e.g., "rojo", "azul"). |
+| **Categóricas Ordinales** | Categorías con un orden lógico, como niveles educativos (bajo, medio, alto). | **Character o Factor**: Puede usarse texto, aunque los **factores** facilitan el orden. |
+| **Variables Lógicas (Binarias)** | Solo dos valores posibles, como `sí` o `no`, `aprobado` o `reprobado`. | **Logical**: Representa valores `TRUE` o `FALSE`. |
+
+------------------------------------------------------------------------
+
+:::::: columns
+::: {.column width="45%"}
+Por ejemplo:
+
+Creamos distintos tipos de objetos
+
+```{r}
+#| echo: true
+
+num = 3.5 
+logic = FALSE
+chr = "Peru"
+```
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="45%"}
+Los podemos mostrar con solo llamar el nombre de la objeto:
+
+```{r}
+#| echo: true
+num
+logic
+chr
+```
+:::
+::::::
+
+------------------------------------------------------------------------
+
+Una forma muy práctica de asegurarnos qué tipo de elemento es la objeto es llamar a la función `class()`, simplemente tomando como argumento el nombre del objeto:
+
+```{r}
+#| echo: true
+class(num)
+```
+
+Hagámoslo para el resto:
+
+```{r}
+#| echo: true
+class(logic)
+class(chr)
+```
+
+# 1.10 Objetos elementales
+
+------------------------------------------------------------------------
+
+Una vez establecido que un **elemento** se refiere al tipo de dato en sí mismo (como numérico, lógico o de caracteres). Nos centraremos en los vectores y dataframes.
+
+------------------------------------------------------------------------
+
+### Vectores
+
+-   Son una secuencia de elementos del mismo tipo.
+-   Pueden ser de tipo numérico, lógico, o de caracteres.
+-   Se pueden crear utilizando la función `c()`.
+
+```{r}
+#| echo: true
+numeros = c(1, 2, 3, 4, 5)
+letras = c("a", "b", "c", "d", "e")
+```
+
+```{r}
+#| echo: true
+numeros
+letras
+```
+
+------------------------------------------------------------------------
+
+### Data.frames
+
+Cuando recolectamos o hacemos uso de conjuntos de datos, estos suelen estar almacenados en **estructuras tabulares**, lo que facilita su comprensión y análisis. Una **estructura tabular** se refiere a una organización de los datos donde cada columna representa una **variable** (es decir, una característica o atributo que estamos observando), y cada fila corresponde a una **observación** (un registro individual de los datos, como un caso o instancia). En R, la forma más común de trabajar con este tipo de estructuras es a través de **objetos denominados** `data.frames`.
+
+------------------------------------------------------------------------
+
+![](images/clipboard-2851897725.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+Imagina que queremos crear un conjunto de datos con tres variables:\
+- **Edad**: numérica, que representa la edad de los encuestados.\
+- **Género**: categórica, con valores como "Masculino" y "Femenino".\
+- **Medio de comunicación preferido**: categórica, con valores como "Televisión", "Radio", "Internet" y "Prensa Escrita".
+
+Podemos construir este `data.frame` en R utilizando vectores para cada variable y luego combinándolos.
+
+------------------------------------------------------------------------
+
+:::::: columns
+::: {.column width="48%" style="font-size: 0.72em"}
+```{r}
+#| echo: true
+#| class: code-sm
+
+edad = c(25, 30, 35, 
+         40, 28)
+
+genero = c("Femenino", "Masculino", 
+           "Femenino", "Masculino", 
+           "Femenino")
+
+medio_comunicacion = c("Internet", "Televisión", 
+                       "Radio", "Prensa Escrita", 
+                       "Internet")
+
+# Combina los vectores en un data.frame
+encuesta = data.frame(
+  edad = edad, 
+  genero = genero, 
+  med_com = medio_comunicacion
+  )
+```
+:::
+
+::: {.column width="2%"}
+:::
+
+::: {.column width="48%"}
+```{r}
+#| echo: true
+encuesta
+```
+:::
+::::::
+
+------------------------------------------------------------------------
+
+Además, peudes seleccionar una columna de `data.frame` de forma individual utilizando el signo `$`
+
+```{r}
+#| echo: true
+encuesta$edad
+
+encuesta$genero
+
+encuesta$med_com
+```
+
+# 1.11 Importación y resumen
+
+------------------------------------------------------------------------
+
+### Importación
+
+El formato **CSV** (Comma-Separated Values) es uno de los más utilizados debido a su simplicidad y compatibilidad. Cada fila en un archivo CSV representa una observación, y los valores dentro de cada fila están separados por comas.
+
+Un ejemplo de cómo podría lucir un archivo CSV:
+
+``` {style="color: #fff"}
+ID,Edad,Género,Ingreso
+1,25,Femenino,1500
+2,30,Masculino,2000
+3,45,Femenino,2500
+```
+
+------------------------------------------------------------------------
+
+El paquete **`readr`** es parte del tidyverse y está diseñado para leer archivos CSV.
+
+```{r}
+#| echo: true
+#| message: false
+# Cargamos el paquete readr
+library(readr)
+```
+
+Al importar un conjunto de datos debemos nombrarlo.
+
+```{r}
+#| echo: true
+# Importamos el archivo CSV y lo asignamos a un objeto
+encuesta_csv = read_csv("encuesta.csv")
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| echo: true
+encuesta_csv
+```
+
+------------------------------------------------------------------------
+
+Los archivos de Excel son comunes debido a su facilidad de uso y capacidad para almacenar datos tabulares en varias hojas. El paquete **`readxl`** permite importar estos archivos, ya sea en formato `.xls` o `.xlsx`, sin necesidad de tener Excel instalado.
+
+# 1.12 Ejercicios de la semana
