@@ -1,32 +1,38 @@
 ---
-title: "Curso de Estadística"
 format:
   html:
     toc: false
     theme: none
     css: styles/reveal-custom.scss
+lang: es
 ---
 
-```{html}
-<div class="home-hero">
-  <div class="home-title">Curso de Estadística</div>
-  <div class="home-subtitle">Estadística descriptiva con R</div>
-  <div class="home-meta">Gonzalo Almendariz</div>
-</div>
+```{=html}
+<div class="home-bg">
+  <div class="home-hero">
+    <div class="home-title">Curso de Estadística</div>
+    <div class="home-meta">Gonzalo Almendariz</div>
 
-<div class="home-section">
-  <div class="home-section-title">Presentaciones</div>
-
-  <div class="home-grid">
-    <a class="home-card" href="S1.html">
-      <div class="home-card-top">
-        <span class="home-badge">Semana 1</span>
-        <span class="home-arrow">→</span>
-      </div>
-      <div class="home-card-title">Fundamentos, datos y primeros objetos</div>
-      <div class="home-card-desc">Vectores, data.frame, estructura básica y primeras tablas.</div>
     </a>
+  </div>
 
+  <div class="home-section">
+    <div class="home-section-title">Presentaciones</div>
+
+    <div class="home-grid">
+      <a class="home-card" href="S1.html">
+        <div class="home-card-top">
+          <span class="home-badge">Semana 1</span>
+          <span class="home-arrow">→</span>
+        </div>
+        <div class="home-card-title">
+          Fundamentos, datos y primeros objetos
+        </div>
+        <div class="home-card-desc">
+          Vectores, data.frame, estructura básica y primeras tablas.
+        </div>
+      </a>
+    </div>
   </div>
 </div>
 ```

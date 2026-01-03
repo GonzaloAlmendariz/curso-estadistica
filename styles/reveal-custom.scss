@@ -1066,3 +1066,335 @@ $font-family-sans-serif: ui-sans-serif, system-ui, -apple-system,
   line-height: 1.45;
 }
 
+.home-cta{
+  display: inline-block;
+  margin-top: 1.4rem;
+  padding: 0.55rem 1.15rem;
+
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: linear-gradient(
+    90deg,
+    rgba(56,189,248,0.85),
+    rgba(167,139,250,0.80)
+  );
+
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0b1220;
+  text-decoration: none;
+
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.home-cta:hover{
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* ======================================================
+   INDEX (HOME) — Dark / glassy / editorial
+   ====================================================== */
+
+.home-bg{
+  min-height: 100vh;
+  padding: 4rem 1.2rem 5rem 1.2rem;
+
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(56,189,248,0.18), transparent 55%),
+    radial-gradient(900px 600px at 85% 20%, rgba(167,139,250,0.14), transparent 55%),
+    #0b1220;
+}
+
+.home-hero{
+  margin: 0 auto 3.2rem auto;
+  max-width: 980px;
+  padding: 2.6rem 2.8rem;
+
+  border-radius: 26px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  text-align: center;
+}
+
+.home-title{
+  font-size: 2.6rem;
+  font-weight: 780;
+  letter-spacing: -0.025em;
+  color: rgba(255,255,255,0.97);
+}
+
+.home-subtitle{
+  margin-top: 0.65rem;
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.80);
+}
+
+.home-meta{
+  margin-top: 1.6rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: rgba(255,255,255,0.88);
+}
+
+.home-cta{
+  display: inline-block;
+  margin-top: 1.9rem;
+  padding: 0.65rem 1.35rem;
+
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: linear-gradient(
+    90deg,
+    rgba(56,189,248,0.90),
+    rgba(167,139,250,0.85)
+  );
+
+  font-size: 1rem;
+  font-weight: 750;
+  color: #0b1220;
+  text-decoration: none;
+
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.home-cta:hover{
+  transform: translateY(-2px);
+  opacity: 0.96;
+}
+
+.home-section{
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.home-section-title{
+  margin: 0 0 1.1rem 0.2rem;
+  font-size: 1.05rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+}
+
+.home-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+@media (max-width: 900px){
+  .home-grid{ grid-template-columns: 1fr; }
+}
+
+.home-card{
+  display: block;
+  padding: 1.3rem 1.35rem;
+
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  text-decoration: none;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.home-card:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.07);
+}
+
+.home-card-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-badge{
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.07);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+}
+
+.home-arrow{
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.70);
+}
+
+.home-card-title{
+  margin-top: 1.05rem;
+  font-size: 1.15rem;
+  font-weight: 750;
+  color: rgba(255,255,255,0.96);
+  letter-spacing: -0.01em;
+}
+
+.home-card-desc{
+  margin-top: 0.55rem;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.74);
+  line-height: 1.45;
+}
+
+---
+
+## SCSS (pegar al final de `styles/reveal-custom.scss`)
+
+```scss
+/* =========================
+   HOME (index.html) — sin borde blanco + layout limpio
+   ========================= */
+
+/* Quitar “marco” blanco del navegador y fijar fondo */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #0b1220 !important;
+  color: rgba(255,255,255,0.92);
+}
+
+/* Evitar estilos por defecto del theme */
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system,
+    "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial,
+    "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+/* Fondo glassy como el deck */
+.home {
+  min-height: 100vh;
+  padding: 4rem 1.25rem 5rem 1.25rem;
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(56,189,248,0.18), transparent 55%),
+    radial-gradient(900px 600px at 85% 20%, rgba(167,139,250,0.14), transparent 55%),
+    #0b1220;
+}
+
+/* Hero minimal */
+.home-hero{
+  max-width: 980px;
+  margin: 0 auto 2.2rem auto;
+  padding: 2.4rem 2.6rem;
+  text-align: center;
+
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.home-title{
+  font-size: 2.55rem;
+  font-weight: 780;
+  letter-spacing: -0.03em;
+  color: rgba(255,255,255,0.97);
+}
+
+.home-name{
+  margin-top: 0.85rem;
+  font-size: 1.08rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.84);
+}
+
+/* Sección */
+.home-section{
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.home-section-title{
+  margin: 0 0 1rem 0.15rem;
+  font-size: 0.98rem;
+  font-weight: 750;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.86);
+}
+
+.home-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+@media (max-width: 900px){
+  .home-grid{ grid-template-columns: 1fr; }
+}
+
+/* Card */
+.home-card{
+  display: block;
+  text-decoration: none !important;
+
+  padding: 1.15rem 1.25rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.home-card:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.07);
+}
+
+.home-card-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-badge{
+  padding: 0.26rem 0.66rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.07);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.94);
+}
+
+.home-arrow{
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: rgba(255,255,255,0.70);
+}
+
+.home-card-title{
+  margin-top: 0.85rem;
+  font-size: 1.08rem;
+  font-weight: 750;
+  color: rgba(255,255,255,0.96);
+  letter-spacing: -0.01em;
+}
+
+/* ===== Fix borde blanco SOLO para index ===== */
+
+/* El borde blanco es el margin por defecto del navegador */
+body {
+  margin: 0;
+}
+
+/* Fondo dark coherente */
+html, body {
+  background: #0b1220;
+}
+
