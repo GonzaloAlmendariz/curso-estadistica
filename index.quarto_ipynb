@@ -1,0 +1,52 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Curso de Estadística\"\n",
+        "format:\n",
+        "  html:\n",
+        "    toc: false\n",
+        "    theme: none\n",
+        "    css: styles/reveal-custom.scss\n",
+        "---\n",
+        "\n",
+        "```{html}\n",
+        "<div class=\"home-hero\">\n",
+        "  <div class=\"home-title\">Curso de Estadística</div>\n",
+        "  <div class=\"home-subtitle\">Estadística descriptiva con R</div>\n",
+        "  <div class=\"home-meta\">Gonzalo Almendariz</div>\n",
+        "</div>\n",
+        "\n",
+        "<div class=\"home-section\">\n",
+        "  <div class=\"home-section-title\">Presentaciones</div>\n",
+        "\n",
+        "  <div class=\"home-grid\">\n",
+        "    <a class=\"home-card\" href=\"S1.html\">\n",
+        "      <div class=\"home-card-top\">\n",
+        "        <span class=\"home-badge\">Semana 1</span>\n",
+        "        <span class=\"home-arrow\">→</span>\n",
+        "      </div>\n",
+        "      <div class=\"home-card-title\">Fundamentos, datos y primeros objetos</div>\n",
+        "      <div class=\"home-card-desc\">Vectores, data.frame, estructura básica y primeras tablas.</div>\n",
+        "    </a>\n",
+        "\n",
+        "  </div>\n",
+        "</div>\n",
+        "```"
+      ],
+      "id": "3be23487"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

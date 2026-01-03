@@ -1,16 +1,33 @@
 ---
-title: "Curso Estadística"
-subtitle: "Estadística descriptiva con R"
-author: "Gonzalo Almendariz"
+title: "Curso de Estadística"
 format:
-  revealjs:
-    width: 1280
-    height: 720
-    margin: 0.06
-    title-slide-attributes:
-      data-background-gradient: "linear-gradient(135deg, #0b1220, #111827)"
-execute:
-  echo: false
-  warning: false
-  message: false
+  html:
+    toc: false
+    theme: none
+    css: styles/reveal-custom.scss
 ---
+
+```{html}
+<div class="home-hero">
+  <div class="home-title">Curso de Estadística</div>
+  <div class="home-subtitle">Estadística descriptiva con R</div>
+  <div class="home-meta">Gonzalo Almendariz</div>
+</div>
+
+<div class="home-section">
+  <div class="home-section-title">Presentaciones</div>
+
+  <div class="home-grid">
+    <a class="home-card" href="S1.html">
+      <div class="home-card-top">
+        <span class="home-badge">Semana 1</span>
+        <span class="home-arrow">→</span>
+      </div>
+      <div class="home-card-title">Fundamentos, datos y primeros objetos</div>
+      <div class="home-card-desc">Vectores, data.frame, estructura básica y primeras tablas.</div>
+    </a>
+
+  </div>
+</div>
+```
+
