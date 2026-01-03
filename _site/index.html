@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/tabby.min.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<html lang="es"><head>
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/tabby.min.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.57">
 
   <meta name="author" content="Gonzalo Almendariz">
@@ -15,8 +15,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="site_libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="site_libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -30,11 +30,11 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
-  <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -339,6 +339,8 @@
     </div>
   </div>
 
+  <script src="includes/chrome.js"></script>
+
 
   <div class="reveal">
     <div class="slides">
@@ -369,19 +371,19 @@ Gonzalo Almendariz
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="site_libs/revealjs/dist/reveal.js"></script>
+  <script src="index_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="index_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="site_libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="site_libs/revealjs/plugin/search/search.js"></script>
-  <script src="site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="site_libs/revealjs/plugin/math/math.js"></script>
+  <script src="index_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="index_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="index_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="index_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -413,10 +415,10 @@ Gonzalo Almendariz
         controlsBackArrows: 'faded',
 
         // Display a presentation progress bar
-        progress: true,
+        progress: false,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: false,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -580,80 +582,93 @@ Gonzalo Almendariz
         return (s || "").replace(/\s+/g, " ").trim();
       }
 
-      function getWeekTitle() {
-        // 1) Quarto suele renderizar el título como h1.title
+      function weekTitleFromDocument() {
         const h1Title = document.querySelector("h1.title");
         if (h1Title) return clean(h1Title.textContent);
 
-        // 2) Meta tags comunes
-        const meta1 = document.querySelector('meta[name="dcterms.title"]');
-        if (meta1?.content) return clean(meta1.content);
+        const meta = document.querySelector('meta[name="dcterms.title"]')
+          || document.querySelector('meta[property="og:title"]');
+        if (meta?.content) return clean(meta.content);
 
-        const meta2 = document.querySelector('meta[property="og:title"]');
-        if (meta2?.content) return clean(meta2.content);
-
-        // 3) Fallback: document.title
         const t = clean(document.title);
         return t ? t.split(" - ")[0].split(" | ")[0].trim() : "Semana";
       }
 
-      function getCurrentSlide() {
+      function getAllSlideSections() {
+        // Reveal usa <div class="slides"> y adentro <section>
+        return Array.from(document.querySelectorAll(".reveal .slides section"));
+      }
+
+      function currentSlide() {
         return window.Reveal ? Reveal.getCurrentSlide() : null;
       }
 
-      function getSlideTitle(slide) {
+      function slideTitle(slide) {
         const h2 = slide?.querySelector("h2");
         const h3 = slide?.querySelector("h3");
         return clean((h2 || h3)?.textContent) || " ";
       }
 
-      function getCurrentUnitH1() {
-        if (!window.Reveal) return " ";
+      function currentUnitH1() {
+        const slides = getAllSlideSections();
+        const cur = currentSlide();
+        if (!cur || !slides.length) return " ";
 
-        const slides = Reveal.getSlides();
-        const cur = Reveal.getCurrentSlide();
         const idx = slides.indexOf(cur);
+        if (idx &lt; 0) return " ";
 
         for (let i = idx; i &gt;= 0; i--) {
           const s = slides[i];
-          if (!s) continue;
           const h1 = s.querySelector("h1:not(.title)");
-          if (h1) return clean(h1.textContent);
+          if (h1) {
+            const txt = clean(h1.textContent);
+            if (txt) return txt;
+          }
         }
         return " ";
       }
 
-      function getProgressRatio() {
+      function progressRatio() {
         if (!window.Reveal) return 0;
-
-        const past = Reveal.getSlidePastCount();   // 0-based
-        const total = Reveal.getTotalSlides();     // count
-        const denom = Math.max(total - 1, 1);
-        return Math.max(0, Math.min(1, past / denom));
+        const total = Reveal.getTotalSlides?.() ?? 0;
+        const past  = Reveal.getSlidePastCount?.() ?? 0;
+        if (!total || total &lt;= 1) return 0;
+        return Math.max(0, Math.min(1, past / (total - 1)));
       }
 
       function update() {
-        const slide = getCurrentSlide();
-
         const weekEl = document.getElementById("deckWeek");
         const titleEl = document.getElementById("deckTitle");
         const unitEl = document.getElementById("deckUnit");
         const fillEl = document.getElementById("deckProgressFill");
 
-        if (weekEl) weekEl.textContent = getWeekTitle();
-        if (titleEl) titleEl.textContent = getSlideTitle(slide);
-        if (unitEl) unitEl.textContent = getCurrentUnitH1();
+        if (weekEl) weekEl.textContent = weekTitleFromDocument();
+
+        const cur = currentSlide();
+        if (titleEl) titleEl.textContent = slideTitle(cur);
+        if (unitEl) unitEl.textContent = currentUnitH1();
 
         if (fillEl) {
-          const r = getProgressRatio();
-          fillEl.style.transform = `scaleX(${r})`;
+          const r = progressRatio();
+          // RAF para que el browser aplique transición siempre
+          requestAnimationFrame(() =&gt; {
+            fillEl.style.width = `${(r * 100).toFixed(1)}%`;
+          });
         }
       }
 
       function init() {
         if (!window.Reveal) return;
-        Reveal.on("ready", update);
-        Reveal.on("slidechanged", update);
+
+        const hook = () =&gt; update();
+
+        Reveal.on("ready", hook);
+        Reveal.on("slidechanged", hook);
+        Reveal.on("fragmentshown", hook);
+        Reveal.on("fragmenthidden", hook);
+        Reveal.on("overviewshown", hook);
+        Reveal.on("overviewhidden", hook);
+
         update();
       }
 
@@ -701,12 +716,12 @@ Gonzalo Almendariz
         // flash "checked"
         button.classList.add('code-copy-button-checked');
         var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copied!");
+        button.setAttribute("title", "Copiado");
         let tooltip;
         if (window.bootstrap) {
           button.setAttribute("data-bs-toggle", "tooltip");
           button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copied!");
+          button.setAttribute("data-bs-title", "Copiado");
           tooltip = new bootstrap.Tooltip(button, 
             { trigger: "manual", 
               customClass: "code-copy-button-tooltip",
@@ -850,4 +865,4 @@ Gonzalo Almendariz
     </script>
     
 
-</body></html>
+</section></div></body></html>

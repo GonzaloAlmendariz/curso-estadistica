@@ -1,15 +1,19 @@
 project:
-  type: default
-  output-dir: _site
+  type: website
+  output-dir: docs
   resources:
     - includes/
+
+website:
+  title: "Curso de Estadística"
+  navbar: false
 
 format:
   revealjs:
     math:
       method: mathjax
     theme: [default, "./styles/reveal-custom.scss"]
-    highlight-style: github-dark
+    highlight-style: none
     highlight-method: highlightjs
     code-line-numbers: false
     slide-number: false
@@ -22,6 +26,7 @@ format:
       - includes/chrome.html
     include-after-body:
       - includes/chrome.js
+
 lang: es
 
 execute:
