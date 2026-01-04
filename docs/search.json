@@ -61,5 +61,12 @@
     "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
     "section": "Elementos",
     "text": "Elementos\nEn R, los elementos son las unidades básicas que componen los datos. Estos elementos tienen un tipo de dato que define su naturaleza, cómo pueden manipularse y las operaciones que pueden realizarse con ellos. Los tipos de elementos en R están directamente relacionados con los tipos de variables utilizados en análisis estadístico que vimos en el capítulo anterior, como variables numéricas (continuas y discretas), categóricas (nominales y ordinales) y lógicas (binarias)."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Curso de Estadística",
+    "section": "",
+    "text": "Sesiones de clase\n\n        \n          \n            \n              Semana 1\n              →\n            \n\n            \n              Conceptos básicos de estadística e introducción a R\n            \n\n            \n              Datos y tipos de variables, gráficos y tablas, medidas de resumen,\n              muestreo y fundamentos de R (objetos, funciones, paquetes e importación)."
   }
 ]

@@ -13,7 +13,7 @@ format:
     math:
       method: mathjax
     theme: [default, "./styles/reveal-custom.scss"]
-    highlight-style: none
+    highlight-style: github-dark
     highlight-method: highlightjs
     code-line-numbers: false
     slide-number: false

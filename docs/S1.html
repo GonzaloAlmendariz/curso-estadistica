@@ -28,6 +28,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #e1e4e8; background-color: #24292e; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #e1e4e8; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #f97583; } /* Attribute */
+    code span.bn { color: #79b8ff; } /* BaseN */
+    code span.bu { color: #f97583; } /* BuiltIn */
+    code span.cf { color: #f97583; } /* ControlFlow */
+    code span.ch { color: #9ecbff; } /* Char */
+    code span.cn { color: #79b8ff; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #f97583; } /* DataType */
+    code span.dv { color: #79b8ff; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #f97583; font-weight: bold; } /* Extension */
+    code span.fl { color: #79b8ff; } /* Float */
+    code span.fu { color: #b392f0; } /* Function */
+    code span.im { color: #9ecbff; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #f97583; } /* Keyword */
+    code span.op { color: #e1e4e8; } /* Operator */
+    code span.ot { color: #b392f0; } /* Other */
+    code span.pp { color: #f97583; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #79b8ff; } /* SpecialChar */
+    code span.ss { color: #9ecbff; } /* SpecialString */
+    code span.st { color: #9ecbff; } /* String */
+    code span.va { color: #ffab70; } /* Variable */
+    code span.vs { color: #9ecbff; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
   </style>
   <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -817,19 +882,19 @@ Está en las decisiones que tomamos, en las recomendaciones que recibimos y en c
 
 <p>Cuando decimos que R es un <strong>“lenguaje de programación”</strong>, nos referimos a que, en este sistema, los usuarios <strong>escribimos código</strong>, y es la máquina la que se encarga de ejecutar las instrucciones.</p>
 <div class="cell">
-<pre class="r cell-code"><code>ggplot(datos, aes(x = edad)) +
-  geom_histogram(
-    bins = 6,
-    fill = "#38BDF8",
-    color = "white",
-    alpha = 0.9
-  ) +
-  labs(
-    title = "Distribución de la edad",
-    x = "Edad",
-    y = "Frecuencia"
-  ) +
-  theme_minimal(base_size = 20) </code></pre>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="at">x =</span> edad)) <span class="sc">+</span></span>
+<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">bins =</span> <span class="dv">6</span>,</span>
+<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"#38BDF8"</span>,</span>
+<span id="cb5-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb5-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.9</span></span>
+<span id="cb5-7"><a aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-9"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribución de la edad"</span>,</span>
+<span id="cb5-10"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Edad"</span>,</span>
+<span id="cb5-11"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frecuencia"</span></span>
+<span id="cb5-12"><a aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">20</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
@@ -850,7 +915,7 @@ Está en las decisiones que tomamos, en las recomendaciones que recibimos y en c
 <li><p>Navega hasta la carpeta que creaste y selecciona <strong>More &gt; Set As Working Directory</strong>. Esto le dice a RStudio que todos los archivos guardados o abiertos estarán relacionados con esta carpeta. Verás en la consola un mensaje como:</p></li>
 </ul>
 <div class="cell">
-<pre class="r cell-code"><code>setwd("ruta/de/tu/carpeta")</code></pre>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"ruta/de/tu/carpeta"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Setwd</strong> viene de <strong>Set Working Directory</strong>.</p></li>
 </ol>
@@ -887,31 +952,31 @@ Está en las decisiones que tomamos, en las recomendaciones que recibimos y en c
 
 <p>En R, cualquier entidad que se cree y preserve en la memoria durante una sesión se llama objeto. Puede ser un número, un texto, un conjunto de datos, una función, un gráfico y así sucesivamente. Puedes almacenar datos en objetos y luego usarlos para cálculos o análisis. Para poder hacer ello, utilizamos el operador <code>=</code> o <code>&lt;-</code> para asignar un valor a un objeto. Por ejemplo, podemos asignar el resultado de una operación a un objeto:</p>
 <div class="cell">
-<pre class="r cell-code"><code># Asignar el valor 10 al objeto 'a'
-a = 10
-
-# Asignar el resultado de una suma al objeto 'b'
-b &lt;- 4 + 7</code></pre>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Asignar el valor 10 al objeto 'a'</span></span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Asignar el resultado de una suma al objeto 'b'</span></span>
+<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">+</span> <span class="dv">7</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <p>Una vez que un objeto ha sido asignado, podemos utilizarlo en operaciones posteriores:</p>
 <div class="cell">
-<pre class="r cell-code"><code>a</code></pre>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>a</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10</code></pre>
 </div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>b</code></pre>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>b</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 11</code></pre>
 </div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code># Sumar las objetos 'a' y 'b'
-a + b</code></pre>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Sumar las objetos 'a' y 'b'</span></span>
+<span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>a <span class="sc">+</span> b</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 21</code></pre>
 </div>
@@ -922,10 +987,10 @@ a + b</code></pre>
 <h3 id="nombrar-un-objeto">Nombrar un objeto</h3>
 <p>Podemos declarar (nombrar) a un objeto como deseemos, pero su nombre no debe tener espacios. Por eso, a veces usamos guiones bajos (<code>_</code>) para conectar dos palabras, por ejemplo, <code>mi_objeto</code> o <code>resultado_final</code>.</p>
 <div class="cell">
-<pre class="r cell-code"><code>suma_resultado = a + b</code></pre>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a>suma_resultado <span class="ot">=</span> a <span class="sc">+</span> b</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>suma_resultado</code></pre>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>suma_resultado</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 21</code></pre>
 </div>
@@ -942,8 +1007,8 @@ a + b</code></pre>
 <p>Las funciones en R pueden recibir <strong>argumentos</strong> (los valores que se colocan dentro del paréntesis). Estos argumentos pueden ser tanto los datos a procesar como instrucciones adicionales que le indican a la función cómo debe realizar la tarea.</p>
 <p>Por ejemplo, la función <code>sum()</code> sirve para sumar múltiples valores.</p>
 <div class="cell">
-<pre class="r cell-code"><code># Sumar 10, 20 y 30
-sum(10, 20, 30)</code></pre>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Sumar 10, 20 y 30</span></span>
+<span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 60</code></pre>
 </div>
@@ -953,15 +1018,15 @@ sum(10, 20, 30)</code></pre>
 
 <p>La función <code>round()</code> redondea un número, y podemos especificar cuántos decimales queremos conservar. Aquí, el primer argumento <code>x</code>es el número a redondear, y el segundo <code>digits</code> es una instrucción que indica cuántos decimales mantener.</p>
 <div class="cell">
-<pre class="r cell-code"><code>round(x = 2.54934, 
-      digits = 2)</code></pre>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="at">x =</span> <span class="fl">2.54934</span>, </span>
+<span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.55</code></pre>
 </div>
 </div>
 <p>En muchos casos, cuando se respetan el orden de los argumentos de la función, no es necesario declarar explícitamente sus nombres.</p>
 <div class="cell">
-<pre class="r cell-code"><code>round(2.54934, 2)</code></pre>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">2.54934</span>, <span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.55</code></pre>
 </div>
@@ -1290,7 +1355,7 @@ sum(10, 20, 30)</code></pre>
 <p>Me gusta pensar que instalar un paquete en R es similar a ir a la tienda y comprar una caja de herramientas. Después de comprarla, la mueves a tu propio almacén para asegurarte de que la tendrás cuando la necesites. Esto solo necesita hacerse una vez por paquete, a menos que quieras actualizarlo (tener la última versión).</p>
 <p>Con R, instalamos un paquete con una función llamada <code>install.packages()</code> seguida del nombre del paquete entre comillas.</p>
 <div class="cell">
-<pre class="r cell-code"><code>install.packages('dplyr')</code></pre>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'dplyr'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1299,7 +1364,7 @@ sum(10, 20, 30)</code></pre>
 <p>Cuando cargas un paquete en R, es como si sacaras la caja de herramientas del almacén y la pusieras en tu mesa de trabajo. Solo entonces las herramientas dentro de la caja te son accesibles para tus proyectos. Haces esto cada vez que comienzas un nuevo documento o una sesión de R.</p>
 <p>Para hacerlo, usamos la función <code>library()</code>.</p>
 <div class="cell">
-<pre class="r cell-code"><code>library(dplyr)</code></pre>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1308,14 +1373,14 @@ sum(10, 20, 30)</code></pre>
 <p>Puedes lograr esto con <code>::</code> si quieres usar una función completa de otro paquete, pero no quieres cargar el paquete completo. Esto es como sacar una herramienta específica de la caja, pero no poner toda la caja en tu mesa de trabajo.</p>
 <p>Por ejemplo, el paquete <code>psych</code> tiene una función <code>describe</code> que produce un resumen estadístico detallado de un conjunto de datos dado. Si queremos aplicarlo en un conjunto de datos predeterminado en R como <code>iris</code>, podemos hacerlo sin cargar todo <code>psych</code>:</p>
 <div class="cell">
-<pre class="r cell-code"><code># Usar la función describe del paquete psych con el conjunto de datos iris
-psych::describe(iris)</code></pre>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Usar la función describe del paquete psych con el conjunto de datos iris</span></span>
+<span id="cb25-2"><a aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">describe</span>(iris)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <div class="cell">
-<pre class="r cell-code"><code>psych::describe(iris)</code></pre>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">describe</span>(iris)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             vars   n mean   sd median trimmed  mad min max range  skew
 Sepal.Length    1 150 5.84 0.83   5.80    5.81 1.04 4.3 7.9   3.6  0.31
@@ -1362,17 +1427,17 @@ Species*        -1.52 0.07</code></pre>
 <li>Asociados a variables dicotómicas en estadística.</li>
 </ul>
 <div class="cell">
-<pre class="r cell-code"><code>x = TRUE   
-y = FALSE</code></pre>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="cn">TRUE</span>   </span>
+<span id="cb28-2"><a aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="cn">FALSE</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>x</code></pre>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>y</code></pre>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
@@ -1386,17 +1451,17 @@ y = FALSE</code></pre>
 <li>Se definen agregando una “L” después del número.</li>
 </ul>
 <div class="cell">
-<pre class="r cell-code"><code>x = 42L  
-y = -3L</code></pre>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">42</span>L  </span>
+<span id="cb33-2"><a aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="sc">-</span><span class="dv">3</span>L</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>x</code></pre>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 42</code></pre>
 </div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>y</code></pre>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -3</code></pre>
 </div>
@@ -1410,17 +1475,17 @@ y = -3L</code></pre>
 <li>Incluyen valores positivos, negativos y fracciones.</li>
 </ul>
 <div class="cell">
-<pre class="r cell-code"><code>x = 7.85  
-y = -23.2</code></pre>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fl">7.85</span>  </span>
+<span id="cb38-2"><a aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="sc">-</span><span class="fl">23.2</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>x</code></pre>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7.85</code></pre>
 </div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>y</code></pre>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -23.2</code></pre>
 </div>
@@ -1434,17 +1499,17 @@ y = -23.2</code></pre>
 <li>Utilizados para datos categóricos o nominales.</li>
 </ul>
 <div class="cell">
-<pre class="r cell-code"><code>x = "Peru"  
-y = "Colombia"</code></pre>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="st">"Peru"</span>  </span>
+<span id="cb43-2"><a aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="st">"Colombia"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>x</code></pre>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Peru"</code></pre>
 </div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>y</code></pre>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Colombia"</code></pre>
 </div>
@@ -1501,24 +1566,24 @@ y = "Colombia"</code></pre>
 <p>Por ejemplo:</p>
 <p>Creamos distintos tipos de objetos</p>
 <div class="cell">
-<pre class="r cell-code"><code>num = 3.5 
-logic = FALSE
-chr = "Peru"</code></pre>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-hidden="true" tabindex="-1"></a>num <span class="ot">=</span> <span class="fl">3.5</span> </span>
+<span id="cb48-2"><a aria-hidden="true" tabindex="-1"></a>logic <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb48-3"><a aria-hidden="true" tabindex="-1"></a>chr <span class="ot">=</span> <span class="st">"Peru"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:5%;">
 
 </div><div class="column" style="width:45%;">
 <p>Los podemos mostrar con solo llamar el nombre de la objeto:</p>
 <div class="cell">
-<pre class="r cell-code"><code>num</code></pre>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-hidden="true" tabindex="-1"></a>num</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.5</code></pre>
 </div>
-<pre class="r cell-code"><code>logic</code></pre>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-hidden="true" tabindex="-1"></a>logic</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
-<pre class="r cell-code"><code>chr</code></pre>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-hidden="true" tabindex="-1"></a>chr</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Peru"</code></pre>
 </div>
@@ -1529,18 +1594,18 @@ chr = "Peru"</code></pre>
 
 <p>Una forma muy práctica de asegurarnos qué tipo de elemento es la objeto es llamar a la función <code>class()</code>, simplemente tomando como argumento el nombre del objeto:</p>
 <div class="cell">
-<pre class="r cell-code"><code>class(num)</code></pre>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(num)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "numeric"</code></pre>
 </div>
 </div>
 <p>Hagámoslo para el resto:</p>
 <div class="cell">
-<pre class="r cell-code"><code>class(logic)</code></pre>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(logic)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "logical"</code></pre>
 </div>
-<pre class="r cell-code"><code>class(chr)</code></pre>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(chr)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "character"</code></pre>
 </div>
@@ -1564,15 +1629,15 @@ chr = "Peru"</code></pre>
 <li>Se pueden crear utilizando la función <code>c()</code>.</li>
 </ul>
 <div class="cell">
-<pre class="r cell-code"><code>numeros = c(1, 2, 3, 4, 5)
-letras = c("a", "b", "c", "d", "e")</code></pre>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a aria-hidden="true" tabindex="-1"></a>numeros <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb61-2"><a aria-hidden="true" tabindex="-1"></a>letras <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>, <span class="st">"e"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<pre class="r cell-code"><code>numeros</code></pre>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a aria-hidden="true" tabindex="-1"></a>numeros</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 4 5</code></pre>
 </div>
-<pre class="r cell-code"><code>letras</code></pre>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a aria-hidden="true" tabindex="-1"></a>letras</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "a" "b" "c" "d" "e"</code></pre>
 </div>
@@ -1600,29 +1665,29 @@ letras = c("a", "b", "c", "d", "e")</code></pre>
 <div class="columns">
 <div class="column" style="font-size: 0.72em">
 <div class="cell code-sm">
-<pre class="r cell-code"><code>edad = c(25, 30, 35, 
-         40, 28)
-
-genero = c("Femenino", "Masculino", 
-           "Femenino", "Masculino", 
-           "Femenino")
-
-medio_comunicacion = c("Internet", "Televisión", 
-                       "Radio", "Prensa Escrita", 
-                       "Internet")
-
-# Combina los vectores en un data.frame
-encuesta = data.frame(
-  edad = edad, 
-  genero = genero, 
-  med_com = medio_comunicacion
-  )</code></pre>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a aria-hidden="true" tabindex="-1"></a>edad <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, </span>
+<span id="cb66-2"><a aria-hidden="true" tabindex="-1"></a>         <span class="dv">40</span>, <span class="dv">28</span>)</span>
+<span id="cb66-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a aria-hidden="true" tabindex="-1"></a>genero <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Femenino"</span>, <span class="st">"Masculino"</span>, </span>
+<span id="cb66-5"><a aria-hidden="true" tabindex="-1"></a>           <span class="st">"Femenino"</span>, <span class="st">"Masculino"</span>, </span>
+<span id="cb66-6"><a aria-hidden="true" tabindex="-1"></a>           <span class="st">"Femenino"</span>)</span>
+<span id="cb66-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-8"><a aria-hidden="true" tabindex="-1"></a>medio_comunicacion <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Internet"</span>, <span class="st">"Televisión"</span>, </span>
+<span id="cb66-9"><a aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Radio"</span>, <span class="st">"Prensa Escrita"</span>, </span>
+<span id="cb66-10"><a aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Internet"</span>)</span>
+<span id="cb66-11"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-12"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Combina los vectores en un data.frame</span></span>
+<span id="cb66-13"><a aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb66-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">edad =</span> edad, </span>
+<span id="cb66-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">genero =</span> genero, </span>
+<span id="cb66-16"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">med_com =</span> medio_comunicacion</span>
+<span id="cb66-17"><a aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:2%;">
 
 </div><div class="column" style="width:48%;">
 <div class="cell">
-<pre class="r cell-code"><code>encuesta</code></pre>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a aria-hidden="true" tabindex="-1"></a>encuesta</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  edad    genero        med_com
 1   25  Femenino       Internet
@@ -1638,15 +1703,15 @@ encuesta = data.frame(
 
 <p>Además, peudes seleccionar una columna de <code>data.frame</code> de forma individual utilizando el signo <code>$</code></p>
 <div class="cell">
-<pre class="r cell-code"><code>encuesta$edad</code></pre>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>edad</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 25 30 35 40 28</code></pre>
 </div>
-<pre class="r cell-code"><code>encuesta$genero</code></pre>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>genero</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Femenino"  "Masculino" "Femenino"  "Masculino" "Femenino" </code></pre>
 </div>
-<pre class="r cell-code"><code>encuesta$med_com</code></pre>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>med_com</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Internet"       "Televisión"     "Radio"          "Prensa Escrita"
 [5] "Internet"      </code></pre>
@@ -1672,19 +1737,19 @@ encuesta = data.frame(
 
 <p>El paquete <strong><code>readr</code></strong> es parte del tidyverse y está diseñado para leer archivos CSV.</p>
 <div class="cell">
-<pre class="r cell-code"><code># Cargamos el paquete readr
-library(readr)</code></pre>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Cargamos el paquete readr</span></span>
+<span id="cb76-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Al importar un conjunto de datos debemos nombrarlo.</p>
 <div class="cell">
-<pre class="r cell-code"><code># Importamos el archivo CSV y lo asignamos a un objeto
-encuesta_csv = read_csv("encuesta.csv")</code></pre>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Importamos el archivo CSV y lo asignamos a un objeto</span></span>
+<span id="cb77-2"><a aria-hidden="true" tabindex="-1"></a>encuesta_csv <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"encuesta.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <div class="cell">
-<pre class="r cell-code"><code>encuesta_csv</code></pre>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a aria-hidden="true" tabindex="-1"></a>encuesta_csv</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8 × 3
   genero    medio_comunicación  edad
@@ -1702,10 +1767,564 @@ encuesta_csv = read_csv("encuesta.csv")</code></pre>
 </section>
 <section class="slide level2">
 
-<p>Los archivos de Excel son comunes debido a su facilidad de uso y capacidad para almacenar datos tabulares en varias hojas. El paquete <strong><code>readxl</code></strong> permite importar estos archivos, ya sea en formato&nbsp;<code>.xls</code>&nbsp;o&nbsp;<code>.xlsx</code>, sin necesidad de tener Excel instalado.</p>
+<p>Los archivos de Excel son comunes debido a su facilidad de uso y capacidad para almacenar datos tabulares en varias hojas. El paquete <strong><code>readxl</code></strong> permite importar estos archivos, ya sea en formato <code>.xls</code> o <code>.xlsx</code>, sin necesidad de tener Excel instalado.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Cargamos el paquete readxl</span></span>
+<span id="cb80-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Importamos los datos desde un archivo Excel</span></span>
+<span id="cb81-2"><a aria-hidden="true" tabindex="-1"></a>encuesta_excel <span class="ot">=</span> <span class="fu">read_excel</span>(<span class="st">"encuesta.xlsx"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si el archivo contiene múltiples hojas, podemos especificar cuál importar utilizando el argumento&nbsp;<code>sheet</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a aria-hidden="true" tabindex="-1"></a>encuesta_excel_hoja <span class="ot">=</span> <span class="fu">read_excel</span>(<span class="st">"encuesta.xlsx"</span>, </span>
+<span id="cb82-2"><a aria-hidden="true" tabindex="-1"></a>                                 <span class="at">sheet =</span> <span class="st">"Resultados"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="funciones-resumen">Funciones resumen</h3>
+<p>Una vez que hemos importado los datos a R, es fundamental conocer su estructura y contenido antes de proceder con el análisis. Para ello, podemos utilizar una variedad de&nbsp;<strong>funciones resumen</strong>&nbsp;que nos permiten explorar el tibble y obtener información importante sobre las variables y los datos contenidos allí.</p>
+</section>
+<section class="slide level2">
+
+<p><strong><code>str()</code></strong> es una función base que describe la estructura del objeto, incluyendo el número de observaciones, las variables y sus tipos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Información estructural básica del tibble</span></span>
+<span id="cb83-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(encuesta_csv)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [8 × 3] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ genero            : chr [1:8] "Masculino" "Femenino" "Femenino" "Otro" ...
+ $ medio_comunicación: chr [1:8] "Televisión" "Redes sociales" "Redes sociales" "Radio" ...
+ $ edad              : num [1:8] 34 25 55 63 47 19 29 75
+ - attr(*, "spec")=
+  .. cols(
+  ..   genero = col_character(),
+  ..   medio_comunicación = col_character(),
+  ..   edad = col_double()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong><code>glimpse()</code></strong> es una función del tidyverse que proporciona una vista compacta del tibble, mostrando los nombres de las variables, sus tipos de datos y una muestra de valores.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Cargamos el paquete tibble</span></span>
+<span id="cb85-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb85-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Exploramos la estructura general del tibble</span></span>
+<span id="cb85-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(encuesta_csv)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 8
+Columns: 3
+$ genero             &lt;chr&gt; "Masculino", "Femenino", "Femenino", "Otro", "Femen…
+$ medio_comunicación &lt;chr&gt; "Televisión", "Redes sociales", "Redes sociales", "…
+$ edad               &lt;dbl&gt; 34, 25, 55, 63, 47, 19, 29, 75</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong><code>summary()</code></strong> proporciona estadísticas descriptivas básicas para cada columna, como mínimos, máximos, medias, medianas y conteos de valores para variables categóricas. De especial utilidad para el próximo capítulo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen estadístico de las variables</span></span>
+<span id="cb87-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(encuesta_csv)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    genero          medio_comunicación      edad      
+ Length:8           Length:8           Min.   :19.00  
+ Class :character   Class :character   1st Qu.:28.00  
+ Mode  :character   Mode  :character   Median :40.50  
+                                       Mean   :43.38  
+                                       3rd Qu.:57.00  
+                                       Max.   :75.00  </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong><code>head()</code></strong> muestra las primeras filas del tibble, permitiendo observar una muestra inicial de los datos. Puedes indicar cuanto valores deseas que devuelva especificando el segundo argumento, por defecto son seis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizamos las primeras seis filas</span></span>
+<span id="cb89-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(encuesta_csv)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  genero    medio_comunicación  edad
+  &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;
+1 Masculino Televisión            34
+2 Femenino  Redes sociales        25
+3 Femenino  Redes sociales        55
+4 Otro      Radio                 63
+5 Femenino  Televisión            47
+6 Masculino Redes sociales        19</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizamos las primeras dos filas</span></span>
+<span id="cb91-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(encuesta_csv, <span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  genero    medio_comunicación  edad
+  &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;
+1 Masculino Televisión            34
+2 Femenino  Redes sociales        25</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong><code>tail()</code></strong> es similar a&nbsp;<code>head()</code>, pero muestra las últimas filas del tibble.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizamos las últimas seis filas</span></span>
+<span id="cb93-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(encuesta_csv)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  genero    medio_comunicación  edad
+  &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;
+1 Femenino  Redes sociales        55
+2 Otro      Radio                 63
+3 Femenino  Televisión            47
+4 Masculino Redes sociales        19
+5 Masculino Redes sociales        29
+6 Masculino Periódico             75</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizamos las últimas dos filas</span></span>
+<span id="cb95-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(encuesta_csv, <span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  genero    medio_comunicación  edad
+  &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;
+1 Masculino Redes sociales        29
+2 Masculino Periódico             75</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong><code>dim()</code></strong> devuelve las dimensiones del tibble, es decir, el número total de filas y columnas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Verificamos las dimensiones del tibble</span></span>
+<span id="cb97-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(encuesta_csv)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8 3</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong><code>colnames()</code></strong> muestra los nombres de las columnas (variables) del tibble</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Consultamos los nombres de las columnas</span></span>
+<span id="cb99-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(encuesta_csv)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "genero"             "medio_comunicación" "edad"              </code></pre>
+</div>
+</div>
 </section></section>
+<section>
 <section id="ejercicios-de-la-semana" class="title-slide slide level1 center">
 <h1>1.12 Ejercicios de la semana</h1>
+
+</section>
+<section class="slide level2">
+
+<h3 id="ejercicio-1.-tipos-de-variables-y-estructura-de-los-datos"><strong>Ejercicio 1. Tipos de variables y estructura de los datos</strong></h3>
+<p>Se cuenta con la siguiente información recolectada en una encuesta:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p>Edad de la persona</p></li>
+<li><p>Sexo</p></li>
+<li><p>Región de residencia</p></li>
+<li><p>Nivel educativo</p></li>
+<li><p>Situación laboral</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>a)</strong> Identifique la <strong>unidad de observación</strong> del estudio.</p>
+<p><strong>b)</strong> Clasifique cada variable según su tipo estadístico (numérica continua, numérica discreta, categórica nominal u ordinal).</p>
+<p><strong>c)</strong> Indique qué tipo de objeto de R es más adecuado para almacenar este conjunto de datos y justifique su respuesta.</p>
+</div></div>
+</section>
+<section class="slide level2">
+
+<p><strong>a) Unidad de observación</strong></p>
+<div class="fragment">
+<p>La unidad de observación es <strong>cada persona encuestada</strong>.</p>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>b) Tipo de variables</strong></p>
+<ul>
+<li><p><strong>Edad:</strong> <span class="fragment">variable numérica (típicamente tratada como continua, aunque se registre en enteros).</span></p></li>
+<li><p><strong>Sexo:</strong> <span class="fragment">variable categórica nominal.</span></p></li>
+<li><p><strong>Región:</strong> <span class="fragment">variable categórica nominal.</span></p></li>
+<li><p><strong>Nivel educativo:</strong> <span class="fragment">variable categórica ordinal (existe un orden natural: secundaria &lt; técnica &lt; universitaria).</span></p></li>
+<li><p><strong>Situación laboral:</strong> <span class="fragment">variable categórica nominal (ocupado, desocupado, estudiante, etc.).</span></p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<p><strong>c) Objeto más adecuado en R</strong></p>
+<div class="fragment">
+<p>Un data.frame, porque organiza la información en forma tabular:</p>
+<ul>
+<li><p>filas = observaciones (personas)</p></li>
+<li><p>columnas = variables (edad, sexo, región, etc.)</p></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="ejercicio-2.-construcción-de-un-data.frame-en-r"><strong>Ejercicio 2. Construcción de un data.frame en R</strong></h3>
+<p>Cree en R un data.frame llamado encuesta que contenga información de <strong>al menos 8 personas</strong>, incluyendo las siguientes variables:</p>
+<ul>
+<li><p>edad</p></li>
+<li><p>sexo</p></li>
+<li><p>region</p></li>
+<li><p>educacion</p></li>
+</ul>
+<p><strong>a)</strong> Muestre el contenido del objeto.</p>
+<p><strong>b)</strong> Extraiga únicamente la variable edad utilizando el operador $.</p>
+<p><strong>c)</strong> Verifique el tipo de cada variable usando la función class().</p>
+</section>
+<section class="slide level2">
+
+<p><strong>a)</strong> Muestre el contenido del objeto.</p>
+<div class="fragment">
+<div style="font-size: 0.72em">
+<div class="cell code-sm">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a aria-hidden="true" tabindex="-1"></a>edad <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">19</span>, <span class="dv">42</span>, <span class="dv">28</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">23</span>)</span>
+<span id="cb101-2"><a aria-hidden="true" tabindex="-1"></a>sexo <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Mujer"</span>, <span class="st">"Hombre"</span>, <span class="st">"Mujer"</span>, <span class="st">"Hombre"</span>, <span class="st">"Mujer"</span>, <span class="st">"Hombre"</span>, <span class="st">"Hombre"</span>, <span class="st">"Mujer"</span>)</span>
+<span id="cb101-3"><a aria-hidden="true" tabindex="-1"></a>region <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Lima"</span>, <span class="st">"Cusco"</span>, <span class="st">"Lima"</span>, <span class="st">"Piura"</span>, <span class="st">"Arequipa"</span>, <span class="st">"Lima"</span>, <span class="st">"Cusco"</span>, <span class="st">"Piura"</span>)</span>
+<span id="cb101-4"><a aria-hidden="true" tabindex="-1"></a>educacion <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb101-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="st">"Universitaria"</span>, <span class="st">"Técnica"</span>, <span class="st">"Secundaria"</span>, <span class="st">"Universitaria"</span>,</span>
+<span id="cb101-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="st">"Técnica"</span>, <span class="st">"Universitaria"</span>, <span class="st">"Secundaria"</span>, <span class="st">"Universitaria"</span></span>
+<span id="cb101-7"><a aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb101-8"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-9"><a aria-hidden="true" tabindex="-1"></a>encuesta <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb101-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">edad =</span> edad,</span>
+<span id="cb101-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">sexo =</span> sexo,</span>
+<span id="cb101-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">region =</span> region,</span>
+<span id="cb101-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">educacion =</span> educacion</span>
+<span id="cb101-14"><a aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb101-15"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-16"><a aria-hidden="true" tabindex="-1"></a>encuesta</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  edad   sexo   region     educacion
+1   25  Mujer     Lima Universitaria
+2   30 Hombre    Cusco       Técnica
+3   19  Mujer     Lima    Secundaria
+4   42 Hombre    Piura Universitaria
+5   28  Mujer Arequipa       Técnica
+6   35 Hombre     Lima Universitaria
+7   40 Hombre    Cusco    Secundaria
+8   23  Mujer    Piura Universitaria</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>b) Extraer edad con $</strong></p>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a aria-hidden="true" tabindex="-1"></a>encuesta<span class="sc">$</span>edad</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25 30 19 42 28 35 40 23</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>c) Verificar tipos con class()</strong></p>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(encuesta<span class="sc">$</span>edad)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(encuesta<span class="sc">$</span>sexo)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(encuesta<span class="sc">$</span>region)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(encuesta<span class="sc">$</span>educacion)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="ejercicio-3.-exploración-inicial-de-los-datos"><strong>Ejercicio 3. Exploración inicial de los datos</strong></h3>
+<p>Utilizando el data.frame creado en el ejercicio anterior:</p>
+<p><strong>a)</strong> Explore la estructura del conjunto de datos.</p>
+<p><strong>b)</strong> Obtenga un resumen numérico de sus variables.</p>
+<p><strong>c)</strong> Muestre los primeros 3 valores</p>
+</section>
+<section class="slide level2">
+
+<p><strong>a)</strong> Explore la estructura del conjunto de datos</p>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(encuesta)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   8 obs. of  4 variables:
+ $ edad     : num  25 30 19 42 28 35 40 23
+ $ sexo     : chr  "Mujer" "Hombre" "Mujer" "Hombre" ...
+ $ region   : chr  "Lima" "Cusco" "Lima" "Piura" ...
+ $ educacion: chr  "Universitaria" "Técnica" "Secundaria" "Universitaria" ...</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(encuesta)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 8
+Columns: 4
+$ edad      &lt;dbl&gt; 25, 30, 19, 42, 28, 35, 40, 23
+$ sexo      &lt;chr&gt; "Mujer", "Hombre", "Mujer", "Hombre", "Mujer", "Hombre", "Ho…
+$ region    &lt;chr&gt; "Lima", "Cusco", "Lima", "Piura", "Arequipa", "Lima", "Cusco…
+$ educacion &lt;chr&gt; "Universitaria", "Técnica", "Secundaria", "Universitaria", "…</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>b)</strong> Obtenga un resumen numérico de sus variables</p>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(encuesta)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      edad           sexo              region           educacion        
+ Min.   :19.00   Length:8           Length:8           Length:8          
+ 1st Qu.:24.50   Class :character   Class :character   Class :character  
+ Median :29.00   Mode  :character   Mode  :character   Mode  :character  
+ Mean   :30.25                                                           
+ 3rd Qu.:36.25                                                           
+ Max.   :42.00                                                           </code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">describe</span>(encuesta)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           vars n  mean   sd median trimmed  mad min max range  skew kurtosis
+edad          1 8 30.25 8.17   29.0   30.25 8.90  19  42    23  0.16    -1.65
+sexo*         2 8  1.50 0.53    1.5    1.50 0.74   1   2     1  0.00    -2.23
+region*       3 8  2.75 1.04    3.0    2.75 1.48   1   4     3 -0.25    -1.38
+educacion*    4 8  2.25 0.89    2.5    2.25 0.74   1   3     2 -0.40    -1.75
+             se
+edad       2.89
+sexo*      0.19
+region*    0.37
+educacion* 0.31</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a aria-hidden="true" tabindex="-1"></a>dlookr<span class="sc">::</span><span class="fu">diagnose_numeric</span>(encuesta)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  variables min   Q1  mean median    Q3 max zero minus outlier
+1      edad  19 24.5 30.25     29 36.25  42    0     0       0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a aria-hidden="true" tabindex="-1"></a>dlookr<span class="sc">::</span><span class="fu">describe</span>(encuesta)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="max-width:100%; overflow-x:auto; white-space:pre;">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+described_variables
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+na
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+se_mean
+</th>
+<th style="text-align:right;">
+IQR
+</th>
+<th style="text-align:right;">
+skewness
+</th>
+<th style="text-align:right;">
+kurtosis
+</th>
+<th style="text-align:right;">
+p00
+</th>
+<th style="text-align:right;">
+p01
+</th>
+<th style="text-align:right;">
+p05
+</th>
+<th style="text-align:right;">
+p10
+</th>
+<th style="text-align:right;">
+p20
+</th>
+<th style="text-align:right;">
+p25
+</th>
+<th style="text-align:right;">
+p30
+</th>
+<th style="text-align:right;">
+p40
+</th>
+<th style="text-align:right;">
+p50
+</th>
+<th style="text-align:right;">
+p60
+</th>
+<th style="text-align:right;">
+p70
+</th>
+<th style="text-align:right;">
+p75
+</th>
+<th style="text-align:right;">
+p80
+</th>
+<th style="text-align:right;">
+p90
+</th>
+<th style="text-align:right;">
+p95
+</th>
+<th style="text-align:right;">
+p99
+</th>
+<th style="text-align:right;">
+p100
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+edad
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+30.25
+</td>
+<td style="text-align:right;">
+8.17
+</td>
+<td style="text-align:right;">
+2.89
+</td>
+<td style="text-align:right;">
+11.75
+</td>
+<td style="text-align:right;">
+0.24
+</td>
+<td style="text-align:right;">
+-1.2
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+19.28
+</td>
+<td style="text-align:right;">
+20.4
+</td>
+<td style="text-align:right;">
+21.8
+</td>
+<td style="text-align:right;">
+23.8
+</td>
+<td style="text-align:right;">
+24.5
+</td>
+<td style="text-align:right;">
+25.3
+</td>
+<td style="text-align:right;">
+27.4
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+34.5
+</td>
+<td style="text-align:right;">
+36.25
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+40.6
+</td>
+<td style="text-align:right;">
+41.3
+</td>
+<td style="text-align:right;">
+41.86
+</td>
+<td style="text-align:right;">
+42
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section></section>
+<section id="gracias-por-tu-atención" class="title-slide slide level1 center">
+<h1>Gracias por tu atención</h1>
 
 
 <div class="quarto-auto-generated-content">

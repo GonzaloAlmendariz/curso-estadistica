@@ -897,7 +897,7 @@ $font-family-sans-serif: ui-sans-serif, system-ui, -apple-system,
 /* Código ligeramente más pequeño (solo donde se use) */
 .code-sm pre,
 .code-sm code {
-  font-size: 0.78em;
+  font-size: 0.7em;
   line-height: 1.25;
 }
 
@@ -937,10 +937,6 @@ $font-family-sans-serif: ui-sans-serif, system-ui, -apple-system,
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace !important;
 }
 
-/* Evita que el tema fuerce colores por tokenización */
-.reveal pre code span {
-  color: inherit !important;
-}
 
 /* ======================================================
    HOME (index.html) — portada glassy minimal
@@ -1391,5 +1387,126 @@ body {
 /* Fondo dark coherente */
 html, body {
   background: #0b1220;
+}
+
+/* =========================
+   R syntax highlight — restore colors
+   (works for highlight.js and Pandoc)
+   ========================= */
+
+/* highlight.js */
+.reveal pre code.hljs { color: rgba(255,255,255,0.92) !important; }
+
+.reveal pre code .hljs-keyword   { color: #C4B5FD !important; font-weight: 650 !important; }
+.reveal pre code .hljs-title,
+.reveal pre code .hljs-built_in  { color: #7DD3FC !important; font-weight: 650 !important; }
+.reveal pre code .hljs-string    { color: #FCA5A5 !important; }
+.reveal pre code .hljs-number    { color: #FCD34D !important; }
+.reveal pre code .hljs-comment   { color: #9CA3AF !important; font-style: italic !important; }
+.reveal pre code .hljs-operator,
+.reveal pre code .hljs-punctuation { color: rgba(255,255,255,0.82) !important; }
+
+/* Pandoc fallback (si no aparece .hljs) */
+.reveal pre code span.kw { color: #C4B5FD !important; font-weight: 650 !important; }
+.reveal pre code span.fu { color: #7DD3FC !important; font-weight: 650 !important; }
+.reveal pre code span.st { color: #FCA5A5 !important; }
+.reveal pre code span.dv,
+.reveal pre code span.fl,
+.reveal pre code span.bn { color: #FCD34D !important; }
+.reveal pre code span.co { color: #9CA3AF !important; font-style: italic !important; }
+.reveal pre code span.op { color: rgba(255,255,255,0.82) !important; }
+
+/* =========================
+   Footer — minimal académico
+   ========================= */
+
+.home-footer{
+  max-width: 980px;
+  margin: 3.2rem auto 0 auto;
+  padding: 1.2rem 0.4rem 0 0.4rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  border-top: 1px solid rgba(255,255,255,0.14);
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.70);
+}
+
+.home-footer-left{
+  font-weight: 500;
+}
+
+.home-author{
+  font-weight: 650;
+  color: rgba(255,255,255,0.88);
+}
+
+/* Links + iconos */
+.home-footer-right{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.home-footer-right a{
+  text-decoration: none;
+  color: rgba(255,255,255,0.70);
+  font-weight: 600;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.home-footer-right a:hover{
+  color: rgba(255,255,255,0.95);
+  transform: translateY(-1px);
+}
+
+/* Iconos Font Awesome */
+.home-footer-right i{
+  font-size: 1.05rem;
+}
+
+/* =========================
+   Layout vertical: footer al fondo
+   ========================= */
+
+.home-layout{
+  min-height: 80vh;              /* ocupa toda la pantalla */
+  display: flex;
+  flex-direction: column;
+}
+
+/* El contenido crece y empuja el footer */
+.home-main{
+  flex: 1 0 auto;
+}
+
+/* Footer siempre abajo si hay poco contenido */
+.home-footer{
+  margin-top: auto;
+}
+
+/* Output con scroll (horizontal) */
+.scroll-x {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Output con scroll (vertical + horizontal) */
+.scroll-xy {
+  max-width: 100%;
+  max-height: 320px;   /* ajusta según tu slide */
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Opcional: que el pre no fuerce saltos raros */
+.scroll-x pre,
+.scroll-xy pre {
+  white-space: pre;    /* mantiene líneas largas en una sola línea */
 }
 

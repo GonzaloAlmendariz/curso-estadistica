@@ -4,35 +4,75 @@ format:
     toc: false
     theme: none
     css: styles/reveal-custom.scss
+    include-in-header:
+      - text: |
+          <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 lang: es
 ---
 
 ```{=html}
 <div class="home-bg">
-  <div class="home-hero">
-    <div class="home-title">Curso de Estadística</div>
-    <div class="home-meta">Gonzalo Almendariz</div>
+  <div class="home-layout">
 
-    </a>
-  </div>
+    <!-- Hero -->
+    <header class="home-hero">
+      <h1 class="home-title">Estadística Descriptiva con R</h1>
+      <p class="home-meta">Gonzalo Almendariz</p>
+    </header>
 
-  <div class="home-section">
-    <div class="home-section-title">Presentaciones</div>
+    <!-- Contenido principal -->
+    <main class="home-main">
+      <section class="home-section">
+        <h2 class="home-section-title">Sesiones de clase</h2>
 
-    <div class="home-grid">
-      <a class="home-card" href="S1.html">
-        <div class="home-card-top">
-          <span class="home-badge">Semana 1</span>
-          <span class="home-arrow">→</span>
+        <div class="home-grid">
+          <a class="home-card" href="S1.html" aria-label="Ir a la Semana 1">
+            <div class="home-card-top">
+              <span class="home-badge">Semana 1</span>
+              <span class="home-arrow">→</span>
+            </div>
+
+            <div class="home-card-title">
+              Conceptos básicos de estadística e introducción a R
+            </div>
+
+            <div class="home-card-desc">
+              Datos y tipos de variables, gráficos y tablas, medidas de resumen,
+              muestreo y fundamentos de R (objetos, funciones, paquetes e importación).
+            </div>
+          </a>
         </div>
-        <div class="home-card-title">
-          Fundamentos, datos y primeros objetos
-        </div>
-        <div class="home-card-desc">
-          Vectores, data.frame, estructura básica y primeras tablas.
-        </div>
-      </a>
-    </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="home-footer">
+      <div class="home-footer-left">
+        © 2026 · Elaborado por <span class="home-author">Gonzalo Almendariz</span>
+      </div>
+
+      <div class="home-footer-right">
+        <a href="https://github.com/GonzaloAlmendariz"
+           target="_blank" rel="noopener"
+           aria-label="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+
+        <a href="https://www.linkedin.com/in/gonzalo-almendariz-villanueva-051587324/"
+           target="_blank" rel="noopener"
+           aria-label="LinkedIn">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+
+        <a href="https://gonzaloalmendariz.github.io/ladatafora/"
+           target="_blank" rel="noopener"
+           aria-label="La Datafora">
+          La Datafora
+        </a>
+      </div>
+    </footer>
+
   </div>
 </div>
 ```

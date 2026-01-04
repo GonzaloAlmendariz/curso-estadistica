@@ -20,7 +20,6 @@ library(knitr)
 La estadística tiene una presencia constante en nuestra vida, aunque rara vez le prestemos atención.\
 Está en las decisiones que tomamos, en las recomendaciones que recibimos y en cómo entendemos el mundo que nos rodea.
 
-
 ------------------------------------------------------------------------
 
 Hoy existimos inmersos en datos: cada visita al médico, cada interacción en línea o compra registrada por un dispositivo móvil produce información que alimenta sistemas sobre quiénes somos y qué deseamos. Este flujo constante de datos ha hecho que la estadística sea una herramienta poderosa en varios campos de nuestra sociedad.
@@ -359,6 +358,7 @@ datos
 **Gráficos:** Una manera visual de entender la información. Por ejemplo, en un estudio sobre el impacto de una política educativa, podríamos usar gráficos de barras para mostrar el porcentaje de personas que apoyan o rechazan la política, o tablas para presentar la distribución de los encuestados por nivel educativo.
 
 ```{r}
+#| fig-width: 20
 library(dplyr)
 library(ggplot2)
 library(scales)
@@ -1239,6 +1239,335 @@ encuesta_csv
 
 ------------------------------------------------------------------------
 
-Los archivos de Excel son comunes debido a su facilidad de uso y capacidad para almacenar datos tabulares en varias hojas. El paquete **`readxl`** permite importar estos archivos, ya sea en formato `.xls` o `.xlsx`, sin necesidad de tener Excel instalado.
+Los archivos de Excel son comunes debido a su facilidad de uso y capacidad para almacenar datos tabulares en varias hojas. El paquete **`readxl`** permite importar estos archivos, ya sea en formato `.xls` o `.xlsx`, sin necesidad de tener Excel instalado.
+
+```{r}
+#| echo: true
+# Cargamos el paquete readxl
+library(readxl)
+```
+
+```{r}
+#| echo: true
+# Importamos los datos desde un archivo Excel
+encuesta_excel = read_excel("encuesta.xlsx")
+```
+
+Si el archivo contiene múltiples hojas, podemos especificar cuál importar utilizando el argumento `sheet`:
+
+```{r}
+#| echo: true
+#| eval: false
+encuesta_excel_hoja = read_excel("encuesta.xlsx", 
+                                 sheet = "Resultados")
+```
+
+------------------------------------------------------------------------
+
+### Funciones resumen
+
+Una vez que hemos importado los datos a R, es fundamental conocer su estructura y contenido antes de proceder con el análisis. Para ello, podemos utilizar una variedad de **funciones resumen** que nos permiten explorar el tibble y obtener información importante sobre las variables y los datos contenidos allí.
+
+------------------------------------------------------------------------
+
+**`str()`** es una función base que describe la estructura del objeto, incluyendo el número de observaciones, las variables y sus tipos.
+
+```{r}
+#| echo: true
+# Información estructural básica del tibble
+str(encuesta_csv)
+```
+
+------------------------------------------------------------------------
+
+**`glimpse()`** es una función del tidyverse que proporciona una vista compacta del tibble, mostrando los nombres de las variables, sus tipos de datos y una muestra de valores.
+
+```{r}
+#| echo: true
+# Cargamos el paquete tibble
+library(tibble)
+# Exploramos la estructura general del tibble
+glimpse(encuesta_csv)
+```
+
+------------------------------------------------------------------------
+
+**`summary()`** proporciona estadísticas descriptivas básicas para cada columna, como mínimos, máximos, medias, medianas y conteos de valores para variables categóricas. De especial utilidad para el próximo capítulo.
+
+```{r}
+#| echo: true
+# Resumen estadístico de las variables
+summary(encuesta_csv)
+```
+
+------------------------------------------------------------------------
+
+**`head()`** muestra las primeras filas del tibble, permitiendo observar una muestra inicial de los datos. Puedes indicar cuanto valores deseas que devuelva especificando el segundo argumento, por defecto son seis.
+
+```{r}
+#| echo: true
+# Visualizamos las primeras seis filas
+head(encuesta_csv)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| echo: true
+# Visualizamos las primeras dos filas
+head(encuesta_csv, 2)
+```
+
+------------------------------------------------------------------------
+
+**`tail()`** es similar a `head()`, pero muestra las últimas filas del tibble.
+
+```{r}
+#| echo: true
+# Visualizamos las últimas seis filas
+tail(encuesta_csv)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| echo: true
+# Visualizamos las últimas dos filas
+tail(encuesta_csv, 2)
+```
+
+------------------------------------------------------------------------
+
+**`dim()`** devuelve las dimensiones del tibble, es decir, el número total de filas y columnas.
+
+```{r}
+#| echo: true
+# Verificamos las dimensiones del tibble
+dim(encuesta_csv)
+```
+
+------------------------------------------------------------------------
+
+**`colnames()`** muestra los nombres de las columnas (variables) del tibble
+
+```{r}
+#| echo: true
+# Consultamos los nombres de las columnas
+colnames(encuesta_csv)
+```
 
 # 1.12 Ejercicios de la semana
+
+------------------------------------------------------------------------
+
+### **Ejercicio 1. Tipos de variables y estructura de los datos**
+
+Se cuenta con la siguiente información recolectada en una encuesta:
+
+::::: columns
+::: {.column width="50%"}
+-   Edad de la persona
+
+-   Sexo
+
+-   Región de residencia
+
+-   Nivel educativo
+
+-   Situación laboral
+:::
+
+::: {.column width="50%"}
+**a)** Identifique la **unidad de observación** del estudio.
+
+**b)** Clasifique cada variable según su tipo estadístico (numérica continua, numérica discreta, categórica nominal u ordinal).
+
+**c)** Indique qué tipo de objeto de R es más adecuado para almacenar este conjunto de datos y justifique su respuesta.
+:::
+:::::
+
+------------------------------------------------------------------------
+
+**a) Unidad de observación**
+
+. . .
+
+La unidad de observación es **cada persona encuestada**.
+
+------------------------------------------------------------------------
+
+**b) Tipo de variables**
+
+-   **Edad:** [variable numérica (típicamente tratada como continua, aunque se registre en enteros).]{.fragment}
+
+-   **Sexo:** [variable categórica nominal.]{.fragment}
+
+-   **Región:** [variable categórica nominal.]{.fragment}
+
+-   **Nivel educativo:** [variable categórica ordinal (existe un orden natural: secundaria \< técnica \< universitaria).]{.fragment}
+
+-   **Situación laboral:** [variable categórica nominal (ocupado, desocupado, estudiante, etc.).]{.fragment}
+
+------------------------------------------------------------------------
+
+**c) Objeto más adecuado en R**
+
+. . .
+
+Un data.frame, porque organiza la información en forma tabular:
+
+-   filas = observaciones (personas)
+
+-   columnas = variables (edad, sexo, región, etc.)
+
+------------------------------------------------------------------------
+
+### **Ejercicio 2. Construcción de un data.frame en R**
+
+Cree en R un data.frame llamado encuesta que contenga información de **al menos 8 personas**, incluyendo las siguientes variables:
+
+-   edad
+
+-   sexo
+
+-   region
+
+-   educacion
+
+**a)** Muestre el contenido del objeto.
+
+**b)** Extraiga únicamente la variable edad utilizando el operador \$.
+
+**c)** Verifique el tipo de cada variable usando la función class().
+
+------------------------------------------------------------------------
+
+**a)** Muestre el contenido del objeto.
+
+. . .
+
+::: {style="font-size: 0.72em"}
+```{r}
+#| echo: true
+#| class: code-sm
+edad = c(25, 30, 19, 42, 28, 35, 40, 23)
+sexo = c("Mujer", "Hombre", "Mujer", "Hombre", "Mujer", "Hombre", "Hombre", "Mujer")
+region = c("Lima", "Cusco", "Lima", "Piura", "Arequipa", "Lima", "Cusco", "Piura")
+educacion = c(
+  "Universitaria", "Técnica", "Secundaria", "Universitaria",
+  "Técnica", "Universitaria", "Secundaria", "Universitaria"
+)
+
+encuesta = data.frame(
+  edad = edad,
+  sexo = sexo,
+  region = region,
+  educacion = educacion
+)
+
+encuesta
+```
+:::
+
+------------------------------------------------------------------------
+
+**b) Extraer edad con \$**
+
+. . .
+
+```{r}
+#| echo: true
+encuesta$edad
+```
+
+------------------------------------------------------------------------
+
+**c) Verificar tipos con class()**
+
+. . .
+
+```{r}
+#| echo: true
+class(encuesta$edad)
+class(encuesta$sexo)
+class(encuesta$region)
+class(encuesta$educacion)
+```
+
+------------------------------------------------------------------------
+
+### **Ejercicio 3. Exploración inicial de los datos**
+
+Utilizando el data.frame creado en el ejercicio anterior:
+
+**a)** Explore la estructura del conjunto de datos.
+
+**b)** Obtenga un resumen numérico de sus variables.
+
+**c)** Muestre los primeros 3 valores
+
+------------------------------------------------------------------------
+
+**a)** Explore la estructura del conjunto de datos
+
+. . .
+
+```{r}
+#| echo: true
+str(encuesta)
+```
+
+. . .
+
+```{r}
+#| echo: true
+dplyr::glimpse(encuesta)
+```
+
+------------------------------------------------------------------------
+
+**b)** Obtenga un resumen numérico de sus variables
+
+. . .
+
+```{r}
+#| echo: true
+summary(encuesta)
+```
+
+. . .
+
+```{r}
+#| echo: true
+psych::describe(encuesta)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| echo: true
+dlookr::diagnose_numeric(encuesta)
+```
+
+
+```{r}
+#| echo: true
+#| eval: false
+dlookr::describe(encuesta)
+```
+::: {style="max-width:100%; overflow-x:auto; white-space:pre;"}
+```{r}
+#| results: asis
+library(dlookr)
+library(knitr)
+
+tab <- dlookr::describe(encuesta) |> as.data.frame()
+
+cat(knitr::kable(tab, format = "html", digits = 2))
+```
+:::
+
+
+# Gracias por tu atención
+
+
