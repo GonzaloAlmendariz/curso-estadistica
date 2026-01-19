@@ -1,0 +1,1599 @@
+/*-- scss:defaults --*/
+
+/* Paleta */
+$bg: #0b1220;
+$panel: rgba(255, 255, 255, 0.07);
+$panel-border: rgba(255, 255, 255, 0.18);
+$text: rgba(255, 255, 255, 0.92);
+$text-strong: rgba(255, 255, 255, 0.98);
+$muted: rgba(255, 255, 255, 0.72);
+
+$accent: #38bdf8;   // celeste
+$accent2: #a78bfa;  // violeta
+
+/* Tipografía */
+$font-family-sans-serif: ui-sans-serif, system-ui, -apple-system,
+  "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial,
+  "Noto Sans", "Liberation Sans", sans-serif;
+
+
+/*-- scss:rules --*/
+
+/* =========================
+   Base Reveal
+   ========================= */
+
+.reveal {
+  font-family: $font-family-sans-serif;
+  font-size: 34px; /* ajusta 32–36 si quieres */
+  color: $text;
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal a { color: $accent; }
+.reveal strong { color: $text-strong; }
+
+/* Fondo con gradiente suave */
+.reveal-viewport {
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(56,189,248,0.18), transparent 55%),
+    radial-gradient(900px 600px at 85% 20%, rgba(167,139,250,0.14), transparent 55%),
+    $bg;
+}
+
+/* Títulos */
+.reveal .slides h1,
+.reveal .slides h2,
+.reveal .slides h3 {
+  color: $text-strong;
+  letter-spacing: -0.02em;
+}
+
+.reveal .slides h1 {
+  font-size: 1.55em;
+  margin-bottom: 0.60em;
+  text-align: center; /* H1 centrado (portada de unidad) */
+}
+
+.reveal .slides h2 {
+  font-size: 1.25em;
+  margin-bottom: 0.60em;
+  text-align: left; /* H2 a la izquierda */
+}
+
+.reveal .slides p,
+.reveal .slides li {
+  color: rgba(255,255,255,0.88);
+  font-size: 0.82em;   /* baja el cuerpo ~10% */
+  line-height: 1.45;
+}
+
+/* Texto justificado por defecto (solo cuerpo) */
+.reveal .slides p,
+.reveal .slides li {
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Dar aire al contenido para que no choque con chrome */
+.reveal .slides section {
+  padding-top: 102px;
+  padding-bottom: 90px;
+  background: transparent;
+}
+
+/* Apagar UI nativa que estorba */
+.reveal .slide-number { display: none !important; }
+.reveal .progress { display: none !important; }
+
+
+/* =========================
+   Chrome (header / footer)
+   ========================= */
+
+/* Wrapper */
+.deck-chrome {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Asegurar que el chrome use la misma fuente del deck */
+.deck-chrome,
+.deck-chrome * {
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+/* -------- Header -------- */
+
+.deck-header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+
+  /* centrado real */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 18px 24px 10px 24px;
+}
+
+/* Barra/acento superior */
+.deck-header::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 10px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(56,189,248,0.85), rgba(167,139,250,0.75));
+  opacity: 0.85;
+}
+
+/* Semana: centrada, mayúsculas OK */
+.deck-week {
+  margin-top: 6px;
+  font-size: 0.70em;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: $muted;
+  text-align: center;
+}
+
+/* Título (deckTitle) centrado y más grande */
+.deck-title {
+  margin-top: 8px;
+  font-size: 0.86em;
+  font-weight: 600;
+  color: rgba(255,255,255,0.95);
+  text-align: center;
+
+  max-width: min(980px, 88vw);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* -------- Footer -------- */
+/*
+  - No usamos margin-left para “mover” el footer (rompe 15/85).
+  - Usamos padding-left extra para no chocar con el menú de Reveal.
+*/
+.deck-footer {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  /* 108px ≈ 1–1.5cm; ajusta 96–120 si hiciera falta */
+  padding: 18px 24px 18px 108px;
+}
+
+/* 15% pill */
+.deck-footer-left {
+  flex: 0 0 15%;
+  min-width: 240px;
+  display: flex;
+  align-items: center;
+}
+
+/* 85% progress */
+.deck-footer-right {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+}
+
+/* Píldora (box del footer) */
+.deck-pill {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(6px);
+
+  font-size: 0.72em;
+  font-weight: 600;
+  color: rgba(255,255,255,0.94);
+
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Progress bar */
+.deck-progress {
+  width: 100%;
+  height: 18px;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  overflow: hidden;
+
+  display: block;
+}
+
+/* Fill: SIN !important en width para que JS pueda actualizar */
+.deck-progress-fill {
+  height: 100%;
+  width: 0%; /* JS lo actualiza */
+  border-radius: 999px;
+
+  background: linear-gradient(90deg, rgba(56,189,248,0.95), rgba(167,139,250,0.85));
+  transition: width 300ms ease;
+}
+
+
+/* =========================
+   Lectura premium
+   ========================= */
+
+.reveal .slides p {
+  line-height: 1.45;
+  margin: 0.55em 0;
+}
+
+/* “Medida” (ancho óptimo) para texto */
+.reveal .slides section > :is(p, ul, ol, blockquote, pre, table, .box, .callout) {
+  max-width: 38em; /* ajuste fino: 34–44em */
+}
+
+/* Citas más “editoriales” */
+.reveal blockquote {
+  margin: 0.9em 0;
+  padding: 0.85em 1.0em;
+  border-left: 4px solid rgba(56,189,248,0.55);
+  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  color: rgba(255,255,255,0.90);
+}
+
+.reveal blockquote p { margin: 0; }
+
+.reveal hr {
+  border: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.16);
+  margin: 0.9em 0;
+}
+
+
+/* =========================
+   Data / academia (tablas, figuras, código)
+   ========================= */
+
+/* Importante:
+   - Evitar “caja doble”: el contenedor pro del código será .cell.
+   - Dejar pre genérico neutro.
+*/
+.reveal pre {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.reveal pre code {
+  font-size: 0.78em;
+  line-height: 1.35em;
+}
+
+/* Inline code */
+.reveal :not(pre) > code {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 10px;
+  padding: 0.10em 0.35em;
+  color: rgba(255,255,255,0.92);
+}
+
+/* Tablas */
+.reveal table {
+  width: 100%;
+  max-width: 44em;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px);
+}
+
+.reveal table th,
+.reveal table td {
+  padding: 10px 12px;
+  vertical-align: top;
+}
+
+.reveal table th {
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.94);
+  font-weight: 650;
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+}
+
+.reveal table td {
+  color: rgba(255,255,255,0.88);
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+
+.reveal table tr:last-child td { border-bottom: 0; }
+
+.reveal table tbody tr:nth-child(2n) td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* Figuras */
+.reveal figure { margin: 0.9em 0; }
+
+.reveal figcaption {
+  margin-top: 0.35em;
+  font-size: 0.62em;
+  color: rgba(255,255,255,0.72);
+}
+
+.reveal img { border-radius: 14px; }
+
+
+/* =========================
+   Branding ligero (callouts, badges, secciones)
+   ========================= */
+
+.reveal .callout {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(6px);
+  margin: 0.9em 0;
+}
+
+.reveal .callout-title {
+  font-weight: 700;
+  font-size: 0.78em;
+  margin-bottom: 0.45em;
+  color: rgba(255,255,255,0.96);
+}
+
+.reveal .callout-note { border-left: 4px solid rgba(56,189,248,0.65); }
+.reveal .callout-tip { border-left: 4px solid rgba(167,139,250,0.55); }
+.reveal .callout-warning { border-left: 4px solid rgba(255, 200, 87, 0.55); }
+
+.badge {
+  display: inline-block;
+  padding: 0.18em 0.55em;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06);
+  font-size: 0.62em;
+  font-weight: 650;
+  color: rgba(255,255,255,0.90);
+  letter-spacing: 0.02em;
+}
+
+.accent-line {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(56,189,248,0.85), rgba(167,139,250,0.75));
+  opacity: 0.90;
+  margin: 0.55em 0 0.8em 0;
+}
+
+/* Slide de sección (H1 “solo”) un poco más “capítulo” */
+.reveal .slides section:has(h1):not(:has(h2)) h1 {
+  font-size: 1.75em;
+  margin-bottom: 0.35em;
+}
+
+.reveal .slides section:has(h1):not(:has(h2)) h1::after {
+  content: "";
+  display: block;
+  height: 4px;
+  width: min(320px, 46vw);
+  margin: 0.35em auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(56,189,248,0.85), rgba(167,139,250,0.75));
+  opacity: 0.90;
+}
+
+/* Micro-animación de fragmentos */
+.reveal .fragment {
+  transition: opacity 240ms ease, transform 240ms ease;
+  transform: translateY(6px);
+}
+
+.reveal .fragment.visible { transform: translateY(0); }
+
+
+/* =========================
+   Code cells (Quarto) — estética coherente dark/glass
+   ========================= */
+
+.reveal .cell,
+.reveal div.cell {
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255,255,255,0.16) !important;
+  background: rgba(255,255,255,0.05) !important;
+  backdrop-filter: blur(6px) !important;
+  margin: 0.85em 0 !important;
+}
+
+/* input/output wrappers */
+.reveal .cell .cell-input,
+.reveal .cell .cell-output {
+  background: transparent !important;
+}
+
+/* wrappers comunes de Quarto */
+.reveal div.sourceCode,
+.reveal pre.sourceCode,
+.reveal pre code {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* input */
+.reveal .cell .cell-input {
+  border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+}
+
+.reveal .cell .cell-input pre,
+.reveal .cell .cell-input pre.sourceCode,
+.reveal .cell .cell-input div.sourceCode {
+  margin: 0 !important;
+  padding: 14px 16px !important;
+}
+
+/* output */
+.reveal .cell .cell-output {
+  margin: 0 !important;
+  padding: 12px 16px !important;
+  background: rgba(0,0,0,0.14) !important;
+}
+
+.reveal .cell .cell-output pre {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* texto en código y output (NO fijar color base con !important) */
+.reveal .cell pre,
+.reveal .cell code,
+.reveal .cell .cell-output,
+.reveal .cell .cell-output pre,
+.reveal .cell .cell-output code {
+  font-size: 0.78em !important;
+  line-height: 1.35em !important;
+  color: inherit !important; /* clave */
+}
+
+/* números de línea */
+.reveal .sourceCode .lineNumbers,
+.reveal td.lineNumbers {
+  color: rgba(255,255,255,0.35) !important;
+}
+
+/* =========================
+   Scroll en bloques de código (slides)
+   ========================= */
+
+/* 1) Scroll vertical dentro del código (input) */
+.reveal .cell .cell-input pre code {
+  max-height: 45vh;      /* ajusta: 35–55vh según tu deck */
+  overflow-y: auto;      /* scrollbar vertical */
+  overflow-x: auto;      /* por si hay líneas largas */
+  display: block;        /* importante para que el overflow funcione */
+}
+
+/* 2) Scroll también para outputs largos (opcional, pero útil) */
+.reveal .cell .cell-output pre {
+  max-height: 35vh;
+  overflow: auto;
+}
+
+
+/* =========================
+   Syntax highlighting (R) — prioriza highlight.js + fallback Pandoc
+   ========================= */
+
+/* ---- highlight.js (recomendado) ---- */
+.reveal pre code.hljs {
+  color: #E5E7EB !important;
+}
+
+/* funciones / títulos (hljs suele usar title) */
+.reveal pre code .hljs-title,
+.reveal pre code .hljs-built_in {
+  color: #7DD3FC !important;
+  font-weight: 600 !important;
+}
+
+/* keywords */
+.reveal pre code .hljs-keyword {
+  color: #C4B5FD !important;
+  font-weight: 650 !important;
+}
+
+/* strings */
+.reveal pre code .hljs-string {
+  color: #FCA5A5 !important;
+}
+
+/* numbers */
+.reveal pre code .hljs-number {
+  color: #FCD34D !important;
+}
+
+/* comments */
+.reveal pre code .hljs-comment {
+  color: #9CA3AF !important;
+  font-style: italic !important;
+}
+
+/* punctuation/operators — contraste alto */
+.reveal pre code .hljs-operator,
+.reveal pre code .hljs-punctuation,
+.reveal pre code .hljs-symbol {
+  color: #F3F4F6 !important;
+  font-weight: 650 !important;
+}
+
+/* ---- fallback Pandoc (si no se activa hljs) ---- */
+.reveal pre code span.fu {
+  color: #8BE9FD !important;
+  font-weight: 650 !important;
+}
+
+.reveal pre code span.kw {
+  color: #C4B5FD !important;
+  font-weight: 650 !important;
+}
+
+.reveal pre code span.st { color: #FCA5A5 !important; }
+
+.reveal pre code span.dv,
+.reveal pre code span.bn,
+.reveal pre code span.fl {
+  color: #FCD34D !important;
+}
+
+.reveal pre code span.co {
+  color: #9CA3AF !important;
+  font-style: italic !important;
+}
+
+/* operadores/puntuación (solo sirve si Pandoc tokeniza separado) */
+.reveal pre code span.op,
+.reveal pre code span.pn,
+.reveal pre code span.br {
+  color: #F3F4F6 !important;
+  font-weight: 650 !important;
+}
+
+/* Layout seguro para 2 paneles (no toca .columns) */
+.reveal .two-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.2rem;
+  align-items: start;
+}
+
+/* Variantes por si quieres 55/45 */
+.reveal .two-panels.w55-45 { grid-template-columns: 55% 45%; }
+.reveal .two-panels.w60-40 { grid-template-columns: 60% 40%; }
+
+/* Aire interno */
+.reveal .two-panels > div {
+  min-width: 0;
+}
+
+/* Evitar que el code/fig se pegue a bordes del panel */
+.reveal .two-panels pre,
+.reveal .two-panels .cell,
+.reveal .two-panels figure {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+/* ===== Kable dark (para Reveal) ===== */
+
+.reveal table.kable-dark{
+  width: 100%;
+  max-width: 44em;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(6px);
+  color: rgba(255,255,255,0.90);
+}
+
+.reveal table.kable-dark caption{
+  caption-side: top;
+  text-align: left;
+  padding: 0 0 10px 0;
+  color: rgba(255,255,255,0.92);
+  font-weight: 650;
+}
+
+.reveal table.kable-dark caption .kcap-sub{
+  display: inline-block;
+  margin-top: 4px;
+  color: rgba(255,255,255,0.72);
+  font-weight: 500;
+  font-size: 0.78em;
+}
+
+.reveal table.kable-dark thead th{
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.95);
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.reveal table.kable-dark tbody td{
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+
+.reveal table.kable-dark tbody tr:nth-child(2n) td{
+  background: rgba(255,255,255,0.02);
+}
+
+.reveal table.kable-dark tbody tr:last-child td{
+  border-bottom: 0;
+}
+
+/* Compacto para slides */
+.reveal table.kable-compact thead th,
+.reveal table.kable-compact tbody td{
+  padding: 6px 10px;
+  font-size: 0.72em;
+  line-height: 1.25;
+}
+
+/* ======================================================
+   QUARTO CALLOUTS — Eliminar barra/encabezado coloreado (TODOS los estilos)
+   Mantiene icono/emoji + mejora alineación
+   ====================================================== */
+
+/* 1) Neutralizar variables que suelen pintar el header */
+.callout {
+  --callout-color: transparent !important;           /* clave: corta fondos por variable */
+  --callout-title-color: inherit !important;
+  --callout-icon-color: currentColor !important;
+}
+
+/* 2) Quitar fondo/bordes/sombras del header (cualquier callout-style) */
+.callout > .callout-header {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+/* 3) Por si la “barra” es un pseudo-elemento del header */
+.callout > .callout-header::before,
+.callout > .callout-header::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 4) Quitar “caja” interna que a veces pinta Quarto (title/icon containers) */
+.callout > .callout-header .callout-title-container,
+.callout > .callout-header .callout-icon-container {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* 5) Alineación vertical: icono/emoji + título */
+.callout > .callout-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.55rem;
+  padding: 0 !important;
+  margin: 0 0 0.85rem 0 !important;
+}
+
+.callout > .callout-header .callout-icon-container,
+.callout > .callout-header .callout-title-container {
+  display: flex !important;
+  align-items: center !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.callout .callout-title {
+  margin: 0 !important;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  line-height: 1.1 !important;
+}
+
+.callout > .callout-header i,
+.callout > .callout-header svg {
+  line-height: 1 !important;
+  transform: translateY(0) !important;
+  opacity: 0.80;
+}
+
+/* 6) Línea separadora minimalista (si se quiere) */
+.callout > .callout-header + .callout-body {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  .callout > .callout-header + .callout-body {
+    border-top-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* 7) Tu acento lateral por tipo (sin barra superior) */
+.callout { border-left: 4px solid rgba(120, 120, 120, 0.35); }
+.callout-note { border-left-color: rgba(90, 130, 180, 0.55); }
+.callout-tip { border-left-color: rgba(90, 160, 120, 0.55); }
+.callout-important { border-left-color: rgba(120, 110, 100, 0.60); }
+.callout-warning { border-left-color: rgba(200, 130, 70, 0.65); }
+.callout-caution { border-left-color: rgba(210, 95, 95, 0.65); }
+
+/* 8) Centrado opcional sin inline */
+.callout.centered { text-align: center; }
+.callout.centered > .callout-header { justify-content: center !important; }
+
+.callout[class*="callout-"] > .callout-header,
+.callout[class*="callout-"] > .callout-header * {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* =========================
+   Fix radicales (raíces) en Reveal
+   ========================= */
+
+.reveal .math,
+.reveal .katex,
+.reveal .MathJax {
+  line-height: 1.2;
+}
+
+.reveal .katex .sqrt > .vlist-t {
+  margin-top: 0.1em;
+}
+
+/* Cargar STIX Two Math */
+@import url("https://fonts.googleapis.com/css2?family=STIX+Two+Math&display=swap");
+
+/* Fuente base matemática */
+.reveal mjx-container[jax="CHTML"] {
+  font-family: "STIX Two Math", "Latin Modern Math", "Cambria Math", serif !important;
+  font-weight: 400;
+  line-height: 1.15 !important;
+}
+
+/* -------------------------
+   Cursiva SOLO para variables
+   (letras latinas y griegas)
+   ------------------------- */
+
+/* Letras matemáticas (x, y, n, X, etc.) */
+.reveal mjx-container mjx-mi {
+  font-style: italic !important;
+}
+
+/* Letras griegas (mu, sigma, etc.) */
+.reveal mjx-container mjx-mo[texclass="ORD"] {
+  font-style: italic;
+}
+
+/* -------------------------
+   Mantener operadores rectos
+   ------------------------- */
+
+.reveal mjx-container mjx-mo,
+.reveal mjx-container mjx-mn {
+  font-style: normal !important; /* +, =, −, números */
+}
+
+/* -------------------------
+   Display math: aire editorial
+   ------------------------- */
+
+.reveal mjx-container[display="true"] {
+  margin: 0.35em 0 !important;
+}
+
+
+/* =========================
+   Tablas (Quarto/Reveal) — reducir tamaño y mejorar legibilidad
+   ========================= */
+
+/* Cualquier tabla dentro de slides */
+.reveal .slides table {
+  font-size: 0.62em;   /* ajusta 0.55–0.70 según tu tabla */
+  line-height: 1.25;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Celdas: menos “alto” y más compacto */
+.reveal .slides th,
+.reveal .slides td {
+  padding: 0.30em 0.45em;
+  vertical-align: middle;
+}
+
+/* Encabezado: un poco más destacado pero sobrio */
+.reveal .slides th {
+  font-weight: 650;
+}
+
+/* Si usas kable/gt, a veces el caption también queda enorme */
+.reveal .slides caption {
+  font-size: 0.55em;
+  color: rgba(255,255,255,0.72);
+  margin-top: 0.35em;
+}
+
+/* =========================
+   Tablas — ocupar todo el ancho del slide
+   ========================= */
+
+/* Contenedor de tablas en Reveal */
+.reveal .slides section table {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Asegurar que el wrapper no limite */
+.reveal .slides section .table,
+.reveal .slides section .table-container {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* =========================
+   Título (caption) de tablas centrado
+   ========================= */
+
+.reveal .slides table caption {
+  text-align: center !important;
+  font-size: 0.55em;            /* coherente con tablas en slides */
+  color: rgba(255,255,255,0.72);
+  margin-bottom: 0.35em;        /* separación con la tabla */
+}
+
+/* =========================
+   Tablas — header SIN bordes curvos
+   ========================= */
+
+/* Quitar redondeo SOLO del header */
+.reveal .slides table thead,
+.reveal .slides table thead th {
+  border-radius: 0 !important;
+}
+
+/* Asegurar que las celdas del header sean rectas */
+.reveal .slides table th {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+/* Código ligeramente más pequeño (solo donde se use) */
+.code-sm pre,
+.code-sm code {
+  font-size: 0.7em;
+  line-height: 1.25;
+}
+
+/* =========================
+   SYNTAX 
+   ========================= */
+
+/* --- PANDOC (span.fu/kw/st/co/dv/op) --- */
+.reveal pre code span.fu { color: #7DD3FC !important; font-weight: 650 !important; } /* funciones */
+.reveal pre code span.kw { color: #C4B5FD !important; font-weight: 650 !important; } /* keywords */
+.reveal pre code span.st { color: #FCA5A5 !important; }                              /* strings */
+.reveal pre code span.dv,
+.reveal pre code span.bn,
+.reveal pre code span.fl { color: #FCD34D !important; }                              /* números */
+.reveal pre code span.co { color: #9CA3AF !important; font-style: italic !important; }/* comentarios */
+.reveal pre code span.op { color: rgba(255,255,255,0.82) !important; }               /* operadores */
+.reveal pre code .hljs-title,
+.reveal pre code .hljs-built_in { color: #7DD3FC !important; font-weight: 650 !important; }
+.reveal pre code .hljs-keyword  { color: #C4B5FD !important; font-weight: 650 !important; }
+.reveal pre code .hljs-string   { color: #FCA5A5 !important; }
+.reveal pre code .hljs-number   { color: #FCD34D !important; }
+.reveal pre code .hljs-comment  { color: #9CA3AF !important; font-style: italic !important; }
+
+/* Bloques de código sin lenguaje (ej. CSV, texto plano) */
+.reveal pre,
+.reveal pre code {
+  color: #fff !important;
+}
+
+/* Bloques tipo “texto plano” (CSV, ejemplos) — estable en navegador */
+.reveal pre,
+.reveal pre code {
+  color: #fff !important;
+  white-space: pre !important;      /* no reflow raro */
+  overflow-x: auto !important;      /* si se pasa, scroll */
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace !important;
+}
+
+
+/* ======================================================
+   HOME (index.html) — portada glassy minimal
+   ====================================================== */
+
+.home-hero{
+  margin: 4.2rem auto 2.4rem auto;
+  max-width: 980px;
+  padding: 2.1rem 2.2rem;
+
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  text-align: center;
+}
+
+.home-title{
+  font-size: 2.35rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: rgba(255,255,255,0.96);
+}
+
+.home-subtitle{
+  margin-top: 0.55rem;
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.78);
+}
+
+.home-meta{
+  margin-top: 1.35rem;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.86);
+}
+
+.home-section{
+  max-width: 980px;
+  margin: 0 auto 4rem auto;
+  padding: 0 0.4rem;
+}
+
+.home-section-title{
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.92);
+  margin: 1.2rem 0 1rem 0.1rem;
+}
+
+.home-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.05rem;
+}
+
+@media (max-width: 920px){
+  .home-grid{ grid-template-columns: 1fr; }
+}
+
+.home-card{
+  display: block;
+  text-decoration: none !important;
+
+  padding: 1.1rem 1.15rem;
+  border-radius: 18px;
+
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.home-card:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.055);
+}
+
+.home-card-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.home-badge{
+  display: inline-block;
+  padding: 0.25rem 0.62rem;
+  border-radius: 999px;
+
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06);
+
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+}
+
+.home-arrow{
+  color: rgba(255,255,255,0.70);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.home-card-title{
+  margin-top: 0.85rem;
+  font-size: 1.05rem;
+  font-weight: 750;
+  color: rgba(255,255,255,0.95);
+  letter-spacing: -0.01em;
+}
+
+.home-card-desc{
+  margin-top: 0.45rem;
+  font-size: 0.96rem;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.45;
+}
+
+.home-cta{
+  display: inline-block;
+  margin-top: 1.4rem;
+  padding: 0.55rem 1.15rem;
+
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: linear-gradient(
+    90deg,
+    rgba(56,189,248,0.85),
+    rgba(167,139,250,0.80)
+  );
+
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0b1220;
+  text-decoration: none;
+
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.home-cta:hover{
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* ======================================================
+   INDEX (HOME) — Dark / glassy / editorial
+   ====================================================== */
+
+.home-bg{
+  min-height: 100vh;
+  padding: 4rem 1.2rem 5rem 1.2rem;
+
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(56,189,248,0.18), transparent 55%),
+    radial-gradient(900px 600px at 85% 20%, rgba(167,139,250,0.14), transparent 55%),
+    #0b1220;
+}
+
+.home-hero{
+  margin: 0 auto 3.2rem auto;
+  max-width: 980px;
+  padding: 2.6rem 2.8rem;
+
+  border-radius: 26px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  text-align: center;
+}
+
+.home-title{
+  font-size: 2.6rem;
+  font-weight: 780;
+  letter-spacing: -0.025em;
+  color: rgba(255,255,255,0.97);
+}
+
+.home-subtitle{
+  margin-top: 0.65rem;
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.80);
+}
+
+.home-meta{
+  margin-top: 1.6rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: rgba(255,255,255,0.88);
+}
+
+.home-cta{
+  display: inline-block;
+  margin-top: 1.9rem;
+  padding: 0.65rem 1.35rem;
+
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: linear-gradient(
+    90deg,
+    rgba(56,189,248,0.90),
+    rgba(167,139,250,0.85)
+  );
+
+  font-size: 1rem;
+  font-weight: 750;
+  color: #0b1220;
+  text-decoration: none;
+
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.home-cta:hover{
+  transform: translateY(-2px);
+  opacity: 0.96;
+}
+
+.home-section{
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.home-section-title{
+  margin: 0 0 1.1rem 0.2rem;
+  font-size: 1.05rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+}
+
+.home-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+@media (max-width: 900px){
+  .home-grid{ grid-template-columns: 1fr; }
+}
+
+.home-card{
+  display: block;
+  padding: 1.3rem 1.35rem;
+
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  text-decoration: none;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.home-card:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.07);
+}
+
+.home-card-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-badge{
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.07);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+}
+
+.home-arrow{
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.70);
+}
+
+.home-card-title{
+  margin-top: 1.05rem;
+  font-size: 1.15rem;
+  font-weight: 750;
+  color: rgba(255,255,255,0.96);
+  letter-spacing: -0.01em;
+}
+
+.home-card-desc{
+  margin-top: 0.55rem;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.74);
+  line-height: 1.45;
+}
+
+/* =========================
+   HOME (index.html) — sin borde blanco + layout limpio
+   ========================= */
+
+/* Quitar “marco” blanco del navegador y fijar fondo */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #0b1220 !important;
+  color: rgba(255,255,255,0.92);
+}
+
+/* Evitar estilos por defecto del theme */
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system,
+    "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial,
+    "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+/* Fondo glassy como el deck */
+.home {
+  min-height: 100vh;
+  padding: 4rem 1.25rem 5rem 1.25rem;
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(56,189,248,0.18), transparent 55%),
+    radial-gradient(900px 600px at 85% 20%, rgba(167,139,250,0.14), transparent 55%),
+    #0b1220;
+}
+
+/* Hero minimal */
+.home-hero{
+  max-width: 980px;
+  margin: 0 auto 2.2rem auto;
+  padding: 2.4rem 2.6rem;
+  text-align: center;
+
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.home-title{
+  font-size: 2.55rem;
+  font-weight: 780;
+  letter-spacing: -0.03em;
+  color: rgba(255,255,255,0.97);
+}
+
+.home-name{
+  margin-top: 0.85rem;
+  font-size: 1.08rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.84);
+}
+
+/* Sección */
+.home-section{
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.home-section-title{
+  margin: 0 0 1rem 0.15rem;
+  font-size: 0.98rem;
+  font-weight: 750;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.86);
+}
+
+.home-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+@media (max-width: 900px){
+  .home-grid{ grid-template-columns: 1fr; }
+}
+
+/* Card */
+.home-card{
+  display: block;
+  text-decoration: none !important;
+
+  padding: 1.15rem 1.25rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.home-card:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.07);
+}
+
+.home-card-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-badge{
+  padding: 0.26rem 0.66rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.07);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.94);
+}
+
+.home-arrow{
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: rgba(255,255,255,0.70);
+}
+
+.home-card-title{
+  margin-top: 0.85rem;
+  font-size: 1.08rem;
+  font-weight: 750;
+  color: rgba(255,255,255,0.96);
+  letter-spacing: -0.01em;
+}
+
+/* ===== Fix borde blanco SOLO para index ===== */
+
+/* El borde blanco es el margin por defecto del navegador */
+body {
+  margin: 0;
+}
+
+/* Fondo dark coherente */
+html, body {
+  background: #0b1220;
+}
+
+/* =========================
+   R syntax highlight — restore colors
+   (works for highlight.js and Pandoc)
+   ========================= */
+
+/* highlight.js */
+.reveal pre code.hljs { color: rgba(255,255,255,0.92) !important; }
+
+.reveal pre code .hljs-keyword   { color: #C4B5FD !important; font-weight: 650 !important; }
+.reveal pre code .hljs-title,
+.reveal pre code .hljs-built_in  { color: #7DD3FC !important; font-weight: 650 !important; }
+.reveal pre code .hljs-string    { color: #FCA5A5 !important; }
+.reveal pre code .hljs-number    { color: #FCD34D !important; }
+.reveal pre code .hljs-comment   { color: #9CA3AF !important; font-style: italic !important; }
+.reveal pre code .hljs-operator,
+.reveal pre code .hljs-punctuation { color: rgba(255,255,255,0.82) !important; }
+
+/* Pandoc fallback (si no aparece .hljs) */
+.reveal pre code span.kw { color: #C4B5FD !important; font-weight: 650 !important; }
+.reveal pre code span.fu { color: #7DD3FC !important; font-weight: 650 !important; }
+.reveal pre code span.st { color: #FCA5A5 !important; }
+.reveal pre code span.dv,
+.reveal pre code span.fl,
+.reveal pre code span.bn { color: #FCD34D !important; }
+.reveal pre code span.co { color: #9CA3AF !important; font-style: italic !important; }
+.reveal pre code span.op { color: rgba(255,255,255,0.82) !important; }
+
+/* =========================
+   Footer — minimal académico
+   ========================= */
+
+.home-footer{
+  max-width: 980px;
+  margin: 3.2rem auto 0 auto;
+  padding: 1.2rem 0.4rem 0 0.4rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  border-top: 1px solid rgba(255,255,255,0.14);
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.70);
+}
+
+.home-footer-left{
+  font-weight: 500;
+}
+
+.home-author{
+  font-weight: 650;
+  color: rgba(255,255,255,0.88);
+}
+
+/* Links + iconos */
+.home-footer-right{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.home-footer-right a{
+  text-decoration: none;
+  color: rgba(255,255,255,0.70);
+  font-weight: 600;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.home-footer-right a:hover{
+  color: rgba(255,255,255,0.95);
+  transform: translateY(-1px);
+}
+
+/* Iconos Font Awesome */
+.home-footer-right i{
+  font-size: 1.05rem;
+}
+
+/* =========================
+   Layout vertical: footer al fondo
+   ========================= */
+
+.home-layout{
+  min-height: 80vh;              /* ocupa toda la pantalla */
+  display: flex;
+  flex-direction: column;
+}
+
+/* El contenido crece y empuja el footer */
+.home-main{
+  flex: 1 0 auto;
+}
+
+/* Footer siempre abajo si hay poco contenido */
+.home-footer{
+  margin-top: auto;
+}
+
+/* Output con scroll (horizontal) */
+.scroll-x {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Output con scroll (vertical + horizontal) */
+.scroll-xy {
+  max-width: 100%;
+  max-height: 320px;   /* ajusta según tu slide */
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Opcional: que el pre no fuerce saltos raros */
+.scroll-x pre,
+.scroll-xy pre {
+  white-space: pre;    /* mantiene líneas largas en una sola línea */
+}
+
+/* ===== Slide wide (solo cuando se use la clase .wide) ===== */
+.reveal .slides section.wide > :is(p, ul, ol, blockquote, pre, table, figure, .cell, .callout) {
+  max-width: 100% !important;
+}
+.reveal .slides section.wide figure,
+.reveal .slides section.wide img {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* =========================================
+   Scroll  en bloques de código 
+   ========================================= */
+
+/* Caso 1: chunks dentro de .cell (Quarto) */
+.reveal .cell .cell-input pre {
+  max-height: 45vh !important;   /* ajusta: 35–55vh */
+  overflow: auto !important;     /* vertical + horizontal */
+}
+
+/* Caso 2: cuando Quarto envuelve en div.sourceCode */
+.reveal .cell .cell-input div.sourceCode {
+  max-height: 45vh !important;
+  overflow: auto !important;
+}
+
+/* Asegura que el pre no “expanda” el contenedor */
+.reveal .cell .cell-input pre,
+.reveal .cell .cell-input pre.sourceCode {
+  display: block !important;
+  white-space: pre !important;
+}
+
+/* (Opcional) outputs largos */
+.reveal .cell .cell-output pre {
+  max-height: 35vh !important;
+  overflow: auto !important;
+}
+
+/* =========================
+   FIX: texto de código y output en blanco
+   ========================= */
+
+/* Base del bloque de código */
+.reveal pre,
+.reveal pre code,
+.reveal div.sourceCode,
+.reveal pre.sourceCode {
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* highlight.js base */
+.reveal pre code.hljs {
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* Output de chunks (muy importante) */
+.reveal .cell-output,
+.reveal .cell-output pre,
+.reveal .cell-output code {
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* Si knitr mete estilos ANSI (azules/rojos/verdes) en output,
+   se neutraliza a blanco para legibilidad */
+.reveal .cell-output span[style*="color"] {
+  color: rgba(255,255,255,0.92) !important;
+}
+

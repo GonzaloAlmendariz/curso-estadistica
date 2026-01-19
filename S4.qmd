@@ -661,7 +661,6 @@ Este gráfico responde a la pregunta:
 
 > ¿Qué porcentaje de la muestra se ubica en cada nivel de confianza?
 
-
 ------------------------------------------------------------------------
 
 ```{r, eval=FALSE}
@@ -686,7 +685,6 @@ confianza_cc %>%
 
 ------------------------------------------------------------------------
 
-
 ```{r, eval=FALSE}
   ...
   scale_y_continuous(labels = percent_format()) +
@@ -704,8 +702,6 @@ confianza_cc %>%
     legend.position = "top"
   )
 ```
-
-
 
 ------------------------------------------------------------------------
 
@@ -795,8 +791,6 @@ confianza_cc %>%
   ) +
   theme_minimal()
 ```
-
-
 
 ------------------------------------------------------------------------
 
@@ -1041,7 +1035,3 @@ g1 = ggplot(confianza_cc, aes(x = confianza_congreso)) +
 
 g1 / g2
 ```
-
-
-
-

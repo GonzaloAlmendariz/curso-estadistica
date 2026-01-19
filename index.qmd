@@ -2,10 +2,11 @@
 title: ""
 format:
   html:
-    toc: false
     theme: none
+    toc: false
     css:
       - styles/site.scss
+      - styles/reveal-custom.scss
     include-in-header:
       - text: |
           <link rel="stylesheet"
@@ -29,8 +30,7 @@ lang: es
         <div class="hero-brand">
           <h1 class="hero-title">Estadística con R</h1>
           <p class="hero-subtitle">
-            Materiales de clase en formato web: sesiones, slides y ejemplos reproducibles,
-            con énfasis en diagnóstico y reporte descriptivo.
+            Materiales de clase en formato web
           </p>
         </div>
       </div>
@@ -38,12 +38,12 @@ lang: es
       <div class="hero-meta">
         <div class="meta-item">
           <div class="meta-label">Autor</div>
-          <div class="meta-value">Gonzalo Almendariz</div>
+          <div class="meta-value">Gonzalo Almendariz Villanueva</div>
         </div>
 
         <div class="meta-item">
           <div class="meta-label">Formato</div>
-          <div class="meta-value">Website · Slides · Código</div>
+          <div class="meta-value">Material de clase en R</div>
         </div>
 
         <div class="meta-item">
