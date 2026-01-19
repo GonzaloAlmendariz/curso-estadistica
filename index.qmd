@@ -1,9 +1,11 @@
 ---
+title: ""
 format:
   html:
     toc: false
     theme: none
-    css: styles/reveal-custom.scss
+    css:
+      - styles/site.scss
     include-in-header:
       - text: |
           <link rel="stylesheet"
@@ -12,77 +14,269 @@ lang: es
 ---
 
 ```{=html}
-<div class="home-grid">
+<div class="site-bg">
+  <div class="site-wrap">
 
-  <!-- Semana 1 -->
-  <a class="home-card" href="S1.html" aria-label="Ir a la Semana 1">
-    <div class="home-card-top">
-      <span class="home-badge">Semana 1</span>
-      <span class="home-arrow">→</span>
-    </div>
+    <!-- HERO -->
+    <header class="hero glass">
+      <div class="hero-top">
+        <div class="hero-kicker">
+          <span class="pill"><i class="fa-solid fa-graduation-cap"></i> Cursos</span>
+          <span class="pill subtle"><i class="fa-solid fa-code"></i> R + Quarto</span>
+          <span class="pill subtle"><i class="fa-solid fa-chart-simple"></i> Encuestas</span>
+        </div>
 
-    <div class="home-card-title">
-      Conceptos básicos de estadística e introducción a R
-    </div>
+        <div class="hero-brand">
+          <h1 class="hero-title">Estadística con R</h1>
+          <p class="hero-subtitle">
+            Materiales de clase en formato web: sesiones, slides y ejemplos reproducibles,
+            con énfasis en diagnóstico y reporte descriptivo.
+          </p>
+        </div>
+      </div>
 
-    <div class="home-card-desc">
-      Datos y tipos de variables, gráficos y tablas, medidas de resumen,
-      muestreo y fundamentos de R (objetos, funciones, paquetes e importación).
-    </div>
-  </a>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <div class="meta-label">Autor</div>
+          <div class="meta-value">Gonzalo Almendariz</div>
+        </div>
 
-  <!-- Semana 2 -->
-  <a class="home-card" href="S2.html" aria-label="Ir a la Semana 2">
-    <div class="home-card-top">
-      <span class="home-badge">Semana 2</span>
-      <span class="home-arrow">→</span>
-    </div>
+        <div class="meta-item">
+          <div class="meta-label">Formato</div>
+          <div class="meta-value">Website · Slides · Código</div>
+        </div>
 
-    <div class="home-card-title">
-      Manipulación de datos con dplyr y visualización con ggplot2
-    </div>
+        <div class="meta-item">
+          <div class="meta-label">Estado</div>
+          <div class="meta-value"><span class="status ok">Curso 1 disponible</span></div>
+        </div>
+      </div>
+    </header>
 
-    <div class="home-card-desc">
-      Filtrado, selección, recodificación, resumen por grupos y gráficos base
-      para describir variables numéricas y categóricas.
-    </div>
-  </a>
 
-  <!-- Semana 3 y 4 -->
-  <a class="home-card" href="S3S4.html" aria-label="Ir a la Semana 3 y 4">
-    <div class="home-card-top">
-      <span class="home-badge">Semana 3 y 4</span>
-      <span class="home-arrow">→</span>
-    </div>
+    <!-- CURSO 1 -->
+    <section class="course glass">
+      <div class="course-head">
+        <div class="course-left">
+          <h2 class="course-title">Curso 1 · Estadística Descriptiva con R</h2>
+          <p class="course-desc">
+            Estadística descriptiva y análisis exploratorio orientados a datos sociales.
+            El objetivo es producir tablas y gráficos estandarizados para describir muestras,
+            diagnosticar calidad de datos y comunicar resultados.
+          </p>
+        </div>
 
-    <div class="home-card-title">
-      Medidas descriptivas y análisis exploratorio
-    </div>
+        <div class="course-right">
+          <div class="course-badges">
+            <span class="badge"><i class="fa-solid fa-layer-group"></i> 4 semanas</span>
+            <span class="badge"><i class="fa-solid fa-file-code"></i> Quarto</span>
+            <span class="badge"><i class="fa-solid fa-table"></i> Reportes</span>
+          </div>
+        </div>
+      </div>
 
-    <div class="home-card-desc">
-      Medidas de tendencia central y dispersión, distribuciones, detección de patrones,
-      valores atípicos y diagnóstico exploratorio como base para el análisis.
-    </div>
-  </a>
+      <div class="weeks-grid">
 
-  <!-- Semana 4 -->
-  <a class="home-card" href="S4.html" aria-label="Ir a la Semana 4">
-    <div class="home-card-top">
-      <span class="home-badge">Semana 4</span>
-      <span class="home-arrow">→</span>
-    </div>
+        <!-- Semana 1 -->
+        <a class="week-card" href="S1.html" aria-label="Ir a la Semana 1">
+          <div class="week-top">
+            <span class="week-pill">Semana 1</span>
+            <span class="week-arrow">→</span>
+          </div>
 
-    <div class="home-card-title">
-      Reportes descriptivos, diagnóstico y presentación de resultados
-    </div>
+          <div class="week-title">Conceptos básicos e introducción a R</div>
 
-    <div class="home-card-desc">
-      Tablas de frecuencia y tablas cruzadas, proporciones por fila y columna,
-      tablas con gt y gtsummary, diagnóstico con skimr/naniar/dlookr
-      y visualización comparativa para reportes reproducibles.
-    </div>
-  </a>
+          <div class="week-desc">
+            • Estadística descriptiva e inferencial<br>
+            • Población, muestra, parámetros y estadísticos<br>
+            • Tipos de variables e ideas centrales de descripción<br>
+            • Introducción al muestreo<br>
+            • Entorno de trabajo en RStudio y librerías<br>
+            • Objetos básicos, vectores y funciones elementales<br>
+            • Importación de datos y exploración inicial
+          </div>
+        </a>
 
+        <!-- Semana 2 -->
+        <a class="week-card" href="S2.html" aria-label="Ir a la Semana 2">
+          <div class="week-top">
+            <span class="week-pill">Semana 2</span>
+            <span class="week-arrow">→</span>
+          </div>
+
+          <div class="week-title">dplyr y visualización introductoria con ggplot2</div>
+
+          <div class="week-desc">
+            • Datos ordenados y limpieza básica<br>
+            • Manejo de valores perdidos<br>
+            • Selección, filtrado y ordenamiento<br>
+            • Creación y transformación de variables<br>
+            • Agrupamiento y resumen<br>
+            • Gramática de gráficos (ggplot2)<br>
+            • Barras, histogramas, densidades y boxplots<br>
+            • Estética, títulos, etiquetas y temas básicos
+          </div>
+        </a>
+
+        <!-- Semana 3 y 4 (combinada) -->
+        <a class="week-card" href="S3.html" aria-label="Ir a la Semana 3 y 4">
+          <div class="week-top">
+            <span class="week-pill">Semana 3 y 4</span>
+            <span class="week-arrow">→</span>
+          </div>
+
+          <div class="week-title">Medidas descriptivas y análisis exploratorio</div>
+
+          <div class="week-desc">
+            • Tendencia central: media, mediana, proporción<br>
+            • Dispersión: varianza, desviación estándar, IQR<br>
+            • Resúmenes por grupos y comparaciones entre categorías<br>
+            • Visualización de medidas: boxplots, histogramas, densidades, barras de proporciones<br>
+            • Interpretación estadística orientada al análisis exploratorio
+          </div>
+        </a>
+
+        <!-- Semana 4 -->
+        <a class="week-card" href="S4.html" aria-label="Ir a la Semana 4">
+          <div class="week-top">
+            <span class="week-pill">Semana 4</span>
+            <span class="week-arrow">→</span>
+          </div>
+
+          <div class="week-title">Reportes descriptivos, diagnóstico y presentación</div>
+
+          <div class="week-desc">
+            • Tablas de frecuencia simples y cruzadas<br>
+            • Proporciones por fila y columna<br>
+            • Tablas limpias con gt<br>
+            • Reportes con summarytools<br>
+            • Diagnóstico con dlookr<br>
+            • Visualización avanzada: escalas, colores, facetas, temas<br>
+            • Integración de tablas y gráficos en reportes reproducibles
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- CURSO 2 (PROXIMAMENTE) -->
+    <section class="course glass muted">
+      <div class="course-head">
+        <div class="course-left">
+          <h2 class="course-title">
+            Curso 2 · Probabilidades e Inferencia con R
+            <span class="tag-soon">Próximamente</span>
+          </h2>
+          <p class="course-desc">
+            Probabilidad, distribuciones, simulación e inferencia estadística aplicada.
+            El énfasis está en comprensión conceptual, supuestos y selección de técnicas
+            según la estructura de los datos.
+          </p>
+        </div>
+
+        <div class="course-right">
+          <div class="course-badges">
+            <span class="badge"><i class="fa-solid fa-layer-group"></i> 4 semanas</span>
+            <span class="badge"><i class="fa-solid fa-dice"></i> Simulación</span>
+            <span class="badge"><i class="fa-solid fa-square-root-variable"></i> Inferencia</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="weeks-grid">
+
+        <!-- Semana 1 -->
+        <div class="week-card disabled" aria-label="Curso 2 próximamente">
+          <div class="week-top">
+            <span class="week-pill">Semana 1</span>
+            <span class="week-lock"><i class="fa-solid fa-lock"></i></span>
+          </div>
+          <div class="week-title">Probabilidad y fundamentos de la inferencia</div>
+          <div class="week-desc">
+            • Variabilidad muestral y motivación de la inferencia<br>
+            • Concepto de probabilidad y reglas fundamentales<br>
+            • Eventos y experimentos aleatorios<br>
+            • Variables aleatorias y funciones asociadas<br>
+            • Exploración empírica mediante simulación en R
+          </div>
+        </div>
+
+        <!-- Semana 2 -->
+        <div class="week-card disabled" aria-label="Curso 2 próximamente">
+          <div class="week-top">
+            <span class="week-pill">Semana 2</span>
+            <span class="week-lock"><i class="fa-solid fa-lock"></i></span>
+          </div>
+          <div class="week-title">Distribuciones y comportamiento muestral</div>
+          <div class="week-desc">
+            • Distribuciones principales en estadística aplicada<br>
+            • Generación, evaluación y visualización en R<br>
+            • Muestreo repetido y comportamiento de estimadores<br>
+            • Ley de los Grandes Números<br>
+            • Introducción al TCL y normalidad como aproximación<br>
+            • Error estándar y variabilidad muestral
+          </div>
+        </div>
+
+        <!-- Semana 3 -->
+        <div class="week-card disabled" aria-label="Curso 2 próximamente">
+          <div class="week-top">
+            <span class="week-pill">Semana 3</span>
+            <span class="week-lock"><i class="fa-solid fa-lock"></i></span>
+          </div>
+          <div class="week-title">Bases formales de la inferencia</div>
+          <div class="week-desc">
+            • TCL (profundización) y rol en la inferencia<br>
+            • Distribución t y muestras finitas<br>
+            • Intervalos de confianza (medias y proporciones)<br>
+            • Contraste de hipótesis, errores y p-valor<br>
+            • Implementación de IC y pruebas básicas en R
+          </div>
+        </div>
+
+        <!-- Semana 4 -->
+        <div class="week-card disabled" aria-label="Curso 2 próximamente">
+          <div class="week-top">
+            <span class="week-pill">Semana 4</span>
+            <span class="week-lock"><i class="fa-solid fa-lock"></i></span>
+          </div>
+          <div class="week-title">Comparación y relación entre variables</div>
+          <div class="week-desc">
+            • Pruebas para proporciones y medias (1 y 2 muestras)<br>
+            • Comparación de muestras relacionadas<br>
+            • Chi-cuadrado y asociación (Cramer)<br>
+            • ANOVA y métodos no paramétricos<br>
+            • Correlaciones (Pearson, Spearman, Kendall)<br>
+            • Regresión lineal simple: estimación e interpretación<br>
+            • Selección de técnicas según supuestos y estructura de datos
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-left">
+        © 2026 · Elaborado por <span class="footer-strong">Gonzalo Almendariz</span>
+      </div>
+
+      <div class="footer-right">
+        <a href="https://github.com/GonzaloAlmendariz" target="_blank" rel="noopener" aria-label="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/gonzalo-almendariz-villanueva-051587324/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+        <a href="https://gonzaloalmendariz.github.io/ladatafora/" target="_blank" rel="noopener" aria-label="La Datafora">
+          La Datafora
+        </a>
+      </div>
+    </footer>
+
+  </div>
 </div>
 ```
 

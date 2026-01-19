@@ -51,70 +51,70 @@
   {
     "objectID": "S2.html#limpieza-de-datos",
     "href": "S2.html#limpieza-de-datos",
-    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "title": "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2",
     "section": "Limpieza de datos",
     "text": "Limpieza de datos\nEste proceso consiste en identificar y corregir problemas comunes como valores faltantes, nombres de columnas inconsistentes, duplicados y tipos de datos incorrectos. La limpieza asegura que los datos estén en un estado coherente y listo para ser transformado o analizado."
   },
   {
     "objectID": "S2.html#base-de-datos-world-development-indicators-wdi",
     "href": "S2.html#base-de-datos-world-development-indicators-wdi",
-    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "title": "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2",
     "section": "Base de datos: World Development Indicators (WDI)",
     "text": "Base de datos: World Development Indicators (WDI)\nEl análisis de datos en ciencias sociales requiere acceder a fuentes confiables, comparables y actualizadas. Una de las más utilizadas a nivel global es la World Development Indicators (WDI) del Banco Mundial. Gracias al paquete WDI en R, podemos acceder directamente a esta base de forma automatizada.\n\nlibrary(WDI)\n\nEn este ejemplo trabajaremos con tres indicadores esenciales para describir y comparar el desarrollo de distintos países:\n\nPIB per cápita (NY.GDP.PCAP.CD)\nEsperanza de vida (SP.DYN.LE00.IN)\nPoblación total (SP.POP.TOTL)"
   },
   {
     "objectID": "S2.html#histograma",
     "href": "S2.html#histograma",
-    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "title": "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2",
     "section": "Histograma",
     "text": "Histograma\nEl histograma permite observar la distribución de una variable numérica. Por ejemplo, ¿cómo están distribuidos los valores de esperanza de vida?\n\nggplot(df_22, aes(x = esp_vida)) +\n  geom_histogram(binwidth = 5, fill = \"skyblue\", color = \"black\") +\n  labs(title = \"Distribución de la esperanza de vida\",\n       x = \"Esperanza de vida\",\n       y = \"Frecuencia\") +\n  theme_minimal()"
   },
   {
     "objectID": "S2.html#gráfico-de-barras",
     "href": "S2.html#gráfico-de-barras",
-    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "title": "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2",
     "section": "Gráfico de barras",
     "text": "Gráfico de barras\nPermite ver la frecuencia de cada categoría en barras\n\ndf_22 %&gt;%\n  ggplot(aes(x = region, fill = region)) +\n  geom_bar() +\n  labs(\n    title = \"Frecuencia de observaciones por región\",\n    x = \"Región\",\n    y = \"Frecuencia\"\n  ) +\n  theme_minimal() +\n  theme(legend.position = \"none\") +\n  coord_flip()"
   },
   {
     "objectID": "S2.html#gráfico-de-barras-con-valores-agregados",
     "href": "S2.html#gráfico-de-barras-con-valores-agregados",
-    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "title": "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2",
     "section": "Gráfico de barras con valores agregados",
     "text": "Gráfico de barras con valores agregados\nSi ya tienes una tabla resumida con frecuencias, o quieres mostrar un valor calculado como la esperanza de vida promedio por región, usamos geom_col(). También podemos usar reorder() para ordenar las barras de menor a mayor vida promedio.\n\ndf_22 %&gt;%\n  group_by(region) %&gt;%\n  reframe(vida_media = mean(esp_vida, na.rm = TRUE)) %&gt;%\n  ggplot(aes(x = reorder(region, vida_media), \n             y = vida_media, fill = region)) +\n  geom_col() +\n  labs(title = \"Esperanza de vida promedio en 2022\",\n       x = \"Región\",\n       y = \"Esperanza de vida\") +\n  theme_minimal() +\n  theme(legend.position = \"none\") +\n  coord_flip()"
   },
   {
     "objectID": "S2.html#gráfico-de-proporciones",
     "href": "S2.html#gráfico-de-proporciones",
-    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "title": "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2",
     "section": "Gráfico de proporciones",
     "text": "Gráfico de proporciones\nTambién podemos visualizar proporciones relativas entre categorías. Por ejemplo, la proporción de países por tipo de ingreso en cada región. position = \"fill\" transforma las barras en proporciones relativas\n\ndf_22 %&gt;%\n  ggplot(aes(x = region, fill = income)) +\n  geom_bar(position = \"fill\") +\n  labs(title = \"Distribución proporcional de ingresos por región\",\n       x = \"Región\",\n       y = \"Proporción\",\n       fill = \"Tipo de ingreso\") +\n  theme_minimal() +\n  scale_y_continuous(labels = scales::percent)"
   },
   {
     "objectID": "S2.html#boxplot-comparando-distribuciones",
     "href": "S2.html#boxplot-comparando-distribuciones",
-    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "title": "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2",
     "section": "Boxplot: comparando distribuciones",
     "text": "Boxplot: comparando distribuciones\nEl boxplot resume la distribución de la variable numérica dentro de cada categoría. Podemos ver la mediana, los cuartiles y posibles valores atípicos.\n\ndf_22 %&gt;%\n  ggplot(aes(x = income, y = esp_vida, fill = income)) +\n  geom_boxplot() +\n  labs(title = \"Distribución de la esperanza de vida por tipo de ingreso\",\n       x = \"Tipo de ingreso\",\n       y = \"Esperanza de vida\") +\n  theme_minimal() +\n  theme(legend.position = \"none\")"
   },
   {
     "objectID": "S2.html#violin-plot-forma-de-la-distribución",
     "href": "S2.html#violin-plot-forma-de-la-distribución",
-    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "title": "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2",
     "section": "Violin plot: forma de la distribución",
     "text": "Violin plot: forma de la distribución\nEl violin plot es parecido al boxplot, pero también muestra la densidad de los datos, es decir, qué tan concentrados están los valores.\n\ndf_22 %&gt;%\n  ggplot(aes(x = income, y = esp_vida, fill = income)) +\n  geom_violin(trim = FALSE, alpha = 0.7) +\n  labs(title = \"Distribución de la esperanza de vida por tipo de ingreso\",\n       x = \"Tipo de ingreso\",\n       y = \"Esperanza de vida\") +\n  theme_minimal() +\n  theme(legend.position = \"none\")"
   },
   {
     "objectID": "S2.html#gráfico-de-dispersión-scatter-plot",
     "href": "S2.html#gráfico-de-dispersión-scatter-plot",
-    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "title": "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2",
     "section": "Gráfico de dispersión (scatter plot)",
     "text": "Gráfico de dispersión (scatter plot)\nIdeal para ver relaciones, correlaciones o agrupamientos.\n\nggplot(df_22, aes(x = pib_capita, y = esp_vida)) +\n  geom_point(alpha = 0.6) +\n  scale_x_log10() +\n  labs(x = \"PIB per cápita (log10)\", y = \"Esperanza de vida\") +\n  theme_minimal()"
   },
   {
     "objectID": "S2.html#gráfico-de-barras-apilado-o-de-posición",
     "href": "S2.html#gráfico-de-barras-apilado-o-de-posición",
-    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "title": "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2",
     "section": "Gráfico de barras apilado o de posición",
     "text": "Gráfico de barras apilado o de posición\nCuando ambas variables son categóricas.\n\nggplot(df_22, aes(x = income, fill = region)) +\n  geom_bar(position = \"fill\") +\n  labs(x = \"Nivel de ingreso\", y = \"Proporción\", fill = \"Región\") +\n  theme_minimal()"
   },

@@ -1,5 +1,5 @@
 ---
-title: "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2"
+title: "Semana 2: Manipulación de datos con dplyr y visualización con ggplot2"
 format: revealjs
 execute:
   echo: true
@@ -322,7 +322,7 @@ En este ejemplo trabajaremos con tres indicadores esenciales para describir y co
 La base descargada contiene diversas variables. Para este análisis introductorio, nos centraremos en las siguientes:
 
 | Variable | Descripción |
-|----|----|
+|--------------------------|----------------------------------------------|
 | `country` | Nombre del país |
 | `iso2c` / `iso3c` | Códigos de país (ISO 2 y 3 letras) |
 | `pib_per_capita` | PIB per cápita en dólares actuales (indicador económico) |

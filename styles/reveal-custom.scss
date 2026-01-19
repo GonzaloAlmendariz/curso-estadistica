@@ -1539,7 +1539,7 @@ html, body {
 }
 
 /* =========================================
-   Scroll REAL en bloques de código (Reveal)
+   Scroll  en bloques de código 
    ========================================= */
 
 /* Caso 1: chunks dentro de .cell (Quarto) */
@@ -1565,5 +1565,35 @@ html, body {
 .reveal .cell .cell-output pre {
   max-height: 35vh !important;
   overflow: auto !important;
+}
+
+/* =========================
+   FIX: texto de código y output en blanco
+   ========================= */
+
+/* Base del bloque de código */
+.reveal pre,
+.reveal pre code,
+.reveal div.sourceCode,
+.reveal pre.sourceCode {
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* highlight.js base */
+.reveal pre code.hljs {
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* Output de chunks (muy importante) */
+.reveal .cell-output,
+.reveal .cell-output pre,
+.reveal .cell-output code {
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* Si knitr mete estilos ANSI (azules/rojos/verdes) en output,
+   se neutraliza a blanco para legibilidad */
+.reveal .cell-output span[style*="color"] {
+  color: rgba(255,255,255,0.92) !important;
 }
 
