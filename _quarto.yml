@@ -3,6 +3,8 @@ project:
   output-dir: docs
   resources:
     - includes/
+    - styles/
+    - images/
   render:
     - index.qmd
     - S1.qmd
