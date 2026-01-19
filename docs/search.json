@@ -1,10 +1,178 @@
 [
   {
-    "objectID": "Curso Estadística.html#hola",
-    "href": "Curso Estadística.html#hola",
-    "title": "Test",
-    "section": "Hola",
-    "text": "Hola"
+    "objectID": "S3.html#resúmenes-numéricos",
+    "href": "S3.html#resúmenes-numéricos",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Resúmenes numéricos",
+    "text": "Resúmenes numéricos\nSe generan resúmenes numéricos a partir de variables cuantitativas, ya sean continuas o discretas. Estos resúmenes incluyen:\n\nMedidas de tendencia central: Nos indican el valor central o típico en el conjunto de datos.\nMedidas de dispersión: Describen qué tan concentrados o dispersos están los datos en torno a la tendencia central.\nMedidas de posición: Ubican un valor dentro del conjunto de datos en función de su orden\nMedidas de forma: Caracterizan la estructura de la distribución en términos de simetría (asimetría) y concentración (curtosis)."
+  },
+  {
+    "objectID": "S3.html#resúmenes-categóricos",
+    "href": "S3.html#resúmenes-categóricos",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Resúmenes categóricos",
+    "text": "Resúmenes categóricos\nLas variables categóricas son aquellas que representan grupos o categorías en lugar de valores numéricos. A diferencia de las variables numéricas, que pueden ser descritas mediante medidas como la media o la desviación estándar, las variables categóricas no se prestan a una descripción numérica directa. En lugar de esto, necesitamos utilizar otras técnicas para resumir y entender estas variables."
+  },
+  {
+    "objectID": "S3.html#gráficos-descriptivos",
+    "href": "S3.html#gráficos-descriptivos",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Gráficos descriptivos",
+    "text": "Gráficos descriptivos\nLos gráficos descriptivos son herramientas esenciales al momento de realizar un análisis, ya que nos permiten visualizar y comprender de manera más intuitiva los patrones y distribuciones de nuestros datos, tanto numéricos como categóricos. A través de los gráficos, podemos identificar rápidamente tendencias, relaciones y posibles anomalías en los datos que podrían no ser evidentes solo con resúmenes numéricos."
+  },
+  {
+    "objectID": "S3.html#análisis-exploratorio-de-datos",
+    "href": "S3.html#análisis-exploratorio-de-datos",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Análisis exploratorio de datos",
+    "text": "Análisis exploratorio de datos\nEl EDA (Exploratory Data Analysis) es un proceso que integra de forma sistemática todo lo que hemos realizado previamente, como el cálculo de medidas de tendencia central, dispersión, asimetría, curtosis y la visualización de datos a través de gráficos. Es una forma estructurada de explorar los datos para detectar patrones, anomalías y relaciones importantes entre variables, combinando análisis numérico y visual. Tenemos que realizar dos tipos de análisis: en univariado y el bivariado."
+  },
+  {
+    "objectID": "S3.html#ejemplo-flor-analiza-la-confianza-en-instituciones",
+    "href": "S3.html#ejemplo-flor-analiza-la-confianza-en-instituciones",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Ejemplo: Flor analiza la confianza en instituciones",
+    "text": "Ejemplo: Flor analiza la confianza en instituciones\nFlor está interesada en comprender cómo la ciudadanía percibe y confía en las instituciones peruanas. Para ello, decide profundizar en los datos de Latinobarómetro 2023. El Latinobarómetro es un estudio de opinión pública que se realiza en 18 países de América Latina, con el objetivo de medir las actitudes, percepciones y comportamientos de la población sobre diversos temas sociales, políticos y económicos."
+  },
+  {
+    "objectID": "S3.html#resumen",
+    "href": "S3.html#resumen",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Resumen",
+    "text": "Resumen\nLa estadística descriptiva constituye el primer paso para entender los datos y determinar patrones relevantes antes de aplicar técnicas inferenciales o modelos predictivos. En R, este proceso se desarrolla sobre estructuras tabulares como data.frame o tibble, haciendo uso de herramientas del ecosistema tidyverse y funciones adicionales de paquetes como dlookr y skimr."
+  },
+  {
+    "objectID": "S3.html#ejercicios",
+    "href": "S3.html#ejercicios",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Ejercicios",
+    "text": "Ejercicios"
+  },
+  {
+    "objectID": "S2.html#limpieza-de-datos",
+    "href": "S2.html#limpieza-de-datos",
+    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "section": "Limpieza de datos",
+    "text": "Limpieza de datos\nEste proceso consiste en identificar y corregir problemas comunes como valores faltantes, nombres de columnas inconsistentes, duplicados y tipos de datos incorrectos. La limpieza asegura que los datos estén en un estado coherente y listo para ser transformado o analizado."
+  },
+  {
+    "objectID": "S2.html#base-de-datos-world-development-indicators-wdi",
+    "href": "S2.html#base-de-datos-world-development-indicators-wdi",
+    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "section": "Base de datos: World Development Indicators (WDI)",
+    "text": "Base de datos: World Development Indicators (WDI)\nEl análisis de datos en ciencias sociales requiere acceder a fuentes confiables, comparables y actualizadas. Una de las más utilizadas a nivel global es la World Development Indicators (WDI) del Banco Mundial. Gracias al paquete WDI en R, podemos acceder directamente a esta base de forma automatizada.\n\nlibrary(WDI)\n\nEn este ejemplo trabajaremos con tres indicadores esenciales para describir y comparar el desarrollo de distintos países:\n\nPIB per cápita (NY.GDP.PCAP.CD)\nEsperanza de vida (SP.DYN.LE00.IN)\nPoblación total (SP.POP.TOTL)"
+  },
+  {
+    "objectID": "S2.html#histograma",
+    "href": "S2.html#histograma",
+    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "section": "Histograma",
+    "text": "Histograma\nEl histograma permite observar la distribución de una variable numérica. Por ejemplo, ¿cómo están distribuidos los valores de esperanza de vida?\n\nggplot(df_22, aes(x = esp_vida)) +\n  geom_histogram(binwidth = 5, fill = \"skyblue\", color = \"black\") +\n  labs(title = \"Distribución de la esperanza de vida\",\n       x = \"Esperanza de vida\",\n       y = \"Frecuencia\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "S2.html#gráfico-de-barras",
+    "href": "S2.html#gráfico-de-barras",
+    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "section": "Gráfico de barras",
+    "text": "Gráfico de barras\nPermite ver la frecuencia de cada categoría en barras\n\ndf_22 %&gt;%\n  ggplot(aes(x = region, fill = region)) +\n  geom_bar() +\n  labs(\n    title = \"Frecuencia de observaciones por región\",\n    x = \"Región\",\n    y = \"Frecuencia\"\n  ) +\n  theme_minimal() +\n  theme(legend.position = \"none\") +\n  coord_flip()"
+  },
+  {
+    "objectID": "S2.html#gráfico-de-barras-con-valores-agregados",
+    "href": "S2.html#gráfico-de-barras-con-valores-agregados",
+    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "section": "Gráfico de barras con valores agregados",
+    "text": "Gráfico de barras con valores agregados\nSi ya tienes una tabla resumida con frecuencias, o quieres mostrar un valor calculado como la esperanza de vida promedio por región, usamos geom_col(). También podemos usar reorder() para ordenar las barras de menor a mayor vida promedio.\n\ndf_22 %&gt;%\n  group_by(region) %&gt;%\n  reframe(vida_media = mean(esp_vida, na.rm = TRUE)) %&gt;%\n  ggplot(aes(x = reorder(region, vida_media), \n             y = vida_media, fill = region)) +\n  geom_col() +\n  labs(title = \"Esperanza de vida promedio en 2022\",\n       x = \"Región\",\n       y = \"Esperanza de vida\") +\n  theme_minimal() +\n  theme(legend.position = \"none\") +\n  coord_flip()"
+  },
+  {
+    "objectID": "S2.html#gráfico-de-proporciones",
+    "href": "S2.html#gráfico-de-proporciones",
+    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "section": "Gráfico de proporciones",
+    "text": "Gráfico de proporciones\nTambién podemos visualizar proporciones relativas entre categorías. Por ejemplo, la proporción de países por tipo de ingreso en cada región. position = \"fill\" transforma las barras en proporciones relativas\n\ndf_22 %&gt;%\n  ggplot(aes(x = region, fill = income)) +\n  geom_bar(position = \"fill\") +\n  labs(title = \"Distribución proporcional de ingresos por región\",\n       x = \"Región\",\n       y = \"Proporción\",\n       fill = \"Tipo de ingreso\") +\n  theme_minimal() +\n  scale_y_continuous(labels = scales::percent)"
+  },
+  {
+    "objectID": "S2.html#boxplot-comparando-distribuciones",
+    "href": "S2.html#boxplot-comparando-distribuciones",
+    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "section": "Boxplot: comparando distribuciones",
+    "text": "Boxplot: comparando distribuciones\nEl boxplot resume la distribución de la variable numérica dentro de cada categoría. Podemos ver la mediana, los cuartiles y posibles valores atípicos.\n\ndf_22 %&gt;%\n  ggplot(aes(x = income, y = esp_vida, fill = income)) +\n  geom_boxplot() +\n  labs(title = \"Distribución de la esperanza de vida por tipo de ingreso\",\n       x = \"Tipo de ingreso\",\n       y = \"Esperanza de vida\") +\n  theme_minimal() +\n  theme(legend.position = \"none\")"
+  },
+  {
+    "objectID": "S2.html#violin-plot-forma-de-la-distribución",
+    "href": "S2.html#violin-plot-forma-de-la-distribución",
+    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "section": "Violin plot: forma de la distribución",
+    "text": "Violin plot: forma de la distribución\nEl violin plot es parecido al boxplot, pero también muestra la densidad de los datos, es decir, qué tan concentrados están los valores.\n\ndf_22 %&gt;%\n  ggplot(aes(x = income, y = esp_vida, fill = income)) +\n  geom_violin(trim = FALSE, alpha = 0.7) +\n  labs(title = \"Distribución de la esperanza de vida por tipo de ingreso\",\n       x = \"Tipo de ingreso\",\n       y = \"Esperanza de vida\") +\n  theme_minimal() +\n  theme(legend.position = \"none\")"
+  },
+  {
+    "objectID": "S2.html#gráfico-de-dispersión-scatter-plot",
+    "href": "S2.html#gráfico-de-dispersión-scatter-plot",
+    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "section": "Gráfico de dispersión (scatter plot)",
+    "text": "Gráfico de dispersión (scatter plot)\nIdeal para ver relaciones, correlaciones o agrupamientos.\n\nggplot(df_22, aes(x = pib_capita, y = esp_vida)) +\n  geom_point(alpha = 0.6) +\n  scale_x_log10() +\n  labs(x = \"PIB per cápita (log10)\", y = \"Esperanza de vida\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "S2.html#gráfico-de-barras-apilado-o-de-posición",
+    "href": "S2.html#gráfico-de-barras-apilado-o-de-posición",
+    "title": "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2",
+    "section": "Gráfico de barras apilado o de posición",
+    "text": "Gráfico de barras apilado o de posición\nCuando ambas variables son categóricas.\n\nggplot(df_22, aes(x = income, fill = region)) +\n  geom_bar(position = \"fill\") +\n  labs(x = \"Nivel de ingreso\", y = \"Proporción\", fill = \"Región\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "S4.html#tipos-de-variables",
+    "href": "S4.html#tipos-de-variables",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Tipos de variables",
+    "text": "Tipos de variables\n\nresumen %&gt;%\n  select(skim_variable, skim_type)\n\n# A tibble: 11 × 2\n   skim_variable           skim_type\n   &lt;chr&gt;                   &lt;chr&gt;    \n 1 peso                    numeric  \n 2 edad                    numeric  \n 3 sexo                    numeric  \n 4 percepcion_progreso     numeric  \n 5 situacion_economica     numeric  \n 6 economia_vs_anterior    numeric  \n 7 satisfaccion_democracia numeric  \n 8 confianza_iglesia       numeric  \n 9 confianza_congreso      numeric  \n10 confianza_gobierno      numeric  \n11 confianza_partidos      numeric"
+  },
+  {
+    "objectID": "S4.html#valores-faltantes",
+    "href": "S4.html#valores-faltantes",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Valores faltantes",
+    "text": "Valores faltantes\nSe identifican variables con mayor cantidad de faltantes.\n\nresumen %&gt;%\n  select(skim_variable, n_missing, complete_rate) %&gt;%\n  arrange(desc(n_missing))\n\n# A tibble: 11 × 3\n   skim_variable           n_missing complete_rate\n   &lt;chr&gt;                       &lt;int&gt;         &lt;dbl&gt;\n 1 economia_vs_anterior          448         0.627\n 2 situacion_economica           225         0.812\n 3 satisfaccion_democracia        16         0.987\n 4 confianza_iglesia              11         0.991\n 5 confianza_gobierno              7         0.994\n 6 confianza_congreso              6         0.995\n 7 percepcion_progreso             4         0.997\n 8 confianza_partidos              4         0.997\n 9 sexo                            0         1    \n10 peso                            0         1    \n11 edad                            0         1"
+  },
+  {
+    "objectID": "S4.html#limpieza-mínima-para-el-bloque-analizado",
+    "href": "S4.html#limpieza-mínima-para-el-bloque-analizado",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Limpieza mínima para el bloque analizado",
+    "text": "Limpieza mínima para el bloque analizado\nEn reportes descriptivos por bloques, una práctica estándar es crear una versión “cc” (complete cases) solo para las variables relevantes.\n\n# Crea una versión solo con casos completos\n# para variables clave del bloque bivariado\nconfianza_cc = confianza %&gt;%\n  drop_na(confianza_congreso, satisfaccion_democracia, sexo, edad)\n\n\n# Compara tamaños (antes/después)\ndim(confianza)\n\n[1] 1200   11\n\ndim(confianza_cc)\n\n[1] 1180   11"
+  },
+  {
+    "objectID": "S4.html#variables-numéricas",
+    "href": "S4.html#variables-numéricas",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Variables numéricas",
+    "text": "Variables numéricas\n\n# Se filtran numéricas y se seleccionan estadísticas clave\nresumen %&gt;%\n  filter(skim_type == \"numeric\") %&gt;%\n  select(skim_variable, numeric.mean, numeric.sd, numeric.p25, \n         numeric.p50, numeric.p75, numeric.hist)\n\n# A tibble: 2 × 7\n  skim_variable numeric.mean numeric.sd numeric.p25 numeric.p50 numeric.p75\n  &lt;chr&gt;                &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;\n1 peso                   1          0             1           1         1  \n2 edad                  39.6       16.0          26          38        51.2\n# ℹ 1 more variable: numeric.hist &lt;chr&gt;"
+  },
+  {
+    "objectID": "S4.html#variables-categóricas",
+    "href": "S4.html#variables-categóricas",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Variables categóricas",
+    "text": "Variables categóricas\n\nresumen %&gt;%\n  filter(skim_type %in% c(\"factor\")) %&gt;%\n  select(skim_variable, factor.n_unique, factor.top_counts)\n\n# A tibble: 9 × 3\n  skim_variable           factor.n_unique factor.top_counts                     \n  &lt;chr&gt;                             &lt;int&gt; &lt;chr&gt;                                 \n1 sexo                                  2 Hom: 600, Muj: 600                    \n2 percepcion_progreso                   3 Sin: 692, Ret: 409, Pro: 95, No : 0   \n3 situacion_economica                   4 Mal: 485, Muy: 401, Bue: 78, Muy: 11  \n4 economia_vs_anterior                  4 No : 393, Peo: 218, Igu: 121, Mej: 20 \n5 satisfaccion_democracia               4 Poc: 577, Nad: 512, Bas: 49, Muy: 46  \n6 confianza_iglesia                     4 Muc: 396, Alg: 316, Poc: 296, Nin: 181\n7 confianza_congreso                    4 Nin: 842, Poc: 292, Alg: 47, Muc: 13  \n8 confianza_gobierno                    4 Nin: 745, Poc: 337, Alg: 93, Muc: 18  \n9 confianza_partidos                    4 Nin: 790, Poc: 313, Alg: 70, Muc: 23"
+  },
+  {
+    "objectID": "S4.html#distribución-simple",
+    "href": "S4.html#distribución-simple",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Distribución simple",
+    "text": "Distribución simple\nEl gráfico de barras es la forma más directa de representar la distribución de una variable ordinal, ya que muestra cuántas observaciones se concentran en cada nivel.\n\nggplot(confianza_cc, aes(x = confianza_congreso)) +\n  geom_bar(fill = \"#1F4E79\", color = \"black\") +\n  labs(\n    title = \"Distribución de la confianza en el Congreso\",\n    x = \"Nivel de confianza\",\n    y = \"Frecuencia\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "S4.html#distribución-relativa",
+    "href": "S4.html#distribución-relativa",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Distribución relativa",
+    "text": "Distribución relativa\nEn reportes descriptivos, las proporciones suelen ser más informativas que las frecuencias absolutas, especialmente cuando se comparan subgrupos.\nEste gráfico responde a la pregunta:\n\n¿Qué porcentaje de la muestra se ubica en cada nivel de confianza?"
+  },
+  {
+    "objectID": "S4.html#comparación-por-grupo",
+    "href": "S4.html#comparación-por-grupo",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Comparación por grupo",
+    "text": "Comparación por grupo\nTambién podemos comparar la distribución de una variable ordinal según otra variable ordinal o categórica."
   },
   {
     "objectID": "S1.html#variables-numéricas",
@@ -61,12 +229,5 @@
     "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
     "section": "Elementos",
     "text": "Elementos\nEn R, los elementos son las unidades básicas que componen los datos. Estos elementos tienen un tipo de dato que define su naturaleza, cómo pueden manipularse y las operaciones que pueden realizarse con ellos. Los tipos de elementos en R están directamente relacionados con los tipos de variables utilizados en análisis estadístico que vimos en el capítulo anterior, como variables numéricas (continuas y discretas), categóricas (nominales y ordinales) y lógicas (binarias)."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Curso de Estadística",
-    "section": "",
-    "text": "Sesiones de clase\n\n        \n          \n            \n              Semana 1\n              →\n            \n\n            \n              Conceptos básicos de estadística e introducción a R\n            \n\n            \n              Datos y tipos de variables, gráficos y tablas, medidas de resumen,\n              muestreo y fundamentos de R (objetos, funciones, paquetes e importación)."
   }
 ]

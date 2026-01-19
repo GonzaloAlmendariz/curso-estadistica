@@ -1,0 +1,1047 @@
+---
+title: "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados"
+format: revealjs
+execute:
+  echo: true
+  warning: false
+  message: false
+editor_options:
+  chunk_output_type: console
+---
+
+# Reportes descriptivos
+
+------------------------------------------------------------------------
+
+En las sesiones anteriores se introdujo la estadística descriptiva y el análisis exploratorio de datos (EDA). En esta sesión el énfasis se desplaza hacia un objetivo distinto: **la elaboración de reportes descriptivos reproducibles a partir de datos de encuesta**.
+
+En estudios de opinión pública, como Latinobarómetro, los resultados descriptivos se presentan como **tablas y gráficos estandarizados**, que permiten:
+
+-   caracterizar a la muestra,
+
+-   diagnosticar la calidad del dato,
+
+-   comparar subgrupos,
+
+-   y comunicar resultados de forma clara y verificable.
+
+------------------------------------------------------------------------
+
+Para ello se trabajará con un conjunto de paquetes organizados por función:
+
+-   **Manipulación / visualización**: tidyverse, scales, patchwork
+
+-   **Tablas**: janitor, gt, gtsummary
+
+-   **Diagnóstico / EDA**: skimr, naniar, dlookr
+
+-   **Visualización**: ggplot y complementos
+
+------------------------------------------------------------------------
+
+```{r}
+# Manipulación
+library(tidyverse)
+
+
+# Tablas (frecuencias y presentación)
+library(janitor)
+library(gt)
+library(gtsummary)
+
+# Diagnóstico / EDA
+library(skimr)
+library(naniar)
+library(dlookr)
+
+#Visualización
+library(scales)
+library(patchwork)
+```
+
+# 4.1 Carga de datos y selección de variables
+
+------------------------------------------------------------------------
+
+Latinobarómetro contiene muchas variables. Un reporte descriptivo suele trabajar con un **subset** coherente con el objetivo del análisis. Aquí se utiliza Perú (IDENPA == 604) y un bloque de variables asociadas a confianza institucional y percepciones.
+
+```{r}
+# Importamos la base
+latb2023 = read_csv("latb2023.csv")
+
+# Filtramos las observaciones de Perú (IDENPA == 604)
+latb_pe = latb2023 %>%
+  filter(IDENPA == 604)
+```
+
+------------------------------------------------------------------------
+
+Se seleccionan variables clave. Se incluye el ponderador WT, porque en encuestas suele ser necesario reportar estadísticas ponderadas.
+
+```{r}
+# Seleccionamos variables relevantes para reportes descriptivos
+confianza = latb_pe %>%
+  select(
+    WT,                # ponderador muestral
+    EDAD,              # edad (numérica)
+    SEXO,              # sexo (categórica)
+    P2ST,              # percepción de progreso del país
+    P5STGBS,           # situación económica actual
+    P6STGBS,           # economía vs año anterior
+    P11STGBS.A,        # satisfacción con la democracia
+    P13ST.C,           # confianza en Iglesia
+    P13ST.D,           # confianza en Congreso
+    P13ST.E,           # confianza en Gobierno
+    P13ST.G            # confianza en Partidos
+  )
+```
+
+------------------------------------------------------------------------
+
+En reportes, nombres cortos e interpretables ayudan a reducir errores y a leer código como texto analítico.
+
+```{r}
+# Renombramos las variables
+confianza = confianza %>%
+  rename(
+    peso = WT,
+    edad = EDAD,
+    sexo = SEXO,
+    percepcion_progreso = P2ST,
+    situacion_economica = P5STGBS,
+    economia_vs_anterior = P6STGBS,
+    satisfaccion_democracia = P11STGBS.A,
+    confianza_iglesia = P13ST.C,
+    confianza_congreso = P13ST.D,
+    confianza_gobierno = P13ST.E,
+    confianza_partidos = P13ST.G
+  )
+```
+
+------------------------------------------------------------------------
+
+Verificamos la estrcutura de los datos
+
+```{r}
+str(confianza)
+```
+
+# 4.2. Diagnóstico estructural con skimr
+
+------------------------------------------------------------------------
+
+Un reporte descriptivo no suele empezar con promedios: se deben diagnosticar los datos primero. Antes de producir tablas y gráficos conviene responder:
+
+-   ¿Existen valores faltantes?
+
+-   ¿Qué tipos de variables existen?
+
+-   ¿Qué variables presentan distribuciones “raras”?
+
+-   ¿Qué variables podrían requerir recodificación o transformación?
+
+```{r}
+# skim() produce un diagnóstico general del dataset
+resumen = confianza %>%
+  skim()
+```
+
+------------------------------------------------------------------------
+
+## Tipos de variables
+
+```{r}
+resumen %>%
+  select(skim_variable, skim_type)
+```
+
+------------------------------------------------------------------------
+
+El tipo reportado por `skim()` corresponde al tipo de almacenamiento en R, no necesariamente al tipo conceptual de la variable. En este caso, todas las variables aparecen como numeric porque fueron codificadas numéricamente en el cuestionario, no porque representen magnitudes continuas.
+
+::: {.callout-note appearance="minimal"}
+Es necesario distinguir entre:
+
+• Tipo técnico (cómo está almacenada la variable en R),
+
+• Tipo analítico (cómo debe interpretarse y reportarse la variable).
+:::
+
+------------------------------------------------------------------------
+
+```{r}
+confianza = confianza %>%
+  mutate(
+    # Nominal
+    sexo = factor(
+      sexo,
+      levels = c(1, 2),
+      labels = c("Hombre", "Mujer")
+    ),
+    
+    # Ordinal — Percepción general (escala de 4 respuestas según cuestionario)
+    percepcion_progreso = factor(
+      percepcion_progreso,
+      levels = c(1, 2, 3, 4),
+      labels = c(
+        "Progreso",
+        "Sin cambio",
+        "Retroceso",
+        "No sabe / No responde"
+      ),
+      ordered = TRUE
+    ),
+    
+    situacion_economica = factor(
+      situacion_economica,
+      levels = c(1, 2, 3, 4),
+      labels = c(
+        "Muy buena",
+        "Buena",
+        "Mala",
+        "Muy mala"
+      ),
+      ordered = TRUE
+    ),
+    
+    economia_vs_anterior = factor(
+      economia_vs_anterior,
+      levels = c(1, 2, 3, 4),
+      labels = c(
+        "Mejor que antes",
+        "Igual que antes",
+        "Peor que antes",
+        "No sabe / No responde"
+      ),
+      ordered = TRUE
+    ),
+    
+    satisfaccion_democracia = factor(
+      satisfaccion_democracia,
+      levels = c(1, 2, 3, 4),
+      labels = c(
+        "Muy satisfecho",
+        "Bastante satisfecho",
+        "Poco satisfecho",
+        "Nada satisfecho"
+      ),
+      ordered = TRUE
+    ),
+    
+    confianza_iglesia = factor(
+      confianza_iglesia,
+      levels = c(1, 2, 3, 4),
+      labels = c(
+        "Mucha confianza",
+        "Algo de confianza",
+        "Poca confianza",
+        "Ninguna confianza"
+      ),
+      ordered = TRUE
+    ),
+    
+    confianza_congreso = factor(
+      confianza_congreso,
+      levels = c(1, 2, 3, 4),
+      labels = c(
+        "Mucha confianza",
+        "Algo de confianza",
+        "Poca confianza",
+        "Ninguna confianza"
+      ),
+      ordered = TRUE
+    ),
+    
+    confianza_gobierno = factor(
+      confianza_gobierno,
+      levels = c(1, 2, 3, 4),
+      labels = c(
+        "Mucha confianza",
+        "Algo de confianza",
+        "Poca confianza",
+        "Ninguna confianza"
+      ),
+      ordered = TRUE
+    ),
+    
+    confianza_partidos = factor(
+      confianza_partidos,
+      levels = c(1, 2, 3, 4),
+      labels = c(
+        "Mucha confianza",
+        "Algo de confianza",
+        "Poca confianza",
+        "Ninguna confianza"
+      ),
+      ordered = TRUE
+    )
+  )
+```
+
+------------------------------------------------------------------------
+
+Comprobamos
+
+```{r}
+resumen = confianza %>%
+  skim()
+resumen %>%
+  select(skim_variable, skim_type)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+str(confianza)
+```
+
+------------------------------------------------------------------------
+
+## Valores faltantes
+
+Se identifican variables con mayor cantidad de faltantes.
+
+```{r}
+resumen %>%
+  select(skim_variable, n_missing, complete_rate) %>%
+  arrange(desc(n_missing))
+```
+
+# 4.3. Patrones de valores faltantes con naniar
+
+------------------------------------------------------------------------
+
+`naniar` nos permite visualizar valores faltantes de forma visual:
+
+```{r, eval=FALSE}
+# Visualiza faltantes por variable (barra) y por patrón
+vis_miss(confianza)
+```
+
+------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+# Visualiza faltantes por variable (barra) y por patrón
+vis_miss(confianza)
+```
+
+------------------------------------------------------------------------
+
+![](images/clipboard-2135428998.png){fig-align="center" width="850"}
+
+------------------------------------------------------------------------
+
+## Limpieza mínima para el bloque analizado
+
+En reportes descriptivos por bloques, una práctica estándar es crear una versión “cc” (complete cases) solo para las variables relevantes.
+
+```{r}
+# Crea una versión solo con casos completos
+# para variables clave del bloque bivariado
+confianza_cc = confianza %>%
+  drop_na(confianza_congreso, satisfaccion_democracia, sexo, edad)
+```
+
+```{r}
+# Compara tamaños (antes/después)
+dim(confianza)
+dim(confianza_cc)
+```
+
+# 4.4. Diagnóstico numérico y categórico
+
+------------------------------------------------------------------------
+
+## Variables numéricas
+
+```{r}
+# Se filtran numéricas y se seleccionan estadísticas clave
+resumen %>%
+  filter(skim_type == "numeric") %>%
+  select(skim_variable, numeric.mean, numeric.sd, numeric.p25, 
+         numeric.p50, numeric.p75, numeric.hist)
+```
+
+------------------------------------------------------------------------
+
+## Variables categóricas
+
+```{r}
+resumen %>%
+  filter(skim_type %in% c("factor")) %>%
+  select(skim_variable, factor.n_unique, factor.top_counts)
+```
+
+# 4.5. Diagnóstico estadístico con dlookr
+
+------------------------------------------------------------------------
+
+dlookr::describe() agrega medidas de forma (asimetría y curtosis), útiles cuando:
+
+-   se sospecha concentración en extremos,
+
+-   o la distribución se aleja de un patrón aproximadamente simétrico.
+
+```{r}
+describe(confianza_cc) %>%
+  select(described_variables, n, mean, sd, skewness, kurtosis, p50)
+```
+
+------------------------------------------------------------------------
+
+La función `diagnose_category()` permite diagnosticar variables categóricas.
+
+```{r}
+diagnose_category(confianza_cc) %>% 
+  filter(variables == "confianza_congreso")
+```
+
+# 4.6. Tablas de frecuencia simples
+
+------------------------------------------------------------------------
+
+```{r}
+tab_sexo = confianza_cc %>%
+  count(sexo, name = "n") %>%
+  mutate(p = n / sum(n))
+
+tab_sexo
+```
+
+------------------------------------------------------------------------
+
+```{r}
+tab_congreso = confianza_cc %>%
+  count(confianza_congreso, name = "n") %>%
+  mutate(p = n / sum(n))
+
+tab_congreso
+```
+
+# 4.7. Tablas cruzadas con gtsummary
+
+------------------------------------------------------------------------
+
+El paquete gtsummary permite construir tablas cruzadas directamente orientadas a reporte, sin necesidad de calcular manualmente frecuencias o proporciones. A diferencia de las tablas simples, las tablas cruzadas permiten responder preguntas del tipo: • ¿Cómo se distribuye una variable dentro de los niveles de otra? • ¿Existen patrones sistemáticos entre grupos?
+
+```{r}
+library(gtsummary)
+```
+
+```{r}
+library(crosstable)
+```
+
+------------------------------------------------------------------------
+
+Por ejemplo:
+
+**¿Cómo se distribuye la confianza en el Congreso según satisfacción democrática?**
+
+------------------------------------------------------------------------
+
+**Podemos hacer una tabla cruzada con porcentajes por fila que responda a**: “Dentro de cada nivel de satisfacción, ¿cómo se reparte la confianza?”
+
+```{r}
+tab_cruz = confianza_cc %>%
+  # Etiquetas
+  mutate(
+    satisfaccion_democracia = set_label(satisfaccion_democracia,
+                                        "Satisfacción con la democracia"),
+    confianza_congreso      = set_label(confianza_congreso,
+                                        "Confianza en el Congreso")
+  ) %>%
+  # Tabla cruzada con porcentajes por fila
+  tbl_cross(
+    row = satisfaccion_democracia,
+    col = confianza_congreso,
+    percent = "row"
+  ) %>%
+  # Título
+  modify_caption("**Confianza en el Congreso según satisfacción democrática**")
+```
+
+------------------------------------------------------------------------
+
+![](images/clipboard-3534012517.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+**Podemos hacer una tabla cruzada con porcentajes por columna que responda a:** “Dentro de cada nivel de confianza, ¿cómo se distribuye la satisfacción?”
+
+```{r}
+tab_cruz_col = confianza_cc %>%
+  # Etiquetas
+  mutate(
+    satisfaccion_democracia = set_label(satisfaccion_democracia,
+                                        "Satisfacción con la democracia"),
+    confianza_congreso      = set_label(confianza_congreso,
+                                        "Confianza en el Congreso")
+  ) %>%
+  # Tabla cruzada con porcentajes por columna
+  tbl_cross(
+    row = satisfaccion_democracia,
+    col = confianza_congreso,
+    percent = "column"
+  ) %>%
+  # Título
+  modify_caption("**Confianza en el Congreso según satisfacción democrática**")
+```
+
+------------------------------------------------------------------------
+
+![](images/clipboard-2885808446.png){fig-align="center" width="1480"}
+
+------------------------------------------------------------------------
+
+Hasta aquí, las tablas cruzadas se han utilizado para relacionar variables categóricas. Cuando la variable de interés es numérica (por ejemplo, edad), el enfoque cambia: en lugar de frecuencias o proporciones, se reportan medidas de tendencia central y dispersión.
+
+------------------------------------------------------------------------
+
+Por ejemplo, queremos analizar edad según satisfacción con la democracia.
+
+```{r}
+tab_edad = confianza_cc %>%
+  select(satisfaccion_democracia, edad) %>%
+  tbl_summary(
+    by = satisfaccion_democracia,
+    # continuous2 produce dos filas separadas para la misma variable
+    type = list(edad ~ "continuous2"),
+    # Definimos qué estadísticos se muestran en cada una de las dos filas
+    statistic = list(
+      edad ~ c("{mean}", "{sd}")
+    ),
+    digits = edad ~ 1,
+
+    label = list(edad ~ "Edad"),
+    missing = "no"
+  ) %>%
+  modify_caption("**Edad según satisfacción con la democracia**") 
+```
+
+------------------------------------------------------------------------
+
+![](images/clipboard-3139677558.png)
+
+# 4.8 Tablas listas para informe con gt
+
+------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+tab_sexo %>%
+  gt() %>%
+  tab_header(
+    title = "Distribución de la muestra por sexo",
+    subtitle = "Latinobarómetro Perú 2023"
+  ) %>%
+  cols_label(sexo = "Sexo", n = "Frecuencia", p = "Proporción") %>%
+  fmt_percent(p, decimals = 1) %>% 
+    # Centrar título y subtítulo
+  tab_style(
+    style = cell_text(align = "center"),
+    locations = cells_title(groups = c("title", "subtitle"))
+  ) %>%
+  # Centrar encabezados de columnas
+  cols_align(
+    align = "center",
+    columns = everything()
+  )
+```
+
+------------------------------------------------------------------------
+
+![](images/clipboard-3808475127.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+```{r}
+tab_cruz_row = confianza_cc %>%
+  count(satisfaccion_democracia, confianza_congreso, name = "n") %>%
+  group_by(satisfaccion_democracia) %>%
+  mutate(p = n / sum(n)) %>%   # porcentajes por fila
+  ungroup() %>%
+  select(-n) %>%
+  tidyr::pivot_wider(
+    names_from  = confianza_congreso,
+    values_from = p,
+    values_fill = 0
+  )
+
+tab_cruz_row = tab_cruz_row %>%
+  rename(`Satisfacción con la democracia` = satisfaccion_democracia)
+```
+
+------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+tab_cruz_row %>%
+  gt() %>%
+  tab_header(
+    title = "Confianza en el Congreso según satisfacción democrática",
+    subtitle = "Latinobarómetro Perú 2023"
+  ) %>%
+  fmt_percent(
+    columns = -`Satisfacción con la democracia`,
+    decimals = 1
+  ) %>%
+  # Centrar título y subtítulo
+  tab_style(
+    style = cell_text(align = "center"),
+    locations = cells_title(groups = c("title", "subtitle"))
+  ) %>%
+  # Centrar encabezados de columnas
+  cols_align(
+    align = "center",
+    columns = everything()
+  )
+```
+
+------------------------------------------------------------------------
+
+![](images/clipboard-264064551.png)
+
+# 4.9 Visualización: distribución y comparación
+
+------------------------------------------------------------------------
+
+Las variables de confianza y satisfacción han sido definidas como **categóricas ordinales**.
+
+Esto implica que:
+
+-   los valores representan **niveles ordenados**,
+
+-   pero **no magnitudes continuas**,
+
+-   y las distancias entre categorías **no son necesariamente iguales**.
+
+Por ello, la visualización debe priorizar **frecuencias y proporciones**, y no resúmenes métricos como medias o desviaciones estándar.
+
+------------------------------------------------------------------------
+
+## Distribución simple
+
+El gráfico de barras es la forma más directa de representar la **distribución de una variable ordinal**, ya que muestra cuántas observaciones se concentran en cada nivel.
+
+```{r, eval=FALSE}
+ggplot(confianza_cc, aes(x = confianza_congreso)) +
+  geom_bar(fill = "#1F4E79", color = "black") +
+  labs(
+    title = "Distribución de la confianza en el Congreso",
+    x = "Nivel de confianza",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+ggplot(confianza_cc, aes(x = confianza_congreso)) +
+  geom_bar(fill = "#1F4E79", color = "black") +
+  labs(
+    title = "Distribución de la confianza en el Congreso",
+    x = "Nivel de confianza",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+## Distribución relativa
+
+En reportes descriptivos, las **proporciones** suelen ser más informativas que las frecuencias absolutas, especialmente cuando se comparan subgrupos.
+
+Este gráfico responde a la pregunta:
+
+> ¿Qué porcentaje de la muestra se ubica en cada nivel de confianza?
+
+
+------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+confianza_cc %>%
+  count(confianza_congreso) %>%
+  mutate(prop = n / sum(n)) %>%
+  ggplot(aes(x = "", y = prop, fill = confianza_congreso)) +
+  geom_col(color = "black") +
+  geom_text(
+    aes(
+      label = ifelse(prop >= 0.03,
+                     percent(prop, accuracy = 1),
+                     "")
+    ),
+    position = position_stack(vjust = 0.5),
+    color = "black",
+    size = 4
+  ) +
+  coord_flip() +
+  ...
+```
+
+------------------------------------------------------------------------
+
+
+```{r, eval=FALSE}
+  ...
+  scale_y_continuous(labels = percent_format()) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  labs(
+    title = "Distribución relativa de la confianza en el Congreso",
+    x = NULL,
+    y = "Proporción",
+    fill = "Nivel de confianza"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y  = element_blank(),
+    axis.ticks.y = element_blank(),
+    legend.position = "top"
+  )
+```
+
+
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+confianza_cc %>%
+  count(confianza_congreso) %>%
+  mutate(prop = n / sum(n)) %>%
+  ggplot(aes(x = "", y = prop, fill = confianza_congreso)) +
+  geom_col(color = "black") +
+  geom_text(
+    aes(
+      label = ifelse(prop >= 0.03,
+                     percent(prop, accuracy = 1),
+                     "")
+    ),
+    position = position_stack(vjust = 0.5),
+    color = "black",
+    size = 4
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = percent_format()) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  labs(
+    title = "Distribución relativa de la confianza en el Congreso",
+    x = NULL,
+    y = "Proporción",
+    fill = "Nivel de confianza"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y  = element_blank(),
+    axis.ticks.y = element_blank(),
+    legend.position = "top"
+  )
+```
+
+------------------------------------------------------------------------
+
+## Comparación por grupo
+
+También podemos comparar la distribución de una variable ordinal según otra variable ordinal o categórica.
+
+------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+confianza_cc %>%
+  count(satisfaccion_democracia, confianza_congreso) %>%
+  group_by(satisfaccion_democracia) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup() %>%
+  ggplot(
+    aes(
+      x = satisfaccion_democracia,
+      y = prop,
+      fill = confianza_congreso
+    )
+  ) +
+  geom_col(position = "fill", color = "black") +
+  ...
+```
+
+------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+  ...
+  geom_text(
+    aes(
+      label = ifelse(prop >= 0.1,
+                     percent(prop, accuracy = 1),
+                     "")
+    ),
+    position = position_stack(vjust = 0.5),
+    size = 4,
+    color = "black"
+  ) +
+  scale_y_continuous(labels = percent_format()) +
+  labs(
+    title = "Confianza en el Congreso según satisfacción con la democracia",
+    x = "Satisfacción con la democracia",
+    y = "Proporción",
+    fill = "Confianza en el Congreso"
+  ) +
+  theme_minimal()
+```
+
+
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+confianza_cc %>%
+  count(satisfaccion_democracia, confianza_congreso) %>%
+  group_by(satisfaccion_democracia) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup() %>%
+  ggplot(
+    aes(
+      x = satisfaccion_democracia,
+      y = prop,
+      fill = confianza_congreso
+    )
+  ) +
+  geom_col(position = "fill", color = "black") +
+  geom_text(
+    aes(
+      label = ifelse(prop >= 0.1,
+                     percent(prop, accuracy = 1),
+                     "")
+    ),
+    position = position_stack(vjust = 0.5),
+    size = 4,
+    color = "black"
+  ) +
+  scale_y_continuous(labels = percent_format()) +
+  labs(
+    title = "Confianza en el Congreso según satisfacción con la democracia",
+    x = "Satisfacción con la democracia",
+    y = "Proporción",
+    fill = "Confianza en el Congreso"
+  ) +
+  theme_minimal()
+```
+
+# 4.10 Visualización avanzada
+
+------------------------------------------------------------------------
+
+Para comparar múltiples instituciones sin sobrecargar un solo gráfico, se recurre al **formato largo** y a las **facetas**.
+
+```{r}
+inst_long = confianza_cc %>%
+  select(
+    satisfaccion_democracia,
+    confianza_iglesia,
+    confianza_congreso,
+    confianza_gobierno,
+    confianza_partidos
+  ) %>%
+  pivot_longer(
+    cols = starts_with("confianza_"),
+    names_to = "institucion",
+    values_to = "confianza"
+  )
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+ggplot(inst_long, aes(x = confianza)) +
+  geom_bar(fill = "#1F4E79", color = "black") +
+  facet_wrap(~ institucion, ncol = 2) +
+  labs(
+    title = "Distribución de confianza por institución",
+    x = "Nivel de confianza",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+Las facetas permiten comparar:
+
+-   patrones generales de desconfianza,
+
+-   diferencias entre instituciones,
+
+-   niveles con mayor concentración relativa.
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+ggplot(inst_long, aes(x = confianza)) +
+  geom_bar(aes(y = after_stat(prop), group = 1),
+           fill = "#1F4E79", color = "black") +
+  facet_wrap(~ institucion, ncol = 2) +
+  scale_y_continuous(labels = percent_format()) +
+  labs(
+    title = "Proporción de respuestas por nivel de confianza e institución",
+    x = "Nivel de confianza",
+    y = "Proporción"
+  ) +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+En reportes descriptivos, es común integrar gráficos complementarios en una misma lámina, siempre que respondan a **preguntas distintas pero relacionadas**.
+
+Por ejemplo:
+
+-   distribución general de confianza,
+
+-   comparación por nivel de satisfacción democrática.
+
+------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+g1 = ggplot(confianza_cc, aes(x = confianza_congreso)) +
+  geom_bar(fill = "#1F4E79", color = "black") +
+  labs(title = "Distribución de confianza en el Congreso",
+       x = NULL, y = "Frecuencia") +
+  theme_minimal() +
+  coord_flip()
+
+g2 = confianza_cc %>%
+  count(satisfaccion_democracia, confianza_congreso) %>%
+  group_by(satisfaccion_democracia) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup() %>%
+  ggplot(
+    aes(
+      x = satisfaccion_democracia,
+      y = prop,
+      fill = confianza_congreso
+    )
+  ) +
+  geom_col(position = "fill", color = "black") +
+  geom_text(
+    aes(
+      label = ifelse(prop >= 0.05,
+                     percent(prop, accuracy = 1),
+                     "")
+    ),
+    position = position_stack(vjust = 0.5),
+    size = 3,
+    color = "black"
+  ) +
+  scale_y_continuous(labels = percent_format()) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  labs(
+    title = "Confianza según satisfacción democrática",
+    x = NULL,
+    y = "Proporción",
+    fill = NULL
+  ) +
+  coord_flip() +
+  theme_minimal() +
+  theme(
+    legend.position = "top"
+  )
+
+g1 / g2
+```
+
+------------------------------------------------------------------------
+
+```{r}
+g1 = ggplot(confianza_cc, aes(x = confianza_congreso)) +
+  geom_bar(fill = "#1F4E79", color = "black") +
+  labs(title = "Distribución de confianza en el Congreso",
+       x = NULL, y = "Frecuencia") +
+  theme_minimal() +
+  coord_flip()
+```
+
+------------------------------------------------------------------------
+
+```{r}
+g2 = confianza_cc %>%
+  count(satisfaccion_democracia, confianza_congreso) %>%
+  group_by(satisfaccion_democracia) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup() %>%
+  ggplot(
+    aes(
+      x = satisfaccion_democracia,
+      y = prop,
+      fill = confianza_congreso
+    )
+  ) +
+  geom_col(position = "fill", color = "black") +
+  geom_text(
+    aes(
+      label = ifelse(prop >= 0.05, percent(prop, accuracy = 1),
+                     "")
+    ),
+    position = position_stack(vjust = 0.5),
+    size = 3,
+    color = "black"
+  ) +
+  scale_y_continuous(labels = percent_format()) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  labs(
+    title = "Confianza según satisfacción democrática",
+    x = NULL,
+    y = "Proporción",
+    fill = NULL
+  ) +
+  coord_flip() +
+  theme_minimal() +
+  theme(
+    legend.position = "top"
+  )
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+g1 = ggplot(confianza_cc, aes(x = confianza_congreso)) +
+  geom_bar(fill = "#1F4E79", color = "black") +
+  labs(title = "Distribución de confianza en el Congreso",
+       x = NULL, y = "Frecuencia") +
+  theme_minimal() +
+  coord_flip()
+
+
+
+g1 / g2
+```
+
+
+
+

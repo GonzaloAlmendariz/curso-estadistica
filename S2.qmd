@@ -1,0 +1,1437 @@
+---
+title: "Semana 1: Manipulación de datos con dplyr y visualización con ggplot2"
+format: revealjs
+execute:
+  echo: true
+  warning: false
+  message: false
+editor_options: 
+  chunk_output_type: console
+---
+
+# 2.1 Principios de datos ordenados y limpieza básica
+
+## Limpieza de datos
+
+Este proceso consiste en identificar y corregir problemas comunes como valores faltantes, nombres de columnas inconsistentes, duplicados y tipos de datos incorrectos. La limpieza asegura que los datos estén en un estado coherente y listo para ser transformado o analizado.
+
+![](images/clipboard-578049781.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+Para las siguentes técnicas de limpieza utilizaremos el conjunto de datos `encuesta_problematica`. Te animo a que puedas identificar que posible problemas tiene antes de seguir adelante.
+
+```{r}
+datos_problema = read.csv('encuesta_problematica.csv')
+
+datos_problema
+```
+
+------------------------------------------------------------------------
+
+**Estandarización de nombres de columnas**
+
+Los nombres de las columnas en los conjuntos de datos pueden ser inconsistentes, incluir caracteres especiales o espacios que dificulten el manejo en R.
+
+Primero, identificamos los nombres originales del conjunto de datos utilizando la función base `names()`:
+
+```{r}
+colnames(datos_problema)
+```
+
+------------------------------------------------------------------------
+
+Para resolver esto, utilizamos la función `clean_names()` del paquete `janitor`. Esta función transforma automáticamente los nombres de las columnas en un formato limpio y consistente:
+
+```{r}
+# Cargar el paquete janitor
+library(janitor)
+
+# Estandarizar los nombres de las columnas
+datos_problema = clean_names(datos_problema)
+```
+
+```{r}
+colnames(datos_problema)
+```
+
+------------------------------------------------------------------------
+
+**Identificación y manejo de duplicados**
+
+En algunos casos, los datos pueden contener filas duplicadas que distorsionan el análisis.
+
+Antes de ver *cuáles*, conviene saber **si el problema existe**. Podemos identificar y eliminar estas filas utilizando la función `distinct()` de `dplyr`.
+
+```{r}
+# Cargamos dplyr
+library(dplyr)
+
+# Número total de filas
+nrow(datos_problema)
+
+# Número de filas únicas
+nrow(distinct(datos_problema))
+```
+
+------------------------------------------------------------------------
+
+También se puede calcular cuántas filas están duplicadas
+
+```{r}
+sum(duplicated(datos_problema))
+```
+
+Para ver las observaciones duplicadas, se usa `duplicated()`
+
+```{r}
+# Vector lógico indicando duplicados
+duplicated(datos_problema)
+```
+
+------------------------------------------------------------------------
+
+Para extraer las filas duplicadas:
+
+```{r}
+datos_problema[duplicated(datos_problema), ]
+```
+
+------------------------------------------------------------------------
+
+Una vez **identificados y entendidos**, recién se eliminan.
+
+```{r}
+
+
+# Eliminamos filas duplicadas
+datos_problema = distinct(datos_problema)
+```
+
+```{r}
+datos_problema
+```
+
+# 2.2 Manejo de valores faltantes
+
+------------------------------------------------------------------------
+
+El **manejo de valores faltantes** es uno de los aspectos más complejos en la limpieza de datos, y un tema importante a considerar al trabajar con conjuntos de datos. Un **valor perdido** o **NA** en R no es lo mismo que un **0** o un espacio vacío. Un valor perdido (o **NA**, que significa "Not Available") es una celda que no contiene información en absoluto, lo que puede ocurrir por diversas razones, como un error en la recolección de los datos, una respuesta no proporcionada en una encuesta o una omisión involuntaria al momento de ingresar los datos.
+
+------------------------------------------------------------------------
+
+Por ejemplo:
+
+```{r}
+#| echo: true
+# Cargamos el paquete readxl
+library(readxl)
+```
+
+```{r}
+#| echo: true
+# Importamos los datos desde un archivo Excel
+encuesta_excel = read_excel("encuesta.xlsx")
+```
+
+```{r}
+str(encuesta_excel)
+```
+
+------------------------------------------------------------------------
+
+### Detección de valores faltantes
+
+Para identificar valores faltantes, se utiliza la función `is.na()`, que devuelve un vector lógico (TRUE / FALSE) indicando si cada elemento es NA. Por ejemplo, si queremos evaluar la presencia de valores faltantes en la variable edad, escribimos:
+
+```{r}
+is.na(encuesta_excel$edad)
+```
+
+------------------------------------------------------------------------
+
+### Conteo de valores faltantes
+
+Dado que en R TRUE se interpreta como 1 y FALSE como 0, podemos sumar el vector lógico para obtener el número total de valores perdidos en la variable:
+
+Podemos sumar un vector lógico para contar los TRUE. En este caso los valores perdidos.
+
+```{r}
+# Cantidad de valores perdidos 
+sum(is.na(encuesta_excel$edad)) 
+```
+
+------------------------------------------------------------------------
+
+### Identificación de las observaciones con valores faltantes
+
+Además de contar los valores perdidos, suele ser útil saber **en qué observaciones ocurren**. Para ello, podemos usar `which()`:
+
+```{r}
+# Índices de las observaciones con edad faltante
+indices = which(is.na(encuesta_excel$edad))
+```
+
+Una vez tenemos sus índices podemos evaluar las obervaciones
+
+```{r}
+encuesta_excel[indices, ]
+```
+
+------------------------------------------------------------------------
+
+Una de las formas más simples de manejar valores faltantes es eliminarlos por completo. Esto puede hacerse utilizando la función `drop_na()` del paquete `tidyr`, que elimina las filas que contienen al menos un valor NA en cualquier columna. Esta es una solución rápida, pero es importante ser cauteloso, ya que puede resultar en la pérdida de información valiosa si hay muchos datos faltantes.
+
+```{r}
+# Cargamos tidyr
+library(tidyr)
+```
+
+```{r}
+# Eliminamos filas con valores faltantes
+encuesta_limpia = drop_na(encuesta_excel)
+```
+
+```{r}
+is.na(encuesta_limpia$edad)
+```
+
+------------------------------------------------------------------------
+
+### Diagnostico
+
+Las estrategias anteriores resultan adecuadas cuando se trabaja con una sola variable o con conjuntos de datos pequeños y manejables. Sin embargo, en la práctica, los conjuntos de datos suelen ser más grandes y los valores faltantes pueden aparecer en múltiples variables simultáneamente. Para ilustrar este enfoque, se utilizará a continuación un conjunto de datos real incluido en R.
+
+```{r}
+data(airquality)
+str(airquality)
+```
+
+------------------------------------------------------------------------
+
+El paquete `dlookr` proporciona herramientas diseñadas para realizar este tipo de diagnóstico de forma rápida y estructurada. En particular, la función `diagnose()` resume información clave para cada variable:
+
+-   `missing_count`: Cantidad de valores faltantes (NA) en una variable.
+
+-   `missing_percent`: Porcentaje de valores faltantes respecto al total de observaciones.
+
+-   `unique_count`: Número de valores distintos que aparecen en la variable (excluyendo NA). Responde a“¿Cuántos valores diferentes existen en esta variable?”
+
+-   `unique_rate`: Proporción de valores distintos en relación al total de observaciones. La interpretación suele ser: Bajo → muchos valores repetidos (típico de variables categóricas), alto → casi todos los valores son distintos (típico de identificadores)
+
+------------------------------------------------------------------------
+
+```{r}
+dlookr::diagnose(airquality)
+```
+
+------------------------------------------------------------------------
+
+### Visualización de valores faltantes (naniar)
+
+Además del conteo y el diagnóstico, la visualización de los valores faltantes nos ayuda a identificar patrones de ausencia, como la concentración de valores faltantes en determinadas variables o la coincidencia de faltantes en las mismas observaciones.
+
+El paquete naniar facilita esta tarea mediante representaciones gráficas que muestran de manera clara la estructura de los valores faltantes en el conjunto de datos.
+
+```{r}
+#| eval: false
+naniar::vis_miss(airquality)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| echo: true
+#| eval: false
+naniar::vis_miss(airquality)
+```
+
+![](images/clipboard-340330456.png){fig-align="center" width="780"}
+
+------------------------------------------------------------------------
+
+Aunque eliminar valores faltantes puede ser un enfoque válido en algunos casos, no siempre es ideal. Si eliminamos demasiadas filas, podemos perder una cantidad significativa de información, lo que podría alterar los resultados de nuestro análisis. Por eso, en lugar de eliminar, muchas veces es preferible **imputar** los valores faltantes, es decir, reemplazarlos con un valor estimado. Por ejemplo, algunas estrategias comunes para imputar valores incluyen **reemplazar por el promedio** en el caso de variables numéricas o **reemplazar por la moda** en variables categóricas donde los valores faltantes pueden ser reemplazados por el valor más frecuente.
+
+# 2.3 Manipulación de datos con dplyr
+
+------------------------------------------------------------------------
+
+:::::: columns
+:::: {.column width="70%"}
+::: columns
+Una vez limpios nuestros datos pasamos al tercer paso: la manipulación de datos. La manipulación de datos consiste en transformar y preparar los datos para su análisis, lo que puede incluir la creación de nuevas variables, el filtrado de observaciones o la omisión de alguna variable. Para ello, usaremos el paquete `dplyr` del tidyverse.
+
+`dplyr` es un paquete del tidyverse diseñado específicamente para la manipulación de datos. Proporciona un conjunto de funciones que permiten seleccionar, filtrar, ordenar, resumir y transformar datos en `data.frames`.
+:::
+::::
+
+::: {.column width="30%"}
+![](images/clipboard-2776423991.png){fig-align="center" width="467"}
+:::
+::::::
+
+------------------------------------------------------------------------
+
+Una de las características más importantes de dplyr es su uso del "pipe operator" (`%>%`), que permite encadenar múltiples operaciones de manera secuencial, pasando el resultado de una función directamente como entrada a la siguiente. Esto hace que el código sea más fácil de leer y mantener.
+
+El atajo del teclado para el pipe operator (`%>%`) es:
+
+-   `Ctrl + Shift + M` (Windows)
+
+-   `Cmd + Shift + M` (Mac)
+
+------------------------------------------------------------------------
+
+### Un sistema de tuberías
+
+Para poder realizar múltiples acciones en secuencia conectando cada acción con la siguiente a través de "tuberías" debemos utilizar lo que se llama el *pipe operator* (`%>%`).
+
+![](images/clipboard-3856958194.png)
+
+------------------------------------------------------------------------
+
+Lo iremos viendo, de momento tienes que conocer algunas de las principales funciones de dplyr:
+
+-   `filter()`: Filtra filas de un dataframe según una condición específica.
+-   `select()`: Selecciona columnas específicas de un dataframe.
+-   `mutate()`: Crea nuevas columnas o modifica las existentes en un dataframe.
+-   `reframe`()\`: Resumen estadístico de las columnas de un dataframe.
+-   `arrange()`: Ordena las filas de un dataframe según una o más variables.
+-   `group_by()`: Agrupa un dataframe por una o más variables, preparándolo para operaciones de resumen.
+
+------------------------------------------------------------------------
+
+## Base de datos: World Development Indicators (WDI)
+
+El análisis de datos en ciencias sociales requiere acceder a fuentes confiables, comparables y actualizadas. Una de las más utilizadas a nivel global es la **World Development Indicators (WDI)** del Banco Mundial. Gracias al paquete `WDI` en R, podemos acceder directamente a esta base de forma automatizada.
+
+```{r}
+library(WDI)
+```
+
+En este ejemplo trabajaremos con tres indicadores esenciales para describir y comparar el desarrollo de distintos países:
+
+-   PIB per cápita (NY.GDP.PCAP.CD)
+
+-   Esperanza de vida (SP.DYN.LE00.IN)
+
+-   Población total (SP.POP.TOTL)
+
+------------------------------------------------------------------------
+
+La base descargada contiene diversas variables. Para este análisis introductorio, nos centraremos en las siguientes:
+
+| Variable | Descripción |
+|----|----|
+| `country` | Nombre del país |
+| `iso2c` / `iso3c` | Códigos de país (ISO 2 y 3 letras) |
+| `pib_per_capita` | PIB per cápita en dólares actuales (indicador económico) |
+| `esperanza_vida` | Esperanza de vida al nacer (indicador de salud) |
+| `poblacion_total` | Población total (indicador demográfico) |
+| `region` | Región del país según clasificación del Banco Mundial |
+| `income` | Nivel de ingreso del país (bajo, medio, alto, etc.) |
+
+------------------------------------------------------------------------
+
+::: {.callout-note title="Carga de la base de datos" appearance="minimal"}
+Para acceder a los datos, usamos la función `WDI()` especificando los indicadores deseados:
+:::
+
+```{r}
+#| echo: true
+#| eval: false
+df = WDI(
+  country = "all",
+  indicator = c(
+    # A los indicadores les ponemos un nombre más manejable
+    pib_capita = "NY.GDP.PCAP.CD",
+    esp_vida = "SP.DYN.LE00.IN",
+    poblacion = "SP.POP.TOTL"
+  ),
+  start = 2014, end = 2024, extra = T
+)
+```
+
+```{r}
+#| echo: false
+df =  readr::read_csv("wdi_data.csv")
+```
+
+------------------------------------------------------------------------
+
+Vemos la data completa con todas sus variable usando `glimpse()`
+
+```{r, echo=FALSE}
+df %>% glimpse()
+```
+
+Como puedes ver, el conjunto de dato tiene mas variables de las que necesitamos, pero eso tiene solución...
+
+------------------------------------------------------------------------
+
+Utilizamos la función `select()` para filtrar por las columnas que son de nuestro interés.
+
+![](images/clipboard-3685499145.png){fig-align="center" width="728"}
+
+------------------------------------------------------------------------
+
+Seleccionamos únicamente las variables requeridas para nuestro análisis, sobreescribimos el objeto para modificar el original.
+
+```{r}
+df = df %>% 
+  select(country, year, pib_capita, 
+         esp_vida, poblacion, region, income)
+```
+
+```{r}
+glimpse(df)
+```
+
+------------------------------------------------------------------------
+
+Echemos un vistazo a la variable `$country`.
+
+```{r, eval= F}
+head(unique(df$country), 15)
+```
+
+::: {.callout-note title="¿Qué hace este código?" appearance="minimal"}
+-   `unique()` nos permite obtener los valores únicos de una variable, eliminando los repetidos. En este caso, los nombres de países sin duplicados.
+
+-   `head()` ya la conoces, nos muestra los primeros valores de un vector o tabla. Si le decimos `n = 15`, nos devuelve solo los primeros 15 (lo limitamos a 15 únicamente por estética de la presentación, lo ideal es que revises todas las categorías posibles)
+
+Al combinarlas, estamos diciendo: *Muéstrame los primeros 15 países distintos que aparecen en la columna country*.
+:::
+
+------------------------------------------------------------------------
+
+```{r, echo= F}
+head(unique(df$country), 15)
+```
+
+Notaremos que algunos de los "países" listados no son países en sentido estricto, sino **regiones agregadas**, como "East Asia & Pacific" o "Sub-Saharan Africa".
+
+------------------------------------------------------------------------
+
+Bueno, podemos utilizar la variable `region` junto con una función muy útil del paquete `dplyr`: `filter()`.
+
+La función `filter()` nos permite seleccionar filas que cumplen con una condición específica.
+
+![](images/clipboard-2235361724.png){fig-align="center" width="754"}
+
+------------------------------------------------------------------------
+
+Filtrar solo países (quitar regiones agregadas)
+
+```{r}
+df_paises = df %>%
+  # '!=' significa diferente a...
+  filter(region != "Aggregates") 
+
+unique(df_paises$country) %>% 
+  head(15)
+```
+
+------------------------------------------------------------------------
+
+También podemos hacer lo contrario: filtrar solo regiones agregadas
+
+```{r}
+agr = df %>%
+  filter(region == "Aggregates") 
+```
+
+```{r}
+unique(agr$country) %>% 
+  head(15)
+```
+
+------------------------------------------------------------------------
+
+**¿Y si solo queremos los datos de un año específico?**
+
+Muchas veces, especialmente cuando queremos hacer **comparaciones entre países o regiones**, es útil **quedarnos solo con un año**.\
+Esto evita que se mezclen observaciones de distintos años y hace que los gráficos o análisis sean más claros.
+
+Por ejemplo, si queremos trabajar **solo con datos del año 2022**, podemos aplicar otro `filter()`:
+
+```{r}
+df_22 = df_paises %>%
+  filter(year == 2022)
+```
+
+```{r}
+glimpse(df_22)
+```
+
+------------------------------------------------------------------------
+
+**¿Es posible tener más de una condición?**
+
+¡Claro! Podríamos tener también solo las regiones agregadas para ese mismo año.
+
+```{r}
+agr_22 = df %>%
+  filter(region == "Aggregates", 
+         year == 2022)
+```
+
+```{r}
+glimpse(agr_22)
+```
+
+------------------------------------------------------------------------
+
+Ya filtramos la base para quedarnos solo con el año 2022, así que la variable year ya no tiene mucho sentido en este nuevo `data.frame`, ¿cierto? Todos los valores serían iguales.
+
+```{r,}
+df_22 %>% 
+  head()
+```
+
+------------------------------------------------------------------------
+
+Entonces, ¿por qué no quitarla directamente? Podemos hacerlo fácilmente con `select()` usando el signo menos (`-`) antes de la variable. Y lo encadenamos todo con pipes `%>%`:
+
+```{r}
+df_22 = df %>%
+  filter(year == 2022) %>% 
+  select(-year)
+```
+
+```{r}
+glimpse(df_22)
+```
+
+------------------------------------------------------------------------
+
+A veces queremos saber qué países tienen los valores más altos o más bajos de alguna variable, por ejemplo, el PIB per cápita o la esperanza de vida.
+
+Utilizamos la función `arrange()` para poder ordenar las observaciones (filas) que tengamos.
+
+Veamos un ejemplo ordenando de mayor a menor el PIB per cápita:
+
+```{r}
+df_22 %>% 
+  arrange(desc(pib_capita)) %>% 
+  head(3)
+```
+
+------------------------------------------------------------------------
+
+Y si queremos los países con el menor PIB per cápita, simplemente quitamos el `desc()`:
+
+```{r}
+df_22 %>% 
+  arrange(pib_capita) %>% 
+  head(3)
+```
+
+------------------------------------------------------------------------
+
+Hasta ahora, hemos trabajado filtrando o seleccionando información… Pero, ¿y si quisiéramos **crear una nueva variable** a partir de una que ya tenemos?
+
+Con `mutate()`, podemos agregar columnas nuevas a nuestra base de datos, calculadas a partir de otras columnas.
+
+![](images/clipboard-1530458258.png){fig-align="center" width="730"}
+
+------------------------------------------------------------------------
+
+Un caso clásico es transformar el PIB per cápita.
+
+```{r}
+df_22 = df_22 %>%
+  mutate(
+    log_pib = log(pib_capita)
+         )
+```
+
+------------------------------------------------------------------------
+
+::: {.callout-note title="¿Por qué usamos el logaritmo?"}
+Cuando una variable como el **PIB per cápita** tiene valores muy dispersos,\
+los países con ingresos altísimos pueden dominar los gráficos y análisis.\
+Aplicar una **transformación logarítmica** nos ayuda a:
+
+-   **Reducir la influencia de los valores extremos.**\
+-   **Visualizar mejor las diferencias entre países con ingresos bajos y medios.**\
+-   **Comparar proporciones en lugar de diferencias absolutas.**
+:::
+
+------------------------------------------------------------------------
+
+Esto crea una nueva columna llamada `log_pib`, donde hemos guardado el logaritmo del PIB per cápita.
+
+```{r}
+df_22 %>%
+  select(country, pib_capita, log_pib) %>%
+  arrange(desc(pib_capita)) %>%
+  head(3)
+```
+
+------------------------------------------------------------------------
+
+`reframe()` nos permite crear una nueva tabla desde una existente. Es ideal para generar resúmenes limpios o cálculos específicos sin necesidad de arrastrar otras columnas.
+
+```{r}
+df_22 %>%
+  reframe(media_pib = mean(pib_capita, na.rm = TRUE))
+```
+
+Este código nos devuelve un data frame con una sola fila, que simplemente muestra el PIB per cápita promedio de todos los países juntos.
+
+Pero... ¿y si queremos calcularlo por región?
+
+------------------------------------------------------------------------
+
+Por ejemplo: ¿qué tal si queremos saber cuál es el PIB promedio de cada región del mundo?
+
+Agrupamos con `group_by()`
+
+```{r}
+df_22 %>%
+  group_by(region) %>% 
+  head(3)
+```
+
+------------------------------------------------------------------------
+
+Esto no hace nada visible aún, pero le indica a R que **toda operación posterior se aplique por separado a cada región**.
+
+Podemos aplicar `reframe()` junto con `group_by` para obtener el promedio por cada región:
+
+```{r}
+df %>%
+  group_by(region) %>%
+  reframe(media_pib = mean(pib_capita, na.rm = TRUE))
+```
+
+------------------------------------------------------------------------
+
+Por ejemplo, podríamos ver los dos países con mayor esperanza de vida en cada región. Combinando `filter()`, `arrange()`, `select()` y `group_by()` ya podemos hacer consultas bastante útiles.
+
+------------------------------------------------------------------------
+
+**¿Cuáles son los 3 países con menor esperanza de vida en Europa y Asia Central?**
+
+Podemos combinar filtrado, ordenamiento y selección:
+
+```{r}
+df_22 %>%
+  filter(region == "Europe & Central Asia") %>%      
+  arrange(esp_vida) %>%                        
+  select(country, esp_vida) %>%
+  head(3)
+```
+
+------------------------------------------------------------------------
+
+**¿Cuál es el país más poblado de cada región?**
+
+Ahora agrupamos por región, ordenamos dentro de cada grupo y usamos `slice_head()` para quedarnos con el primer país de cada región (el más poblado):
+
+```{r, eval=FALSE}
+df_22 %>%
+  group_by(region) %>%
+  arrange(desc(poblacion), .by_group = TRUE) %>%
+  slice_head(n = 1) %>%
+  select(region, country, poblacion) %>% 
+  arrange(desc(poblacion))
+```
+
+------------------------------------------------------------------------
+
+```{r}
+df_22 %>%
+  group_by(region) %>%
+  arrange(desc(poblacion), .by_group = TRUE) %>%
+  slice_head(n = 1) %>%
+  select(region, country, poblacion) %>% 
+  arrange(desc(poblacion))
+```
+
+# 2.4 Gramática de gráficos con ggplot2
+
+------------------------------------------------------------------------
+
+Poder visualizar la información no solo nos ayuda a a anticipar ciertos patrones y comportamientos, sino que también facilita la comunicación de estos hallazgos a otros. Es importante reconocer que tendemos a dejarnos llevar más por los gráficos que por los resúmenes numéricos, aunque ambos sean igualmente importantes.
+
+`ggplot2` es uno de los paquetes más populares y poderosos en R para la creación de gráficos.
+
+```{r}
+library(ggplot2)
+```
+
+------------------------------------------------------------------------
+
+La creación de gráficos con `ggplot2` se basa en la gramática de los gráficos (Grammar of Graphics). Esta gramática define una serie de componentes que forman parte de un gráfico:
+
+1.  **Datos**: El conjunto de datos que queremos visualizar.
+2.  **Estética**: La asignación de variables a aspectos visuales del gráfico, como posición, color, tamaño, etc.
+3.  **Geometría**: El tipo de gráfico (barras, puntos, líneas, etc.).
+4.  **Facetas**: Subdivisiones del gráfico en múltiples paneles basados en una o más variables.
+5.  **Estadísticas**: Transformaciones estadísticas que se aplican a los datos antes de graficarlos.
+6.  **Coordenadas**: El sistema de coordenadas usado (cartesiano, polar, etc.).
+7.  **Tema**: Elementos de diseño y formato del gráfico.
+
+------------------------------------------------------------------------
+
+Piensa en cada uno de ellos como una capa que va encima. Para construir un gráfico en `ggplot2`, concatenamos diferentes capas usando el operador `+`. Cada capa añade un nuevo componente al gráfico.
+
+![](images/clipboard-308247319.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+Vamos a empezar con un gráfico de dispersión básico utilizando el conjunto de datos `df_22`. Este conjunto contiene datos sobre el Producto Interno Bruto (PIB) per cápita, la esperanza de vida y otros indicadores para varios países a lo largo del tiempo.
+
+Empezamos agregando la primera capa, los datos. Para comenzar, creamos la base del gráfico con la función ggplot(), y como argumento el conjunto de datos `df_22`.
+
+```{r, eval = FALSE}
+ggplot(df_22)
+```
+
+------------------------------------------------------------------------
+
+```{r, fig.width=18, fig.height= 10 , echo=FALSE}
+ggplot(df_22)
+```
+
+------------------------------------------------------------------------
+
+Como ves, los datos por sí solos únicamente nos dan un recuadro en blanco; debemos añadir el resto de capas. Definimos las estéticas del gráfico con la función `aes()`, asignando el PIB per cápita al eje x (`pib_capita`) y la esperanza de vida al eje y (`esp_vida`).
+
+```{r, eval=FALSE}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida))
+```
+
+------------------------------------------------------------------------
+
+```{r, fig.width=18, fig.height=10, echo=FALSE}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida))
+```
+
+------------------------------------------------------------------------
+
+Ahora que R sabe qué datos vamos a utilizar y qué variables tomar como coordenadas, necesitamos especificar qué tipo de gráfico queremos crear. En `ggplot2`, hay muchas `geoms` (geometrías), y cada una proporciona un tipo de visualización distinta. Por ejemplo, `geom_bar` crea un gráfico de barras y `geom_line` genera uno de líneas.
+
+En nuestro caso, como ambas variables (el PIB per cápita y la esperanza de vida) son numéricas, lo ideal es usar un gráfico de dispersión. Este tipo de visualización nos permite explorar visualmente si existe algún tipo de relación entre ambas.
+
+------------------------------------------------------------------------
+
+Para crear este gráfico, usamos la función geom_point():
+
+```{r, warning=FALSE, eval=FALSE}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point()
+```
+
+------------------------------------------------------------------------
+
+```{r, warning=FALSE, echo = FALSE, fig.width=18, fig.height=10}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point()
+```
+
+------------------------------------------------------------------------
+
+En este ejemplo, aes(x = `pib_capita`, y = `esp_vida`) define la estética del gráfico, es decir, qué variable irá en cada eje. Luego, `geom_point()` le indica a R que queremos un gráfico de puntos (dispersión).
+
+------------------------------------------------------------------------
+
+Una vez que ejecutamos este código, ya podemos empezar a observar patrones generales en los datos. Sin embargo, probablemente notes que los puntos están bastante agrupados hacia la izquierda del gráfico. Esto ocurre porque el rango del PIB per cápita varía mucho entre países: algunos tienen valores muy altos y otros muy bajos, lo que comprime los datos en un extremo del eje.
+
+Para mejorar la visualización, podemos transformar la escala del eje x utilizando una escala logarítmica. Esto nos permite “expandir” las diferencias entre países con bajo PIB y comprimir un poco los valores más altos, facilitando así la comparación visual.
+
+------------------------------------------------------------------------
+
+Usamos `scale_x_log10()` para transformar el eje x a una escala logarítmica.
+
+```{r, eval = FALSE}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+------------------------------------------------------------------------
+
+```{r, fig.width=18, fig.height=10, echo = FALSE}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+------------------------------------------------------------------------
+
+Solo recuerda: aplicar una escala logarítmica cambia la forma en que leemos los datos. No estamos viendo el valor bruto del PIB per cápita, sino su logaritmo. Aun así, esta transformación es muy útil para interpretar mejor patrones cuando hay mucha dispersión entre valores bajos y altos.
+
+------------------------------------------------------------------------
+
+También podemos incluir una dimensión adicional de información visual usando la región de cada país como color. Para hacerlo, dentro de `aes()` agregamos el argumento `color = region`, lo que permite que cada punto se coloree según la región correspondiente.
+
+```{r, eval=FALSE}
+ggplot(df_22, aes(x = pib_capita, 
+                  y = esp_vida, 
+                  color = region)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+------------------------------------------------------------------------
+
+```{r, fig.width=18, fig.height=10, echo = FALSE}
+ggplot(df_22, aes(x = pib_capita, 
+                  y = esp_vida, 
+                  color = region)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+------------------------------------------------------------------------
+
+Esto permite explorar visualmente si ciertos patrones se agrupan por región. Por ejemplo, si hay regiones donde los países tienen una esperanza de vida similar a pesar de tener diferentes niveles de ingreso.
+
+------------------------------------------------------------------------
+
+Para que el gráfico sea más claro, añadimos etiquetas con `labs()`. Esto incluye un título para el gráfico, nombres para los ejes y una leyenda para el color.
+
+```{r, eval=FALSE}
+ggplot(df_22, aes(x = pib_capita, 
+                  y = esp_vida, 
+                  color = region)) +
+  geom_point() +
+  scale_x_log10() +
+  labs(title = "Relación entre PIB per cápita y Esperanza de Vida",
+       x = "PIB per cápita (escala logarítmica)",
+       y = "Esperanza de Vida",
+       color = "Región")
+```
+
+------------------------------------------------------------------------
+
+```{r, fig.width=18, fig.height=10, echo=FALSE}
+ggplot(df_22, aes(x = pib_capita, 
+                  y = esp_vida, 
+                  color = region)) +
+  geom_point() +
+  scale_x_log10() +
+  labs(title = "Relación entre PIB per cápita y Esperanza de Vida",
+       x = "PIB per cápita (escala logarítmica)",
+       y = "Esperanza de Vida",
+       color = "Región")
+```
+
+------------------------------------------------------------------------
+
+Con esto obtenemos un gráfico claro, donde cada capa cumple una función específica: `geom_point()`dibuja los puntos, `scale_x_log10()` transforma el eje x, `color = region` añade una variable categórica como color, y `labs()` da contexto e interpretación.
+
+------------------------------------------------------------------------
+
+Otra capa opcional que podemos agregar es `facet_wrap()`. El facetado permite dividir el gráfico en paneles separados según una variable categórica. En este caso, podemos crear un gráfico por cada región.
+
+Usamos `facet_wrap(~ region)` para crear un panel por región. Esto facilita comparar patrones dentro y entre regiones.
+
+```{r, eval = FALSE}
+ggplot(df_22, aes(x = pib_capita, 
+                  y = esp_vida, 
+                  color = region)) +
+  geom_point() +
+  scale_x_log10() +
+  labs(title = "Relación entre PIB per cápita y Esperanza de Vida",
+       x = "PIB per cápita (escala logarítmica)",
+       y = "Esperanza de Vida",
+       color = "Región") +
+  facet_wrap(~ region) +
+  theme(legend.position = "none")  # Esta línea oculta la leyenda
+```
+
+------------------------------------------------------------------------
+
+```{r, fig.width=10, fig.height=5.625, echo=FALSE}
+ggplot(df_22, aes(x = pib_capita, 
+                  y = esp_vida, 
+                  color = region)) +
+  geom_point() +
+  scale_x_log10() +
+  labs(title = "Relación entre PIB per cápita y Esperanza de Vida",
+       x = "PIB per cápita (escala logarítmica)",
+       y = "Esperanza de Vida",
+       color = "Región") +
+  facet_wrap(~ region) +
+  theme(legend.position = "none")  # Esta línea oculta la leyenda
+```
+
+------------------------------------------------------------------------
+
+Al usar `facet_wrap()`, cada gráfico mantiene la misma escala, pero muestra solo los países de una región. Esto permite observar variaciones internas que podrían quedar ocultas en un gráfico global.
+
+------------------------------------------------------------------------
+
+La última capa que veremos es la de `theme()`. Esta capa permite modificar con precisión la apariencia del gráfico: tamaños, posiciones, colores, fuentes, márgenes, etc. Por ejemplo, en el gráfico anterior eliminamos la leyenda usando un `theme(legend.position = "none")`.
+
+`ggplot2` tiene varios temas predeterminados que permiten cambiar la apariencia del gráfico sin complicarse demasiado. No exploraremos toda la personalización posible, sino solo algunos de los themes básicos.
+
+------------------------------------------------------------------------
+
+¿Recuerdas el gráfico que generamos antes del facet? Podemos usarlo nuevamente. No hace falta reescribirlo completo: los gráficos también son objetos en R, por lo que se pueden guardar en una variable.
+
+```{r}
+grafico = ggplot(df_22, aes(x = pib_capita, y = esp_vida, 
+                            color = region)) +
+  geom_point() +
+  scale_x_log10() +
+  labs(title = "Relación entre PIB per cápita y Esperanza de Vida",
+       x = "PIB per cápita (escala logarítmica)",
+       y = "Esperanza de Vida",
+       color = "Región")
+```
+
+------------------------------------------------------------------------
+
+Para mostrarlo, solo hay que llamarlo:
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+grafico
+```
+
+------------------------------------------------------------------------
+
+`theme_minimal()` crea un gráfico con fondo blanco y cuadrícula ligera:
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+grafico + theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+`theme_gray()` da un fondo gris claro y cuadrícula blanca.
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+grafico + theme_gray()
+```
+
+------------------------------------------------------------------------
+
+`theme_bw()` tiene fondo blanco y líneas más marcadas.
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+grafico + theme_bw()
+```
+
+------------------------------------------------------------------------
+
+`theme_classic()` imita el estilo clásico de los gráficos base de R.
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+grafico + theme_classic()
+```
+
+------------------------------------------------------------------------
+
+`theme_void()` elimina todos los elementos del gráfico, dejando solo los datos.
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+grafico + theme_void()
+```
+
+------------------------------------------------------------------------
+
+`theme_dark()` aplica un fondo oscuro con líneas claras.
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+grafico + theme_dark()
+```
+
+------------------------------------------------------------------------
+
+Todos estos temas pueden ser personalizados si necesitas ajustes más detallados. En esta sesión usaremos `theme_minimal()` por preferencia, pero puedes elegir el que mejor se adapte a tu estilo o propósito.
+
+# 2.5 Gráficos para variables continuas
+
+------------------------------------------------------------------------
+
+## Histograma
+
+El histograma permite observar la distribución de una variable numérica. Por ejemplo, ¿cómo están distribuidos los valores de esperanza de vida?
+
+```{r, eval=FALSE}
+ggplot(df_22, aes(x = esp_vida)) +
+  geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +
+  labs(title = "Distribución de la esperanza de vida",
+       x = "Esperanza de vida",
+       y = "Frecuencia") +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+ggplot(df_22, aes(x = esp_vida)) +
+  geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +
+  labs(title = "Distribución de la esperanza de vida",
+       x = "Esperanza de vida",
+       y = "Frecuencia") +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+### Gráfico de líneas
+
+Un gráfico de líneas es útil para ver cómo cambia una variable a lo largo del tiempo. Si tuvieras datos de varios años, podrías agrupar por año.
+
+------------------------------------------------------------------------
+
+Podemos combinar dplyr con ggplot2 utilizando el operador pipe (`%>%`) para encadenar directamente una transformación de datos con una visualización. Esto nos permite filtrar, agrupar o resumir datos con `dplyr`, y luego pasar el resultado directamente a `ggplot()` para graficarlo, sin necesidad de guardar objetos intermedios.
+
+```{r, eval=FALSE}
+df %>%
+  filter(region != "Aggregates") %>% 
+  group_by(year, region) %>%
+  reframe(esp_vida_media = mean(esp_vida, na.rm = TRUE)) %>%
+  ggplot(aes(x = year, y = esp_vida_media, color = region)) +
+  geom_line(size = 1) +
+  labs(title = "Evolución de la esperanza de vida por región",
+       x = "Año",
+       y = "Esperanza de vida (promedio)",
+       color = "Región") +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+df %>%
+  filter(region != "Aggregates") %>% 
+  group_by(year, region) %>%
+  reframe(esp_vida_media = mean(esp_vida, na.rm = TRUE)) %>%
+  ggplot(aes(x = year, y = esp_vida_media, color = region)) +
+  geom_line(size = 1) +
+  labs(title = "Evolución de la esperanza de vida por región",
+       x = "Año",
+       y = "Esperanza de vida (promedio)",
+       color = "Región") +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+------------------------------------------------------------------------
+
+### Boxplot
+
+Un boxplot muestra cómo se distribuye una variable numérica en distintas categorías. Por ejemplo, la distribución de la esperanza de vida según región:
+
+```{r, eval=FALSE}
+df_22 %>% 
+  ggplot(aes(x = region, y = esp_vida, fill = region)) +
+  geom_boxplot() +
+  labs(title = "Distribución de la esperanza de vida por región",
+       x = "Región",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+df_22 %>% 
+  ggplot(aes(x = region, y = esp_vida, fill = region)) +
+  geom_boxplot() +
+  labs(title = "Distribución de la esperanza de vida por región",
+       x = "Región",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+# 2.6 Gráficos para variables categóricas
+
+------------------------------------------------------------------------
+
+## Gráfico de barras
+
+Permite ver la frecuencia de cada categoría en barras
+
+```{r, eval=FALSE}
+df_22 %>%
+  ggplot(aes(x = region, fill = region)) +
+  geom_bar() +
+  labs(
+    title = "Frecuencia de observaciones por región",
+    x = "Región",
+    y = "Frecuencia"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  coord_flip()
+```
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+df_22 %>%
+  ggplot(aes(x = region, fill = region)) +
+  geom_bar() +
+  labs(
+    title = "Frecuencia de observaciones por región",
+    x = "Región",
+    y = "Frecuencia"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  coord_flip()
+```
+
+------------------------------------------------------------------------
+
+## Gráfico de barras con valores agregados
+
+Si ya tienes una tabla resumida con frecuencias, o quieres mostrar un valor calculado como la esperanza de vida promedio por región, usamos geom_col(). También podemos usar `reorder()` para ordenar las barras de menor a mayor vida promedio.
+
+```{r, eval=FALSE}
+df_22 %>%
+  group_by(region) %>%
+  reframe(vida_media = mean(esp_vida, na.rm = TRUE)) %>%
+  ggplot(aes(x = reorder(region, vida_media), 
+             y = vida_media, fill = region)) +
+  geom_col() +
+  labs(title = "Esperanza de vida promedio en 2022",
+       x = "Región",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  coord_flip()
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+df_22 %>%
+  group_by(region) %>%
+  reframe(vida_media = mean(esp_vida, na.rm = TRUE)) %>%
+  ggplot(aes(x = reorder(region, vida_media), y = vida_media, fill = region)) +
+  geom_col() +
+  labs(title = "Esperanza de vida promedio en 2022",
+       x = "Región",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  coord_flip()
+```
+
+------------------------------------------------------------------------
+
+## Gráfico de proporciones
+
+También podemos visualizar proporciones relativas entre categorías. Por ejemplo, la proporción de países por tipo de ingreso en cada región. `position = "fill"` transforma las barras en proporciones relativas
+
+```{r, eval=FALSE}
+df_22 %>%
+  ggplot(aes(x = region, fill = income)) +
+  geom_bar(position = "fill") +
+  labs(title = "Distribución proporcional de ingresos por región",
+       x = "Región",
+       y = "Proporción",
+       fill = "Tipo de ingreso") +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+df_22 %>%
+  ggplot(aes(x = region, fill = income)) +
+  geom_bar(position = "fill") +
+  labs(title = "Distribución proporcional de ingresos por región",
+       x = "Región",
+       y = "Proporción",
+       fill = "Tipo de ingreso") +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent)
+```
+
+------------------------------------------------------------------------
+
+`df_22$income` no tiene un orden factorizado, ggplot2 lo tratará como categorías sin orden, lo cual puede resultar en un orden de los niveles arbitrario. Podemos ordenar explícitamente los niveles de income usando `forcats::fct_relevel()`. En este caso, estamos trabajando con categorías como:
+
+-   Low income
+
+-   Lower middle income
+
+-   Upper middle income
+
+-   High income
+
+------------------------------------------------------------------------
+
+Factorizamos y establecemos orden entre los niveles:
+
+```{r}
+df_22 = df_22 %>%
+  filter(income != "Not classified") %>%
+  mutate(income = forcats::fct_relevel(income,
+                                       "Low income",
+                                       "Lower middle income",
+                                       "Upper middle income",
+                                       "High income"))
+```
+
+------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+df_22 %>% 
+  ggplot(aes(x = region, fill = income)) +
+  geom_bar(position = "fill") +
+  labs(title = "Distribución proporcional de ingresos por región",
+       x = "Región",
+       y = "Proporción",
+       fill = "Tipo de ingreso") +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+df_22 %>% 
+  ggplot(aes(x = region, fill = income)) +
+  geom_bar(position = "fill") +
+  labs(title = "Distribución proporcional de ingresos por región",
+       x = "Región",
+       y = "Proporción",
+       fill = "Tipo de ingreso") +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent)
+```
+
+# 2.7 Gráficos bivariados
+
+------------------------------------------------------------------------
+
+**Numérica vs categórica** Supongamos que queremos entender cómo varía la esperanza de vida (`esp_vida`) según el tipo de ingreso (`income`). Como `income` es una variable categórica y `esp_vida` es numérica, hay varias formas visuales de explorar esta relación.
+
+------------------------------------------------------------------------
+
+## Boxplot: comparando distribuciones
+
+El boxplot resume la distribución de la variable numérica dentro de cada categoría. Podemos ver la mediana, los cuartiles y posibles valores atípicos.
+
+```{r, eval=FALSE}
+df_22 %>%
+  ggplot(aes(x = income, y = esp_vida, fill = income)) +
+  geom_boxplot() +
+  labs(title = "Distribución de la esperanza de vida por tipo de ingreso",
+       x = "Tipo de ingreso",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+df_22 %>%
+  ggplot(aes(x = income, y = esp_vida, fill = income)) +
+  geom_boxplot() +
+  labs(title = "Distribución de la esperanza de vida por tipo de ingreso",
+       x = "Tipo de ingreso",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+------------------------------------------------------------------------
+
+## Violin plot: forma de la distribución
+
+El violin plot es parecido al boxplot, pero también muestra la densidad de los datos, es decir, qué tan concentrados están los valores.
+
+```{r, eval=FALSE}
+df_22 %>%
+  ggplot(aes(x = income, y = esp_vida, fill = income)) +
+  geom_violin(trim = FALSE, alpha = 0.7) +
+  labs(title = "Distribución de la esperanza de vida por tipo de ingreso",
+       x = "Tipo de ingreso",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+df_22 %>%
+  ggplot(aes(x = income, y = esp_vida, fill = income)) +
+  geom_violin(trim = FALSE, alpha = 0.7) +
+  labs(title = "Distribución de la esperanza de vida por tipo de ingreso",
+       x = "Tipo de ingreso",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+------------------------------------------------------------------------
+
+**Numérica vs numérica**
+
+------------------------------------------------------------------------
+
+## Gráfico de dispersión (scatter plot)
+
+Ideal para ver relaciones, correlaciones o agrupamientos.
+
+```{r, eval=FALSE}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  labs(x = "PIB per cápita (log10)", y = "Esperanza de vida") +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  labs(x = "PIB per cápita (log10)", y = "Esperanza de vida") +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+También puedes agregar una línea de tendencia con `geom_smooth()` si te interesa mostrar una relación.
+
+```{r, eval=FALSE}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(x = "PIB per cápita (log10)", y = "Esperanza de vida") +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(x = "PIB per cápita (log10)", y = "Esperanza de vida") +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+**Categórica vs. categórica**
+
+------------------------------------------------------------------------
+
+## Gráfico de barras apilado o de posición
+
+Cuando ambas variables son categóricas.
+
+```{r, eval=FALSE}
+ggplot(df_22, aes(x = income, fill = region)) +
+  geom_bar(position = "fill") +
+  labs(x = "Nivel de ingreso", y = "Proporción", fill = "Región") +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| fig.align: center
+#| out-width: 100%
+#| fig-width: 18
+#| fig-height: 10
+#| echo: false
+ggplot(df_22, aes(x = income, fill = region)) +
+  geom_bar(position = "fill") +
+  labs(x = "Nivel de ingreso", y = "Proporción", fill = "Región") +
+  theme_minimal()
+```
+
+# Gracias por tu atención

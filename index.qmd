@@ -12,68 +12,77 @@ lang: es
 ---
 
 ```{=html}
-<div class="home-bg">
-  <div class="home-layout">
+<div class="home-grid">
 
-    <!-- Hero -->
-    <header class="home-hero">
-      <h1 class="home-title">Estadística Descriptiva con R</h1>
-      <p class="home-meta">Gonzalo Almendariz</p>
-    </header>
+  <!-- Semana 1 -->
+  <a class="home-card" href="S1.html" aria-label="Ir a la Semana 1">
+    <div class="home-card-top">
+      <span class="home-badge">Semana 1</span>
+      <span class="home-arrow">→</span>
+    </div>
 
-    <!-- Contenido principal -->
-    <main class="home-main">
-      <section class="home-section">
-        <h2 class="home-section-title">Sesiones de clase</h2>
+    <div class="home-card-title">
+      Conceptos básicos de estadística e introducción a R
+    </div>
 
-        <div class="home-grid">
-          <a class="home-card" href="S1.html" aria-label="Ir a la Semana 1">
-            <div class="home-card-top">
-              <span class="home-badge">Semana 1</span>
-              <span class="home-arrow">→</span>
-            </div>
+    <div class="home-card-desc">
+      Datos y tipos de variables, gráficos y tablas, medidas de resumen,
+      muestreo y fundamentos de R (objetos, funciones, paquetes e importación).
+    </div>
+  </a>
 
-            <div class="home-card-title">
-              Conceptos básicos de estadística e introducción a R
-            </div>
+  <!-- Semana 2 -->
+  <a class="home-card" href="S2.html" aria-label="Ir a la Semana 2">
+    <div class="home-card-top">
+      <span class="home-badge">Semana 2</span>
+      <span class="home-arrow">→</span>
+    </div>
 
-            <div class="home-card-desc">
-              Datos y tipos de variables, gráficos y tablas, medidas de resumen,
-              muestreo y fundamentos de R (objetos, funciones, paquetes e importación).
-            </div>
-          </a>
-        </div>
-      </section>
-    </main>
+    <div class="home-card-title">
+      Manipulación de datos con dplyr y visualización con ggplot2
+    </div>
 
-    <!-- Footer -->
-    <footer class="home-footer">
-      <div class="home-footer-left">
-        © 2026 · Elaborado por <span class="home-author">Gonzalo Almendariz</span>
-      </div>
+    <div class="home-card-desc">
+      Filtrado, selección, recodificación, resumen por grupos y gráficos base
+      para describir variables numéricas y categóricas.
+    </div>
+  </a>
 
-      <div class="home-footer-right">
-        <a href="https://github.com/GonzaloAlmendariz"
-           target="_blank" rel="noopener"
-           aria-label="GitHub">
-          <i class="fa-brands fa-github"></i>
-        </a>
+  <!-- Semana 3 y 4 -->
+  <a class="home-card" href="S3S4.html" aria-label="Ir a la Semana 3 y 4">
+    <div class="home-card-top">
+      <span class="home-badge">Semana 3 y 4</span>
+      <span class="home-arrow">→</span>
+    </div>
 
-        <a href="https://www.linkedin.com/in/gonzalo-almendariz-villanueva-051587324/"
-           target="_blank" rel="noopener"
-           aria-label="LinkedIn">
-          <i class="fa-brands fa-linkedin"></i>
-        </a>
+    <div class="home-card-title">
+      Medidas descriptivas y análisis exploratorio
+    </div>
 
-        <a href="https://gonzaloalmendariz.github.io/ladatafora/"
-           target="_blank" rel="noopener"
-           aria-label="La Datafora">
-          La Datafora
-        </a>
-      </div>
-    </footer>
+    <div class="home-card-desc">
+      Medidas de tendencia central y dispersión, distribuciones, detección de patrones,
+      valores atípicos y diagnóstico exploratorio como base para el análisis.
+    </div>
+  </a>
 
-  </div>
+  <!-- Semana 4 -->
+  <a class="home-card" href="S4.html" aria-label="Ir a la Semana 4">
+    <div class="home-card-top">
+      <span class="home-badge">Semana 4</span>
+      <span class="home-arrow">→</span>
+    </div>
+
+    <div class="home-card-title">
+      Reportes descriptivos, diagnóstico y presentación de resultados
+    </div>
+
+    <div class="home-card-desc">
+      Tablas de frecuencia y tablas cruzadas, proporciones por fila y columna,
+      tablas con gt y gtsummary, diagnóstico con skimr/naniar/dlookr
+      y visualización comparativa para reportes reproducibles.
+    </div>
+  </a>
+
 </div>
 ```
 

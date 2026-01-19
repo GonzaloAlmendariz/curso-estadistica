@@ -491,6 +491,24 @@ $font-family-sans-serif: ui-sans-serif, system-ui, -apple-system,
   color: rgba(255,255,255,0.35) !important;
 }
 
+/* =========================
+   Scroll en bloques de código (slides)
+   ========================= */
+
+/* 1) Scroll vertical dentro del código (input) */
+.reveal .cell .cell-input pre code {
+  max-height: 45vh;      /* ajusta: 35–55vh según tu deck */
+  overflow-y: auto;      /* scrollbar vertical */
+  overflow-x: auto;      /* por si hay líneas largas */
+  display: block;        /* importante para que el overflow funcione */
+}
+
+/* 2) Scroll también para outputs largos (opcional, pero útil) */
+.reveal .cell .cell-output pre {
+  max-height: 35vh;
+  overflow: auto;
+}
+
 
 /* =========================
    Syntax highlighting (R) — prioriza highlight.js + fallback Pandoc
@@ -1508,5 +1526,44 @@ html, body {
 .scroll-x pre,
 .scroll-xy pre {
   white-space: pre;    /* mantiene líneas largas en una sola línea */
+}
+
+/* ===== Slide wide (solo cuando se use la clase .wide) ===== */
+.reveal .slides section.wide > :is(p, ul, ol, blockquote, pre, table, figure, .cell, .callout) {
+  max-width: 100% !important;
+}
+.reveal .slides section.wide figure,
+.reveal .slides section.wide img {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* =========================================
+   Scroll REAL en bloques de código (Reveal)
+   ========================================= */
+
+/* Caso 1: chunks dentro de .cell (Quarto) */
+.reveal .cell .cell-input pre {
+  max-height: 45vh !important;   /* ajusta: 35–55vh */
+  overflow: auto !important;     /* vertical + horizontal */
+}
+
+/* Caso 2: cuando Quarto envuelve en div.sourceCode */
+.reveal .cell .cell-input div.sourceCode {
+  max-height: 45vh !important;
+  overflow: auto !important;
+}
+
+/* Asegura que el pre no “expanda” el contenedor */
+.reveal .cell .cell-input pre,
+.reveal .cell .cell-input pre.sourceCode {
+  display: block !important;
+  white-space: pre !important;
+}
+
+/* (Opcional) outputs largos */
+.reveal .cell .cell-output pre {
+  max-height: 35vh !important;
+  overflow: auto !important;
 }
 

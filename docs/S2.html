@@ -1,0 +1,2352 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/tabby.min.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.5.57">
+
+  <title>Semana 1: Manipulación de datos con dplyr y visualización con ggplot2</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #e1e4e8; background-color: #24292e; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #e1e4e8; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #f97583; } /* Attribute */
+    code span.bn { color: #79b8ff; } /* BaseN */
+    code span.bu { color: #f97583; } /* BuiltIn */
+    code span.cf { color: #f97583; } /* ControlFlow */
+    code span.ch { color: #9ecbff; } /* Char */
+    code span.cn { color: #79b8ff; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #f97583; } /* DataType */
+    code span.dv { color: #79b8ff; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #f97583; font-weight: bold; } /* Extension */
+    code span.fl { color: #79b8ff; } /* Float */
+    code span.fu { color: #b392f0; } /* Function */
+    code span.im { color: #9ecbff; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #f97583; } /* Keyword */
+    code span.op { color: #e1e4e8; } /* Operator */
+    code span.ot { color: #b392f0; } /* Other */
+    code span.pp { color: #f97583; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #79b8ff; } /* SpecialChar */
+    code span.ss { color: #9ecbff; } /* SpecialString */
+    code span.st { color: #9ecbff; } /* String */
+    code span.va { color: #ffab70; } /* Variable */
+    code span.vs { color: #9ecbff; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
+  <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  </head><body class="quarto-light"><div class="deck-chrome">
+    <div class="deck-header">
+      <div class="deck-week" id="deckWeek">Semana</div>
+      <div class="deck-title" id="deckTitle">Título</div>
+    </div>
+
+    <div class="deck-footer">
+      <div class="deck-footer-left">
+        <div class="deck-pill" id="deckUnit">Unidad</div>
+      </div>
+
+      <div class="deck-footer-right">
+        <div class="deck-progress" aria-label="Progreso">
+          <div class="deck-progress-fill" id="deckProgressFill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="includes/chrome.js"></script>
+
+
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Semana 1: Manipulación de datos con dplyr y visualización con ggplot2</h1>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section>
+<section id="principios-de-datos-ordenados-y-limpieza-básica" class="title-slide slide level1 center">
+<h1>2.1 Principios de datos ordenados y limpieza básica</h1>
+
+</section>
+<section id="limpieza-de-datos" class="slide level2">
+<h2>Limpieza de datos</h2>
+<p>Este proceso consiste en identificar y corregir problemas comunes como valores faltantes, nombres de columnas inconsistentes, duplicados y tipos de datos incorrectos. La limpieza asegura que los datos estén en un estado coherente y listo para ser transformado o analizado.</p>
+
+<img data-src="images/clipboard-578049781.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section class="slide level2">
+
+<p>Para las siguentes técnicas de limpieza utilizaremos el conjunto de datos <code>encuesta_problematica</code>. Te animo a que puedas identificar que posible problemas tiene antes de seguir adelante.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>datos_problema <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">'encuesta_problematica.csv'</span>)</span>
+<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>datos_problema</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ID Nombre.PARTICIPANTE EDAD..años. Ingreso.Mensual género
+1  1         Luis Bartra          23          1500.0      F
+2  2        Carlos Gómez          27          2000.0      M
+3  3      Cristina Pérez          23          1500.0      F
+4  4         María López          45          2500.0      F
+5  5       Javier Muller          35          3800.0      M
+6  6          Liz García          29          1800.5      M
+7  3      Cristina Pérez          23          1500.0      F</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>Estandarización de nombres de columnas</strong></p>
+<p>Los nombres de las columnas en los conjuntos de datos pueden ser inconsistentes, incluir caracteres especiales o espacios que dificulten el manejo en R.</p>
+<p>Primero, identificamos los nombres originales del conjunto de datos utilizando la función base <code>names()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(datos_problema)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ID"                  "Nombre.PARTICIPANTE" "EDAD..años."        
+[4] "Ingreso.Mensual"     "género"             </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Para resolver esto, utilizamos la función <code>clean_names()</code> del paquete <code>janitor</code>. Esta función transforma automáticamente los nombres de las columnas en un formato limpio y consistente:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar el paquete janitor</span></span>
+<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Estandarizar los nombres de las columnas</span></span>
+<span id="cb5-5"><a aria-hidden="true" tabindex="-1"></a>datos_problema <span class="ot">=</span> <span class="fu">clean_names</span>(datos_problema)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(datos_problema)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "id"                  "nombre_participante" "edad_anos"          
+[4] "ingreso_mensual"     "genero"             </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>Identificación y manejo de duplicados</strong></p>
+<p>En algunos casos, los datos pueden contener filas duplicadas que distorsionan el análisis.</p>
+<p>Antes de ver <em>cuáles</em>, conviene saber <strong>si el problema existe</strong>. Podemos identificar y eliminar estas filas utilizando la función <code>distinct()</code> de <code>dplyr</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Cargamos dplyr</span></span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Número total de filas</span></span>
+<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(datos_problema)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Número de filas únicas</span></span>
+<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(<span class="fu">distinct</span>(datos_problema))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>También se puede calcular cuántas filas están duplicadas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(datos_problema))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>Para ver las observaciones duplicadas, se usa <code>duplicated()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Vector lógico indicando duplicados</span></span>
+<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">duplicated</span>(datos_problema)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Para extraer las filas duplicadas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>datos_problema[<span class="fu">duplicated</span>(datos_problema), ]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id nombre_participante edad_anos ingreso_mensual genero
+7  3      Cristina Pérez        23            1500      F</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Una vez <strong>identificados y entendidos</strong>, recién se eliminan.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminamos filas duplicadas</span></span>
+<span id="cb18-2"><a aria-hidden="true" tabindex="-1"></a>datos_problema <span class="ot">=</span> <span class="fu">distinct</span>(datos_problema)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a>datos_problema</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id nombre_participante edad_anos ingreso_mensual genero
+1  1         Luis Bartra        23          1500.0      F
+2  2        Carlos Gómez        27          2000.0      M
+3  3      Cristina Pérez        23          1500.0      F
+4  4         María López        45          2500.0      F
+5  5       Javier Muller        35          3800.0      M
+6  6          Liz García        29          1800.5      M</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="manejo-de-valores-faltantes" class="title-slide slide level1 center">
+<h1>2.2 Manejo de valores faltantes</h1>
+
+</section>
+<section class="slide level2">
+
+<p>El&nbsp;<strong>manejo de valores faltantes</strong>&nbsp;es uno de los aspectos más complejos en la limpieza de datos, y un tema importante a considerar al trabajar con conjuntos de datos. Un&nbsp;<strong>valor perdido</strong>&nbsp;o&nbsp;<strong>NA</strong>&nbsp;en R no es lo mismo que un&nbsp;<strong>0</strong>&nbsp;o un espacio vacío. Un valor perdido (o&nbsp;<strong>NA</strong>, que significa “Not Available”) es una celda que no contiene información en absoluto, lo que puede ocurrir por diversas razones, como un error en la recolección de los datos, una respuesta no proporcionada en una encuesta o una omisión involuntaria al momento de ingresar los datos.</p>
+</section>
+<section class="slide level2">
+
+<p>Por ejemplo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Cargamos el paquete readxl</span></span>
+<span id="cb21-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Importamos los datos desde un archivo Excel</span></span>
+<span id="cb22-2"><a aria-hidden="true" tabindex="-1"></a>encuesta_excel <span class="ot">=</span> <span class="fu">read_excel</span>(<span class="st">"encuesta.xlsx"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(encuesta_excel)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [10 × 3] (S3: tbl_df/tbl/data.frame)
+ $ genero            : chr [1:10] "Masculino" "Femenino" "Femenino" "Otro" ...
+ $ medio_comunicación: chr [1:10] "Televisión" "Redes sociales" "Redes sociales" "Radio" ...
+ $ edad              : num [1:10] 34 NA 55 63 NA 19 29 75 55 34</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="detección-de-valores-faltantes">Detección de valores faltantes</h3>
+<p>Para identificar valores faltantes, se utiliza la función <code>is.na()</code>, que devuelve un vector lógico (TRUE / FALSE) indicando si cada elemento es NA. Por ejemplo, si queremos evaluar la presencia de valores faltantes en la variable edad, escribimos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(encuesta_excel<span class="sc">$</span>edad)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="conteo-de-valores-faltantes">Conteo de valores faltantes</h3>
+<p>Dado que en R TRUE se interpreta como 1 y FALSE como 0, podemos sumar el vector lógico para obtener el número total de valores perdidos en la variable:</p>
+<p>Podemos sumar un vector lógico para contar los TRUE. En este caso los valores perdidos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Cantidad de valores perdidos </span></span>
+<span id="cb27-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(encuesta_excel<span class="sc">$</span>edad)) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="identificación-de-las-observaciones-con-valores-faltantes">Identificación de las observaciones con valores faltantes</h3>
+<p>Además de contar los valores perdidos, suele ser útil saber <strong>en qué observaciones ocurren</strong>. Para ello, podemos usar <code>which()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Índices de las observaciones con edad faltante</span></span>
+<span id="cb29-2"><a aria-hidden="true" tabindex="-1"></a>indices <span class="ot">=</span> <span class="fu">which</span>(<span class="fu">is.na</span>(encuesta_excel<span class="sc">$</span>edad))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Una vez tenemos sus índices podemos evaluar las obervaciones</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-hidden="true" tabindex="-1"></a>encuesta_excel[indices, ]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  genero   medio_comunicación  edad
+  &lt;chr&gt;    &lt;chr&gt;              &lt;dbl&gt;
+1 Femenino Redes sociales        NA
+2 Femenino Televisión            NA</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Una de las formas más simples de manejar valores faltantes es eliminarlos por completo. Esto puede hacerse utilizando la función <code>drop_na()</code> del paquete <code>tidyr</code>, que elimina las filas que contienen al menos un valor NA en cualquier columna. Esta es una solución rápida, pero es importante ser cauteloso, ya que puede resultar en la pérdida de información valiosa si hay muchos datos faltantes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Cargamos tidyr</span></span>
+<span id="cb32-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminamos filas con valores faltantes</span></span>
+<span id="cb33-2"><a aria-hidden="true" tabindex="-1"></a>encuesta_limpia <span class="ot">=</span> <span class="fu">drop_na</span>(encuesta_excel)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(encuesta_limpia<span class="sc">$</span>edad)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="diagnostico">Diagnostico</h3>
+<p>Las estrategias anteriores resultan adecuadas cuando se trabaja con una sola variable o con conjuntos de datos pequeños y manejables. Sin embargo, en la práctica, los conjuntos de datos suelen ser más grandes y los valores faltantes pueden aparecer en múltiples variables simultáneamente. Para ilustrar este enfoque, se utilizará a continuación un conjunto de datos real incluido en R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(airquality)</span>
+<span id="cb36-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(airquality)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   153 obs. of  6 variables:
+ $ Ozone  : int  41 36 12 18 NA 28 23 19 8 NA ...
+ $ Solar.R: int  190 118 149 313 NA NA 299 99 19 194 ...
+ $ Wind   : num  7.4 8 12.6 11.5 14.3 14.9 8.6 13.8 20.1 8.6 ...
+ $ Temp   : int  67 72 74 62 56 66 65 59 61 69 ...
+ $ Month  : int  5 5 5 5 5 5 5 5 5 5 ...
+ $ Day    : int  1 2 3 4 5 6 7 8 9 10 ...</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>El paquete <code>dlookr</code> proporciona herramientas diseñadas para realizar este tipo de diagnóstico de forma rápida y estructurada. En particular, la función <code>diagnose()</code> resume información clave para cada variable:</p>
+<ul>
+<li><p><code>missing_count</code>: Cantidad de valores faltantes (NA) en una variable.</p></li>
+<li><p><code>missing_percent</code>: Porcentaje de valores faltantes respecto al total de observaciones.</p></li>
+<li><p><code>unique_count</code>: Número de valores distintos que aparecen en la variable (excluyendo NA). Responde a“¿Cuántos valores diferentes existen en esta variable?”</p></li>
+<li><p><code>unique_rate</code>: Proporción de valores distintos en relación al total de observaciones. La interpretación suele ser: Bajo → muchos valores repetidos (típico de variables categóricas), alto → casi todos los valores son distintos (típico de identificadores)</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-hidden="true" tabindex="-1"></a>dlookr<span class="sc">::</span><span class="fu">diagnose</span>(airquality)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  variables types   missing_count missing_percent unique_count unique_rate
+  &lt;chr&gt;     &lt;chr&gt;           &lt;int&gt;           &lt;dbl&gt;        &lt;int&gt;       &lt;dbl&gt;
+1 Ozone     integer            37           24.2            68      0.444 
+2 Solar.R   integer             7            4.58          118      0.771 
+3 Wind      numeric             0            0              31      0.203 
+4 Temp      integer             0            0              40      0.261 
+5 Month     integer             0            0               5      0.0327
+6 Day       integer             0            0              31      0.203 </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="visualización-de-valores-faltantes-naniar">Visualización de valores faltantes (naniar)</h3>
+<p>Además del conteo y el diagnóstico, la visualización de los valores faltantes nos ayuda a identificar patrones de ausencia, como la concentración de valores faltantes en determinadas variables o la coincidencia de faltantes en las mismas observaciones.</p>
+<p>El paquete naniar facilita esta tarea mediante representaciones gráficas que muestran de manera clara la estructura de los valores faltantes en el conjunto de datos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(airquality)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(airquality)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="images/clipboard-340330456.png" class="quarto-figure quarto-figure-center r-stretch" width="780"></section>
+<section class="slide level2">
+
+<p>Aunque eliminar valores faltantes puede ser un enfoque válido en algunos casos, no siempre es ideal. Si eliminamos demasiadas filas, podemos perder una cantidad significativa de información, lo que podría alterar los resultados de nuestro análisis. Por eso, en lugar de eliminar, muchas veces es preferible <strong>imputar</strong> los valores faltantes, es decir, reemplazarlos con un valor estimado. Por ejemplo, algunas estrategias comunes para imputar valores incluyen <strong>reemplazar por el promedio</strong> en el caso de variables numéricas o <strong>reemplazar por la moda</strong> en variables categóricas donde los valores faltantes pueden ser reemplazados por el valor más frecuente.</p>
+</section></section>
+<section>
+<section id="manipulación-de-datos-con-dplyr" class="title-slide slide level1 center">
+<h1>2.3 Manipulación de datos con dplyr</h1>
+
+</section>
+<section class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="columns">
+<p>Una vez limpios nuestros datos pasamos al tercer paso: la manipulación de datos. La manipulación de datos consiste en transformar y preparar los datos para su análisis, lo que puede incluir la creación de nuevas variables, el filtrado de observaciones o la omisión de alguna variable. Para ello, usaremos el paquete <code>dplyr</code> del tidyverse.</p><p><code>dplyr</code> es un paquete del tidyverse diseñado específicamente para la manipulación de datos. Proporciona un conjunto de funciones que permiten seleccionar, filtrar, ordenar, resumir y transformar datos en <code>data.frames</code>.</p>
+</div>
+</div><div class="column" style="width:30%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/clipboard-2776423991.png" class="quarto-figure quarto-figure-center" width="467"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section class="slide level2">
+
+<p>Una de las características más importantes de dplyr es su uso del “pipe operator” (<code>%&gt;%</code>), que permite encadenar múltiples operaciones de manera secuencial, pasando el resultado de una función directamente como entrada a la siguiente. Esto hace que el código sea más fácil de leer y mantener.</p>
+<p>El atajo del teclado para el pipe operator (<code>%&gt;%</code>) es:</p>
+<ul>
+<li><p><code>Ctrl + Shift + M</code> (Windows)</p></li>
+<li><p><code>Cmd + Shift + M</code> (Mac)</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h3 id="un-sistema-de-tuberías">Un sistema de tuberías</h3>
+<p>Para poder realizar múltiples acciones en secuencia conectando cada acción con la siguiente a través de “tuberías” debemos utilizar lo que se llama el <em>pipe operator</em> (<code>%&gt;%</code>).</p>
+
+<img data-src="images/clipboard-3856958194.png" class="r-stretch"></section>
+<section class="slide level2">
+
+<p>Lo iremos viendo, de momento tienes que conocer algunas de las principales funciones de dplyr:</p>
+<ul>
+<li><code>filter()</code>: Filtra filas de un dataframe según una condición específica.</li>
+<li><code>select()</code>: Selecciona columnas específicas de un dataframe.</li>
+<li><code>mutate()</code>: Crea nuevas columnas o modifica las existentes en un dataframe.</li>
+<li><code>reframe</code>()`: Resumen estadístico de las columnas de un dataframe.</li>
+<li><code>arrange()</code>: Ordena las filas de un dataframe según una o más variables.</li>
+<li><code>group_by()</code>: Agrupa un dataframe por una o más variables, preparándolo para operaciones de resumen.</li>
+</ul>
+</section>
+<section id="base-de-datos-world-development-indicators-wdi" class="slide level2">
+<h2>Base de datos: World Development Indicators (WDI)</h2>
+<p>El análisis de datos en ciencias sociales requiere acceder a fuentes confiables, comparables y actualizadas. Una de las más utilizadas a nivel global es la <strong>World Development Indicators (WDI)</strong> del Banco Mundial. Gracias al paquete <code>WDI</code> en R, podemos acceder directamente a esta base de forma automatizada.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(WDI)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>En este ejemplo trabajaremos con tres indicadores esenciales para describir y comparar el desarrollo de distintos países:</p>
+<ul>
+<li><p>PIB per cápita (NY.GDP.PCAP.CD)</p></li>
+<li><p>Esperanza de vida (SP.DYN.LE00.IN)</p></li>
+<li><p>Población total (SP.POP.TOTL)</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<p>La base descargada contiene diversas variables. Para este análisis introductorio, nos centraremos en las siguientes:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>country</code></td>
+<td>Nombre del país</td>
+</tr>
+<tr class="even">
+<td><code>iso2c</code> / <code>iso3c</code></td>
+<td>Códigos de país (ISO 2 y 3 letras)</td>
+</tr>
+<tr class="odd">
+<td><code>pib_per_capita</code></td>
+<td>PIB per cápita en dólares actuales (indicador económico)</td>
+</tr>
+<tr class="even">
+<td><code>esperanza_vida</code></td>
+<td>Esperanza de vida al nacer (indicador de salud)</td>
+</tr>
+<tr class="odd">
+<td><code>poblacion_total</code></td>
+<td>Población total (indicador demográfico)</td>
+</tr>
+<tr class="even">
+<td><code>region</code></td>
+<td>Región del país según clasificación del Banco Mundial</td>
+</tr>
+<tr class="odd">
+<td><code>income</code></td>
+<td>Nivel de ingreso del país (bajo, medio, alto, etc.)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="slide level2">
+
+<div title="Carga de la base de datos">
+<div class="callout callout-note no-icon callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Carga de la base de datos</strong></p>
+</div>
+<div class="callout-content">
+<p>Para acceder a los datos, usamos la función <code>WDI()</code> especificando los indicadores deseados:</p>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">WDI</span>(</span>
+<span id="cb43-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">country =</span> <span class="st">"all"</span>,</span>
+<span id="cb43-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">indicator =</span> <span class="fu">c</span>(</span>
+<span id="cb43-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># A los indicadores les ponemos un nombre más manejable</span></span>
+<span id="cb43-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">pib_capita =</span> <span class="st">"NY.GDP.PCAP.CD"</span>,</span>
+<span id="cb43-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">esp_vida =</span> <span class="st">"SP.DYN.LE00.IN"</span>,</span>
+<span id="cb43-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">poblacion =</span> <span class="st">"SP.POP.TOTL"</span></span>
+<span id="cb43-8"><a aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb43-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="dv">2014</span>, <span class="at">end =</span> <span class="dv">2024</span>, <span class="at">extra =</span> T</span>
+<span id="cb43-10"><a aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Vemos la data completa con todas sus variable usando <code>glimpse()</code></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,926
+Columns: 15
+$ country     &lt;chr&gt; "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan"…
+$ iso2c       &lt;chr&gt; "AF", "AF", "AF", "AF", "AF", "AF", "AF", "AF", "AF", "AF"…
+$ iso3c       &lt;chr&gt; "AFG", "AFG", "AFG", "AFG", "AFG", "AFG", "AFG", "AFG", "A…
+$ year        &lt;dbl&gt; 2016, 2018, 2022, 2015, 2024, 2017, 2014, 2023, 2021, 2019…
+$ status      &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+$ lastupdated &lt;date&gt; 2025-12-19, 2025-12-19, 2025-12-19, 2025-12-19, 2025-12-1…
+$ pib_capita  &lt;dbl&gt; 522.0822, 491.3372, 357.2612, 565.5697, NA, 525.4698, 625.…
+$ esp_vida    &lt;dbl&gt; 62.64600, 62.44300, 65.61700, 62.27000, NA, 62.40600, 62.2…
+$ poblacion   &lt;dbl&gt; 34700612, 36743039, 40578842, 33831764, 42647492, 35688935…
+$ region      &lt;chr&gt; "South Asia", "South Asia", "South Asia", "South Asia", "S…
+$ capital     &lt;chr&gt; "Kabul", "Kabul", "Kabul", "Kabul", "Kabul", "Kabul", "Kab…
+$ longitude   &lt;dbl&gt; 69.1761, 69.1761, 69.1761, 69.1761, 69.1761, 69.1761, 69.1…
+$ latitude    &lt;dbl&gt; 34.5228, 34.5228, 34.5228, 34.5228, 34.5228, 34.5228, 34.5…
+$ income      &lt;chr&gt; "Low income", "Low income", "Low income", "Low income", "L…
+$ lending     &lt;chr&gt; "IDA", "IDA", "IDA", "IDA", "IDA", "IDA", "IDA", "IDA", "I…</code></pre>
+</div>
+</div>
+<p>Como puedes ver, el conjunto de dato tiene mas variables de las que necesitamos, pero eso tiene solución…</p>
+</section>
+<section class="slide level2">
+
+<p>Utilizamos la función <code>select()</code> para filtrar por las columnas que son de nuestro interés.</p>
+
+<img data-src="images/clipboard-3685499145.png" class="quarto-figure quarto-figure-center r-stretch" width="728"></section>
+<section class="slide level2">
+
+<p>Seleccionamos únicamente las variables requeridas para nuestro análisis, sobreescribimos el objeto para modificar el original.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb45-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, pib_capita, </span>
+<span id="cb45-3"><a aria-hidden="true" tabindex="-1"></a>         esp_vida, poblacion, region, income)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,926
+Columns: 7
+$ country    &lt;chr&gt; "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan",…
+$ year       &lt;dbl&gt; 2016, 2018, 2022, 2015, 2024, 2017, 2014, 2023, 2021, 2019,…
+$ pib_capita &lt;dbl&gt; 522.0822, 491.3372, 357.2612, 565.5697, NA, 525.4698, 625.0…
+$ esp_vida   &lt;dbl&gt; 62.64600, 62.44300, 65.61700, 62.27000, NA, 62.40600, 62.26…
+$ poblacion  &lt;dbl&gt; 34700612, 36743039, 40578842, 33831764, 42647492, 35688935,…
+$ region     &lt;chr&gt; "South Asia", "South Asia", "South Asia", "South Asia", "So…
+$ income     &lt;chr&gt; "Low income", "Low income", "Low income", "Low income", "Lo…</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Echemos un vistazo a la variable <code>$country</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">unique</span>(df<span class="sc">$</span>country), <span class="dv">15</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div title="¿Qué hace este código?">
+<div class="callout callout-note no-icon callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>¿Qué hace este código?</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><p><code>unique()</code> nos permite obtener los valores únicos de una variable, eliminando los repetidos. En este caso, los nombres de países sin duplicados.</p></li>
+<li><p><code>head()</code> ya la conoces, nos muestra los primeros valores de un vector o tabla. Si le decimos <code>n = 15</code>, nos devuelve solo los primeros 15 (lo limitamos a 15 únicamente por estética de la presentación, lo ideal es que revises todas las categorías posibles)</p></li>
+</ul>
+<p>Al combinarlas, estamos diciendo: <em>Muéstrame los primeros 15 países distintos que aparecen en la columna country</em>.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Afghanistan"                 "Africa Eastern and Southern"
+ [3] "Africa Western and Central"  "Albania"                    
+ [5] "Algeria"                     "American Samoa"             
+ [7] "Andorra"                     "Angola"                     
+ [9] "Antigua and Barbuda"         "Arab World"                 
+[11] "Argentina"                   "Armenia"                    
+[13] "Aruba"                       "Australia"                  
+[15] "Austria"                    </code></pre>
+</div>
+</div>
+<p>Notaremos que algunos de los “países” listados no son países en sentido estricto, sino <strong>regiones agregadas</strong>, como “East Asia &amp; Pacific” o “Sub-Saharan Africa”.</p>
+</section>
+<section class="slide level2">
+
+<p>Bueno, podemos utilizar la variable <code>region</code> junto con una función muy útil del paquete <code>dplyr</code>: <code>filter()</code>.</p>
+<p>La función <code>filter()</code> nos permite seleccionar filas que cumplen con una condición específica.</p>
+
+<img data-src="images/clipboard-2235361724.png" class="quarto-figure quarto-figure-center r-stretch" width="754"></section>
+<section class="slide level2">
+
+<p>Filtrar solo países (quitar regiones agregadas)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-hidden="true" tabindex="-1"></a>df_paises <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb50-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># '!=' significa diferente a...</span></span>
+<span id="cb50-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(region <span class="sc">!=</span> <span class="st">"Aggregates"</span>) </span>
+<span id="cb50-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(df_paises<span class="sc">$</span>country) <span class="sc">%&gt;%</span> </span>
+<span id="cb50-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">15</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Afghanistan"         "Albania"             "Algeria"            
+ [4] "American Samoa"      "Andorra"             "Angola"             
+ [7] "Antigua and Barbuda" "Argentina"           "Armenia"            
+[10] "Aruba"               "Australia"           "Austria"            
+[13] "Azerbaijan"          "Bahamas, The"        "Bahrain"            </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>También podemos hacer lo contrario: filtrar solo regiones agregadas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-hidden="true" tabindex="-1"></a>agr <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(region <span class="sc">==</span> <span class="st">"Aggregates"</span>) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(agr<span class="sc">$</span>country) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">15</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Africa Eastern and Southern"                  
+ [2] "Africa Western and Central"                   
+ [3] "Arab World"                                   
+ [4] "Caribbean small states"                       
+ [5] "Central Europe and the Baltics"               
+ [6] "Early-demographic dividend"                   
+ [7] "East Asia &amp; Pacific"                          
+ [8] "East Asia &amp; Pacific (excluding high income)"  
+ [9] "East Asia &amp; Pacific (IDA &amp; IBRD countries)"   
+[10] "Euro area"                                    
+[11] "Europe &amp; Central Asia"                        
+[12] "Europe &amp; Central Asia (excluding high income)"
+[13] "Europe &amp; Central Asia (IDA &amp; IBRD countries)" 
+[14] "European Union"                               
+[15] "Fragile and conflict affected situations"     </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>¿Y si solo queremos los datos de un año específico?</strong></p>
+<p>Muchas veces, especialmente cuando queremos hacer&nbsp;<strong>comparaciones entre países o regiones</strong>, es útil&nbsp;<strong>quedarnos solo con un año</strong>.<br>
+Esto evita que se mezclen observaciones de distintos años y hace que los gráficos o análisis sean más claros.</p>
+<p>Por ejemplo, si queremos trabajar <strong>solo con datos del año 2022</strong>, podemos aplicar otro <code>filter()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="ot">=</span> df_paises <span class="sc">%&gt;%</span></span>
+<span id="cb55-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2022</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df_22)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 215
+Columns: 7
+$ country    &lt;chr&gt; "Afghanistan", "Albania", "Algeria", "American Samoa", "And…
+$ year       &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022,…
+$ pib_capita &lt;dbl&gt; 357.2612, 7756.9619, 4960.3033, 18017.4589, 42414.0480, 368…
+$ esp_vida   &lt;dbl&gt; 65.61700, 78.76900, 76.12900, 72.75200, 84.01600, 64.24600,…
+$ poblacion  &lt;dbl&gt; 40578842, 2451636, 45477389, 48342, 79705, 35635029, 92840,…
+$ region     &lt;chr&gt; "South Asia", "Europe &amp; Central Asia", "Middle East &amp; North…
+$ income     &lt;chr&gt; "Low income", "Upper middle income", "Upper middle income",…</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>¿Es posible tener más de una condición?</strong></p>
+<p>¡Claro! Podríamos tener también solo las regiones agregadas para ese mismo año.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a aria-hidden="true" tabindex="-1"></a>agr_22 <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb58-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(region <span class="sc">==</span> <span class="st">"Aggregates"</span>, </span>
+<span id="cb58-3"><a aria-hidden="true" tabindex="-1"></a>         year <span class="sc">==</span> <span class="dv">2022</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(agr_22)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 39
+Columns: 7
+$ country    &lt;chr&gt; "Africa Eastern and Southern", "Africa Western and Central"…
+$ year       &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022,…
+$ pib_capita &lt;dbl&gt; 1679.328, 2138.473, 7950.356, 17456.308, 19530.155, 4043.82…
+$ esp_vida   &lt;dbl&gt; 64.48702, 57.98781, 71.87610, 72.83229, 76.65230, 71.43046,…
+$ poblacion  &lt;dbl&gt; 731821393, 497387180, 471352066, 4497310, 100071871, 347064…
+$ region     &lt;chr&gt; "Aggregates", "Aggregates", "Aggregates", "Aggregates", "Ag…
+$ income     &lt;chr&gt; "Aggregates", "Aggregates", "Aggregates", "Aggregates", "Ag…</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Ya filtramos la base para quedarnos solo con el año 2022, así que la variable year ya no tiene mucho sentido en este nuevo <code>data.frame</code>, ¿cierto? Todos los valores serían iguales.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span> </span>
+<span id="cb61-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  country         year pib_capita esp_vida poblacion region               income
+  &lt;chr&gt;          &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt; 
+1 Afghanistan     2022       357.     65.6  40578842 South Asia           Low i…
+2 Albania         2022      7757.     78.8   2451636 Europe &amp; Central As… Upper…
+3 Algeria         2022      4960.     76.1  45477389 Middle East &amp; North… Upper…
+4 American Samoa  2022     18017.     72.8     48342 East Asia &amp; Pacific  High …
+5 Andorra         2022     42414.     84.0     79705 Europe &amp; Central As… High …
+6 Angola          2022      3682.     64.2  35635029 Sub-Saharan Africa   Lower…</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Entonces, ¿por qué no quitarla directamente? Podemos hacerlo fácilmente con <code>select()</code> usando el signo menos (<code>-</code>) antes de la variable. Y lo encadenamos todo con pipes <code>%&gt;%</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb63-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2022</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb63-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df_22)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 266
+Columns: 6
+$ country    &lt;chr&gt; "Afghanistan", "Africa Eastern and Southern", "Africa Weste…
+$ pib_capita &lt;dbl&gt; 357.2612, 1679.3276, 2138.4732, 7756.9619, 4960.3033, 18017…
+$ esp_vida   &lt;dbl&gt; 65.61700, 64.48702, 57.98781, 78.76900, 76.12900, 72.75200,…
+$ poblacion  &lt;dbl&gt; 40578842, 731821393, 497387180, 2451636, 45477389, 48342, 7…
+$ region     &lt;chr&gt; "South Asia", "Aggregates", "Aggregates", "Europe &amp; Central…
+$ income     &lt;chr&gt; "Low income", "Aggregates", "Aggregates", "Upper middle inc…</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>A veces queremos saber qué países tienen los valores más altos o más bajos de alguna variable, por ejemplo, el PIB per cápita o la esperanza de vida.</p>
+<p>Utilizamos la función <code>arrange()</code> para poder ordenar las observaciones (filas) que tengamos.</p>
+<p>Veamos un ejemplo ordenando de mayor a menor el PIB per cápita:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span> </span>
+<span id="cb66-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pib_capita)) <span class="sc">%&gt;%</span> </span>
+<span id="cb66-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  country       pib_capita esp_vida poblacion region                income     
+  &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;                 &lt;chr&gt;      
+1 Monaco           226052.     85.7     38931 Europe &amp; Central Asia High income
+2 Liechtenstein    188055.     84.1     39493 Europe &amp; Central Asia High income
+3 Luxembourg       123720.     82.9    653103 Europe &amp; Central Asia High income</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Y si queremos los países con el menor PIB per cápita, simplemente quitamos el <code>desc()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span> </span>
+<span id="cb68-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(pib_capita) <span class="sc">%&gt;%</span> </span>
+<span id="cb68-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  country                  pib_capita esp_vida poblacion region           income
+  &lt;chr&gt;                         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt; 
+1 Burundi                        303.     62.9  13321097 Sub-Saharan Afr… Low i…
+2 Afghanistan                    357.     65.6  40578842 South Asia       Low i…
+3 Central African Republic       467.     18.8   5098039 Sub-Saharan Afr… Low i…</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Hasta ahora, hemos trabajado filtrando o seleccionando información… Pero, ¿y si quisiéramos <strong>crear una nueva variable</strong> a partir de una que ya tenemos?</p>
+<p>Con <code>mutate()</code>, podemos agregar columnas nuevas a nuestra base de datos, calculadas a partir de otras columnas.</p>
+
+<img data-src="images/clipboard-1530458258.png" class="quarto-figure quarto-figure-center r-stretch" width="730"></section>
+<section class="slide level2">
+
+<p>Un caso clásico es transformar el PIB per cápita.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="ot">=</span> df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb70-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb70-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">log_pib =</span> <span class="fu">log</span>(pib_capita)</span>
+<span id="cb70-4"><a aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+<div title="¿Por qué usamos el logaritmo?">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>¿Por qué usamos el logaritmo?</strong></p>
+</div>
+<div class="callout-content">
+<p>Cuando una variable como el <strong>PIB per cápita</strong> tiene valores muy dispersos,<br>
+los países con ingresos altísimos pueden dominar los gráficos y análisis.<br>
+Aplicar una <strong>transformación logarítmica</strong> nos ayuda a:</p>
+<ul>
+<li><strong>Reducir la influencia de los valores extremos.</strong><br>
+</li>
+<li><strong>Visualizar mejor las diferencias entre países con ingresos bajos y medios.</strong><br>
+</li>
+<li><strong>Comparar proporciones en lugar de diferencias absolutas.</strong></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Esto crea una nueva columna llamada <code>log_pib</code>, donde hemos guardado el logaritmo del PIB per cápita.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb71-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, pib_capita, log_pib) <span class="sc">%&gt;%</span></span>
+<span id="cb71-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pib_capita)) <span class="sc">%&gt;%</span></span>
+<span id="cb71-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  country       pib_capita log_pib
+  &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;
+1 Monaco           226052.    12.3
+2 Liechtenstein    188055.    12.1
+3 Luxembourg       123720.    11.7</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><code>reframe()</code> nos permite crear una nueva tabla desde una existente. Es ideal para generar resúmenes limpios o cálculos específicos sin necesidad de arrastrar otras columnas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb73-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">media_pib =</span> <span class="fu">mean</span>(pib_capita, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  media_pib
+      &lt;dbl&gt;
+1    19477.</code></pre>
+</div>
+</div>
+<p>Este código nos devuelve un data frame con una sola fila, que simplemente muestra el PIB per cápita promedio de todos los países juntos.</p>
+<p>Pero… ¿y si queremos calcularlo por región?</p>
+</section>
+<section class="slide level2">
+
+<p>Por ejemplo: ¿qué tal si queremos saber cuál es el PIB promedio de cada región del mundo?</p>
+<p>Agrupamos con <code>group_by()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb75-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 7
+# Groups:   region [2]
+  country                    pib_capita esp_vida poblacion region income log_pib
+  &lt;chr&gt;                           &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;
+1 Afghanistan                      357.     65.6  40578842 South… Low i…    5.88
+2 Africa Eastern and Southe…      1679.     64.5 731821393 Aggre… Aggre…    7.43
+3 Africa Western and Central      2138.     58.0 497387180 Aggre… Aggre…    7.67</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Esto no hace nada visible aún, pero le indica a R que <strong>toda operación posterior se aplique por separado a cada región</strong>.</p>
+<p>Podemos aplicar <code>reframe()</code> junto con <code>group_by</code> para obtener el promedio por cada región:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb77-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span></span>
+<span id="cb77-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">media_pib =</span> <span class="fu">mean</span>(pib_capita, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 2
+  region                     media_pib
+  &lt;chr&gt;                          &lt;dbl&gt;
+1 Aggregates                    11658.
+2 East Asia &amp; Pacific           17523.
+3 Europe &amp; Central Asia         36562.
+4 Latin America &amp; Caribbean     14704.
+5 Middle East &amp; North Africa    17690.
+6 North America                 76996.
+7 South Asia                     3184.
+8 Sub-Saharan Africa             2510.
+9 &lt;NA&gt;                           9904.</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Por ejemplo, podríamos ver los dos países con mayor esperanza de vida en cada región. Combinando <code>filter()</code>, <code>arrange()</code>, <code>select()</code> y <code>group_by()</code> ya podemos hacer consultas bastante útiles.</p>
+</section>
+<section class="slide level2">
+
+<p><strong>¿Cuáles son los 3 países con menor esperanza de vida en Europa y Asia Central?</strong></p>
+<p>Podemos combinar filtrado, ordenamiento y selección:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb79-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(region <span class="sc">==</span> <span class="st">"Europe &amp; Central Asia"</span>) <span class="sc">%&gt;%</span>      </span>
+<span id="cb79-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(esp_vida) <span class="sc">%&gt;%</span>                        </span>
+<span id="cb79-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, esp_vida) <span class="sc">%&gt;%</span></span>
+<span id="cb79-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  country      esp_vida
+  &lt;chr&gt;           &lt;dbl&gt;
+1 Turkmenistan     69.9
+2 Greenland        71.5
+3 Moldova          71.5</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>¿Cuál es el país más poblado de cada región?</strong></p>
+<p>Ahora agrupamos por región, ordenamos dentro de cada grupo y usamos <code>slice_head()</code> para quedarnos con el primer país de cada región (el más poblado):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb81-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span></span>
+<span id="cb81-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(poblacion), <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb81-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb81-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(region, country, poblacion) <span class="sc">%&gt;%</span> </span>
+<span id="cb81-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(poblacion))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb82-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span></span>
+<span id="cb82-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(poblacion), <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb82-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb82-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(region, country, poblacion) <span class="sc">%&gt;%</span> </span>
+<span id="cb82-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(poblacion))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 3
+# Groups:   region [9]
+  region                     country              poblacion
+  &lt;chr&gt;                      &lt;chr&gt;                    &lt;dbl&gt;
+1 Aggregates                 World               7989545217
+2 &lt;NA&gt;                       Lower middle income 3043358377
+3 South Asia                 India               1425423212
+4 East Asia &amp; Pacific        China               1412175000
+5 North America              United States        334017321
+6 Sub-Saharan Africa         Nigeria              223150896
+7 Latin America &amp; Caribbean  Brazil               210306415
+8 Europe &amp; Central Asia      Russian Federation   144236933
+9 Middle East &amp; North Africa Egypt, Arab Rep.     112618250</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="gramática-de-gráficos-con-ggplot2" class="title-slide slide level1 center">
+<h1>2.4 Gramática de gráficos con ggplot2</h1>
+
+</section>
+<section class="slide level2">
+
+<p>Poder visualizar la información no solo nos ayuda a a anticipar ciertos patrones y comportamientos, sino que también facilita la comunicación de estos hallazgos a otros. Es importante reconocer que tendemos a dejarnos llevar más por los gráficos que por los resúmenes numéricos, aunque ambos sean igualmente importantes.</p>
+<p><code>ggplot2</code> es uno de los paquetes más populares y poderosos en R para la creación de gráficos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>La creación de gráficos con <code>ggplot2</code> se basa en la gramática de los gráficos (Grammar of Graphics). Esta gramática define una serie de componentes que forman parte de un gráfico:</p>
+<ol type="1">
+<li><strong>Datos</strong>: El conjunto de datos que queremos visualizar.</li>
+<li><strong>Estética</strong>: La asignación de variables a aspectos visuales del gráfico, como posición, color, tamaño, etc.</li>
+<li><strong>Geometría</strong>: El tipo de gráfico (barras, puntos, líneas, etc.).</li>
+<li><strong>Facetas</strong>: Subdivisiones del gráfico en múltiples paneles basados en una o más variables.</li>
+<li><strong>Estadísticas</strong>: Transformaciones estadísticas que se aplican a los datos antes de graficarlos.</li>
+<li><strong>Coordenadas</strong>: El sistema de coordenadas usado (cartesiano, polar, etc.).</li>
+<li><strong>Tema</strong>: Elementos de diseño y formato del gráfico.</li>
+</ol>
+</section>
+<section class="slide level2">
+
+<p>Piensa en cada uno de ellos como una capa que va encima. Para construir un gráfico en <code>ggplot2</code>, concatenamos diferentes capas usando el operador <code>+</code>. Cada capa añade un nuevo componente al gráfico.</p>
+
+<img data-src="images/clipboard-308247319.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section class="slide level2">
+
+<p>Vamos a empezar con un gráfico de dispersión básico utilizando el conjunto de datos <code>df_22</code>. Este conjunto contiene datos sobre el Producto Interno Bruto (PIB) per cápita, la esperanza de vida y otros indicadores para varios países a lo largo del tiempo.</p>
+<p>Empezamos agregando la primera capa, los datos. Para comenzar, creamos la base del gráfico con la función ggplot(), y como argumento el conjunto de datos <code>df_22</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-55-1.svg" class="r-stretch"></section>
+<section class="slide level2">
+
+<p>Como ves, los datos por sí solos únicamente nos dan un recuadro en blanco; debemos añadir el resto de capas. Definimos las estéticas del gráfico con la función <code>aes()</code>, asignando el PIB per cápita al eje x (<code>pib_capita</code>) y la esperanza de vida al eje y (<code>esp_vida</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> pib_capita, <span class="at">y =</span> esp_vida))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-57-1.svg" class="r-stretch"></section>
+<section class="slide level2">
+
+<p>Ahora que R sabe qué datos vamos a utilizar y qué variables tomar como coordenadas, necesitamos especificar qué tipo de gráfico queremos crear. En <code>ggplot2</code>, hay muchas <code>geoms</code> (geometrías), y cada una proporciona un tipo de visualización distinta. Por ejemplo, <code>geom_bar</code> crea un gráfico de barras y <code>geom_line</code> genera uno de líneas.</p>
+<p>En nuestro caso, como ambas variables (el PIB per cápita y la esperanza de vida) son numéricas, lo ideal es usar un gráfico de dispersión. Este tipo de visualización nos permite explorar visualmente si existe algún tipo de relación entre ambas.</p>
+</section>
+<section class="slide level2">
+
+<p>Para crear este gráfico, usamos la función geom_point():</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> pib_capita, <span class="at">y =</span> esp_vida)) <span class="sc">+</span></span>
+<span id="cb87-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-59-1.svg" class="r-stretch"></section>
+<section class="slide level2">
+
+<p>En este ejemplo, aes(x = <code>pib_capita</code>, y = <code>esp_vida</code>) define la estética del gráfico, es decir, qué variable irá en cada eje. Luego, <code>geom_point()</code> le indica a R que queremos un gráfico de puntos (dispersión).</p>
+</section>
+<section class="slide level2">
+
+<p>Una vez que ejecutamos este código, ya podemos empezar a observar patrones generales en los datos. Sin embargo, probablemente notes que los puntos están bastante agrupados hacia la izquierda del gráfico. Esto ocurre porque el rango del PIB per cápita varía mucho entre países: algunos tienen valores muy altos y otros muy bajos, lo que comprime los datos en un extremo del eje.</p>
+<p>Para mejorar la visualización, podemos transformar la escala del eje x utilizando una escala logarítmica. Esto nos permite “expandir” las diferencias entre países con bajo PIB y comprimir un poco los valores más altos, facilitando así la comparación visual.</p>
+</section>
+<section class="slide level2">
+
+<p>Usamos <code>scale_x_log10()</code> para transformar el eje x a una escala logarítmica.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> pib_capita, <span class="at">y =</span> esp_vida)) <span class="sc">+</span></span>
+<span id="cb88-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb88-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-61-1.svg" class="r-stretch"></section>
+<section class="slide level2">
+
+<p>Solo recuerda: aplicar una escala logarítmica cambia la forma en que leemos los datos. No estamos viendo el valor bruto del PIB per cápita, sino su logaritmo. Aun así, esta transformación es muy útil para interpretar mejor patrones cuando hay mucha dispersión entre valores bajos y altos.</p>
+</section>
+<section class="slide level2">
+
+<p>También podemos incluir una dimensión adicional de información visual usando la región de cada país como color. Para hacerlo, dentro de <code>aes()</code> agregamos el argumento <code>color = region</code>, lo que permite que cada punto se coloree según la región correspondiente.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> pib_capita, </span>
+<span id="cb89-2"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> esp_vida, </span>
+<span id="cb89-3"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> region)) <span class="sc">+</span></span>
+<span id="cb89-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb89-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-63-1.svg" class="r-stretch"></section>
+<section class="slide level2">
+
+<p>Esto permite explorar visualmente si ciertos patrones se agrupan por región. Por ejemplo, si hay regiones donde los países tienen una esperanza de vida similar a pesar de tener diferentes niveles de ingreso.</p>
+</section>
+<section class="slide level2">
+
+<p>Para que el gráfico sea más claro, añadimos etiquetas con <code>labs()</code>. Esto incluye un título para el gráfico, nombres para los ejes y una leyenda para el color.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> pib_capita, </span>
+<span id="cb90-2"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> esp_vida, </span>
+<span id="cb90-3"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> region)) <span class="sc">+</span></span>
+<span id="cb90-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb90-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb90-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Relación entre PIB per cápita y Esperanza de Vida"</span>,</span>
+<span id="cb90-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"PIB per cápita (escala logarítmica)"</span>,</span>
+<span id="cb90-8"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Esperanza de Vida"</span>,</span>
+<span id="cb90-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Región"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-65-1.svg" class="r-stretch"></section>
+<section class="slide level2">
+
+<p>Con esto obtenemos un gráfico claro, donde cada capa cumple una función específica: <code>geom_point()</code>dibuja los puntos, <code>scale_x_log10()</code> transforma el eje x, <code>color = region</code> añade una variable categórica como color, y <code>labs()</code> da contexto e interpretación.</p>
+</section>
+<section class="slide level2">
+
+<p>Otra capa opcional que podemos agregar es <code>facet_wrap()</code>. El facetado permite dividir el gráfico en paneles separados según una variable categórica. En este caso, podemos crear un gráfico por cada región.</p>
+<p>Usamos <code>facet_wrap(~ region)</code> para crear un panel por región. Esto facilita comparar patrones dentro y entre regiones.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> pib_capita, </span>
+<span id="cb91-2"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> esp_vida, </span>
+<span id="cb91-3"><a aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> region)) <span class="sc">+</span></span>
+<span id="cb91-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb91-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb91-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Relación entre PIB per cápita y Esperanza de Vida"</span>,</span>
+<span id="cb91-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"PIB per cápita (escala logarítmica)"</span>,</span>
+<span id="cb91-8"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Esperanza de Vida"</span>,</span>
+<span id="cb91-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Región"</span>) <span class="sc">+</span></span>
+<span id="cb91-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> region) <span class="sc">+</span></span>
+<span id="cb91-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)  <span class="co"># Esta línea oculta la leyenda</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-67-1.svg" class="r-stretch"></section>
+<section class="slide level2">
+
+<p>Al usar <code>facet_wrap()</code>, cada gráfico mantiene la misma escala, pero muestra solo los países de una región. Esto permite observar variaciones internas que podrían quedar ocultas en un gráfico global.</p>
+</section>
+<section class="slide level2">
+
+<p>La última capa que veremos es la de <code>theme()</code>. Esta capa permite modificar con precisión la apariencia del gráfico: tamaños, posiciones, colores, fuentes, márgenes, etc. Por ejemplo, en el gráfico anterior eliminamos la leyenda usando un <code>theme(legend.position = "none")</code>.</p>
+<p><code>ggplot2</code> tiene varios temas predeterminados que permiten cambiar la apariencia del gráfico sin complicarse demasiado. No exploraremos toda la personalización posible, sino solo algunos de los themes básicos.</p>
+</section>
+<section class="slide level2">
+
+<p>¿Recuerdas el gráfico que generamos antes del facet? Podemos usarlo nuevamente. No hace falta reescribirlo completo: los gráficos también son objetos en R, por lo que se pueden guardar en una variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a aria-hidden="true" tabindex="-1"></a>grafico <span class="ot">=</span> <span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> pib_capita, <span class="at">y =</span> esp_vida, </span>
+<span id="cb92-2"><a aria-hidden="true" tabindex="-1"></a>                            <span class="at">color =</span> region)) <span class="sc">+</span></span>
+<span id="cb92-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb92-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb92-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Relación entre PIB per cápita y Esperanza de Vida"</span>,</span>
+<span id="cb92-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"PIB per cápita (escala logarítmica)"</span>,</span>
+<span id="cb92-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Esperanza de Vida"</span>,</span>
+<span id="cb92-8"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Región"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Para mostrarlo, solo hay que llamarlo:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a aria-hidden="true" tabindex="-1"></a>grafico</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-69-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p><code>theme_minimal()</code> crea un gráfico con fondo blanco y cuadrícula ligera:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a aria-hidden="true" tabindex="-1"></a>grafico <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-70-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p><code>theme_gray()</code> da un fondo gris claro y cuadrícula blanca.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a aria-hidden="true" tabindex="-1"></a>grafico <span class="sc">+</span> <span class="fu">theme_gray</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-71-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p><code>theme_bw()</code> tiene fondo blanco y líneas más marcadas.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a aria-hidden="true" tabindex="-1"></a>grafico <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-72-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p><code>theme_classic()</code> imita el estilo clásico de los gráficos base de R.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a aria-hidden="true" tabindex="-1"></a>grafico <span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-73-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p><code>theme_void()</code> elimina todos los elementos del gráfico, dejando solo los datos.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a aria-hidden="true" tabindex="-1"></a>grafico <span class="sc">+</span> <span class="fu">theme_void</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-74-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p><code>theme_dark()</code> aplica un fondo oscuro con líneas claras.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a aria-hidden="true" tabindex="-1"></a>grafico <span class="sc">+</span> <span class="fu">theme_dark</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-75-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p>Todos estos temas pueden ser personalizados si necesitas ajustes más detallados. En esta sesión usaremos <code>theme_minimal()</code> por preferencia, pero puedes elegir el que mejor se adapte a tu estilo o propósito.</p>
+</section></section>
+<section>
+<section id="gráficos-para-variables-continuas" class="title-slide slide level1 center">
+<h1>2.5 Gráficos para variables continuas</h1>
+
+</section>
+<section id="histograma" class="slide level2">
+<h2>Histograma</h2>
+<p>El histograma permite observar la distribución de una variable numérica. Por ejemplo, ¿cómo están distribuidos los valores de esperanza de vida?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> esp_vida)) <span class="sc">+</span></span>
+<span id="cb100-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb100-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de la esperanza de vida"</span>,</span>
+<span id="cb100-4"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Esperanza de vida"</span>,</span>
+<span id="cb100-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frecuencia"</span>) <span class="sc">+</span></span>
+<span id="cb100-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-77-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<h3 id="gráfico-de-líneas">Gráfico de líneas</h3>
+<p>Un gráfico de líneas es útil para ver cómo cambia una variable a lo largo del tiempo. Si tuvieras datos de varios años, podrías agrupar por año.</p>
+</section>
+<section class="slide level2">
+
+<p>Podemos combinar dplyr con ggplot2 utilizando el operador pipe (<code>%&gt;%</code>) para encadenar directamente una transformación de datos con una visualización. Esto nos permite filtrar, agrupar o resumir datos con <code>dplyr</code>, y luego pasar el resultado directamente a <code>ggplot()</code> para graficarlo, sin necesidad de guardar objetos intermedios.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb101-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(region <span class="sc">!=</span> <span class="st">"Aggregates"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb101-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, region) <span class="sc">%&gt;%</span></span>
+<span id="cb101-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">esp_vida_media =</span> <span class="fu">mean</span>(esp_vida, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb101-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> esp_vida_media, <span class="at">color =</span> region)) <span class="sc">+</span></span>
+<span id="cb101-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb101-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Evolución de la esperanza de vida por región"</span>,</span>
+<span id="cb101-8"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Año"</span>,</span>
+<span id="cb101-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Esperanza de vida (promedio)"</span>,</span>
+<span id="cb101-10"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Región"</span>) <span class="sc">+</span></span>
+<span id="cb101-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb101-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-79-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<h3 id="boxplot">Boxplot</h3>
+<p>Un boxplot muestra cómo se distribuye una variable numérica en distintas categorías. Por ejemplo, la distribución de la esperanza de vida según región:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span> </span>
+<span id="cb102-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> region, <span class="at">y =</span> esp_vida, <span class="at">fill =</span> region)) <span class="sc">+</span></span>
+<span id="cb102-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb102-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de la esperanza de vida por región"</span>,</span>
+<span id="cb102-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Región"</span>,</span>
+<span id="cb102-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Esperanza de vida"</span>) <span class="sc">+</span></span>
+<span id="cb102-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb102-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-81-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section></section>
+<section>
+<section id="gráficos-para-variables-categóricas" class="title-slide slide level1 center">
+<h1>2.6 Gráficos para variables categóricas</h1>
+
+</section>
+<section id="gráfico-de-barras" class="slide level2">
+<h2>Gráfico de barras</h2>
+<p>Permite ver la frecuencia de cada categoría en barras</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb103-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> region, <span class="at">fill =</span> region)) <span class="sc">+</span></span>
+<span id="cb103-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb103-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb103-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Frecuencia de observaciones por región"</span>,</span>
+<span id="cb103-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Región"</span>,</span>
+<span id="cb103-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frecuencia"</span></span>
+<span id="cb103-8"><a aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb103-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb103-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb103-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-83-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section id="gráfico-de-barras-con-valores-agregados" class="slide level2">
+<h2>Gráfico de barras con valores agregados</h2>
+<p>Si ya tienes una tabla resumida con frecuencias, o quieres mostrar un valor calculado como la esperanza de vida promedio por región, usamos geom_col(). También podemos usar <code>reorder()</code> para ordenar las barras de menor a mayor vida promedio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb104-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span></span>
+<span id="cb104-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">vida_media =</span> <span class="fu">mean</span>(esp_vida, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb104-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(region, vida_media), </span>
+<span id="cb104-5"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> vida_media, <span class="at">fill =</span> region)) <span class="sc">+</span></span>
+<span id="cb104-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb104-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Esperanza de vida promedio en 2022"</span>,</span>
+<span id="cb104-8"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Región"</span>,</span>
+<span id="cb104-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Esperanza de vida"</span>) <span class="sc">+</span></span>
+<span id="cb104-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb104-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb104-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-85-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section id="gráfico-de-proporciones" class="slide level2">
+<h2>Gráfico de proporciones</h2>
+<p>También podemos visualizar proporciones relativas entre categorías. Por ejemplo, la proporción de países por tipo de ingreso en cada región. <code>position = "fill"</code> transforma las barras en proporciones relativas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb105-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> region, <span class="at">fill =</span> income)) <span class="sc">+</span></span>
+<span id="cb105-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb105-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución proporcional de ingresos por región"</span>,</span>
+<span id="cb105-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Región"</span>,</span>
+<span id="cb105-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proporción"</span>,</span>
+<span id="cb105-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Tipo de ingreso"</span>) <span class="sc">+</span></span>
+<span id="cb105-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb105-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-87-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p><code>df_22$income</code> no tiene un orden factorizado, ggplot2 lo tratará como categorías sin orden, lo cual puede resultar en un orden de los niveles arbitrario. Podemos ordenar explícitamente los niveles de income usando <code>forcats::fct_relevel()</code>. En este caso, estamos trabajando con categorías como:</p>
+<ul>
+<li><p>Low income</p></li>
+<li><p>Lower middle income</p></li>
+<li><p>Upper middle income</p></li>
+<li><p>High income</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<p>Factorizamos y establecemos orden entre los niveles:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="ot">=</span> df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb106-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(income <span class="sc">!=</span> <span class="st">"Not classified"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb106-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">income =</span> forcats<span class="sc">::</span><span class="fu">fct_relevel</span>(income,</span>
+<span id="cb106-4"><a aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"Low income"</span>,</span>
+<span id="cb106-5"><a aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"Lower middle income"</span>,</span>
+<span id="cb106-6"><a aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"Upper middle income"</span>,</span>
+<span id="cb106-7"><a aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"High income"</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span> </span>
+<span id="cb107-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> region, <span class="at">fill =</span> income)) <span class="sc">+</span></span>
+<span id="cb107-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb107-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución proporcional de ingresos por región"</span>,</span>
+<span id="cb107-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Región"</span>,</span>
+<span id="cb107-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proporción"</span>,</span>
+<span id="cb107-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Tipo de ingreso"</span>) <span class="sc">+</span></span>
+<span id="cb107-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb107-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-90-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section></section>
+<section>
+<section id="gráficos-bivariados" class="title-slide slide level1 center">
+<h1>2.7 Gráficos bivariados</h1>
+
+</section>
+<section class="slide level2">
+
+<p><strong>Numérica vs categórica</strong> Supongamos que queremos entender cómo varía la esperanza de vida (<code>esp_vida</code>) según el tipo de ingreso (<code>income</code>). Como <code>income</code> es una variable categórica y <code>esp_vida</code> es numérica, hay varias formas visuales de explorar esta relación.</p>
+</section>
+<section id="boxplot-comparando-distribuciones" class="slide level2">
+<h2>Boxplot: comparando distribuciones</h2>
+<p>El boxplot resume la distribución de la variable numérica dentro de cada categoría. Podemos ver la mediana, los cuartiles y posibles valores atípicos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb108-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> income, <span class="at">y =</span> esp_vida, <span class="at">fill =</span> income)) <span class="sc">+</span></span>
+<span id="cb108-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb108-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de la esperanza de vida por tipo de ingreso"</span>,</span>
+<span id="cb108-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tipo de ingreso"</span>,</span>
+<span id="cb108-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Esperanza de vida"</span>) <span class="sc">+</span></span>
+<span id="cb108-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb108-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-92-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section id="violin-plot-forma-de-la-distribución" class="slide level2">
+<h2>Violin plot: forma de la distribución</h2>
+<p>El violin plot es parecido al boxplot, pero también muestra la densidad de los datos, es decir, qué tan concentrados están los valores.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a aria-hidden="true" tabindex="-1"></a>df_22 <span class="sc">%&gt;%</span></span>
+<span id="cb109-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> income, <span class="at">y =</span> esp_vida, <span class="at">fill =</span> income)) <span class="sc">+</span></span>
+<span id="cb109-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">trim =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb109-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de la esperanza de vida por tipo de ingreso"</span>,</span>
+<span id="cb109-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tipo de ingreso"</span>,</span>
+<span id="cb109-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Esperanza de vida"</span>) <span class="sc">+</span></span>
+<span id="cb109-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb109-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-94-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p><strong>Numérica vs numérica</strong></p>
+</section>
+<section id="gráfico-de-dispersión-scatter-plot" class="slide level2">
+<h2>Gráfico de dispersión (scatter plot)</h2>
+<p>Ideal para ver relaciones, correlaciones o agrupamientos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> pib_capita, <span class="at">y =</span> esp_vida)) <span class="sc">+</span></span>
+<span id="cb110-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb110-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb110-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"PIB per cápita (log10)"</span>, <span class="at">y =</span> <span class="st">"Esperanza de vida"</span>) <span class="sc">+</span></span>
+<span id="cb110-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-96-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p>También puedes agregar una línea de tendencia con <code>geom_smooth()</code> si te interesa mostrar una relación.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> pib_capita, <span class="at">y =</span> esp_vida)) <span class="sc">+</span></span>
+<span id="cb111-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb111-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb111-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb111-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"PIB per cápita (log10)"</span>, <span class="at">y =</span> <span class="st">"Esperanza de vida"</span>) <span class="sc">+</span></span>
+<span id="cb111-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-98-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2">
+
+<p><strong>Categórica vs.&nbsp;categórica</strong></p>
+</section>
+<section id="gráfico-de-barras-apilado-o-de-posición" class="slide level2">
+<h2>Gráfico de barras apilado o de posición</h2>
+<p>Cuando ambas variables son categóricas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_22, <span class="fu">aes</span>(<span class="at">x =</span> income, <span class="at">fill =</span> region)) <span class="sc">+</span></span>
+<span id="cb112-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb112-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Nivel de ingreso"</span>, <span class="at">y =</span> <span class="st">"Proporción"</span>, <span class="at">fill =</span> <span class="st">"Región"</span>) <span class="sc">+</span></span>
+<span id="cb112-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="S2_files/figure-revealjs/unnamed-chunk-100-1.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section></section>
+<section id="gracias-por-tu-atención" class="title-slide slide level1 center">
+<h1>Gracias por tu atención</h1>
+
+
+<div class="quarto-auto-generated-content">
+<div class="footer footer-default">
+
+</div>
+</div>
+</section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: false,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    (function () {
+      function clean(s) {
+        return (s || "").replace(/\s+/g, " ").trim();
+      }
+
+      function weekTitleFromDocument() {
+        const h1Title = document.querySelector("h1.title");
+        if (h1Title) return clean(h1Title.textContent);
+
+        const meta = document.querySelector('meta[name="dcterms.title"]')
+          || document.querySelector('meta[property="og:title"]');
+        if (meta?.content) return clean(meta.content);
+
+        const t = clean(document.title);
+        return t ? t.split(" - ")[0].split(" | ")[0].trim() : "Semana";
+      }
+
+      function getAllSlideSections() {
+        // Reveal usa <div class="slides"> y adentro <section>
+        return Array.from(document.querySelectorAll(".reveal .slides section"));
+      }
+
+      function currentSlide() {
+        return window.Reveal ? Reveal.getCurrentSlide() : null;
+      }
+
+      function slideTitle(slide) {
+        const h2 = slide?.querySelector("h2");
+        const h3 = slide?.querySelector("h3");
+        return clean((h2 || h3)?.textContent) || " ";
+      }
+
+      function currentUnitH1() {
+        const slides = getAllSlideSections();
+        const cur = currentSlide();
+        if (!cur || !slides.length) return " ";
+
+        const idx = slides.indexOf(cur);
+        if (idx &lt; 0) return " ";
+
+        for (let i = idx; i &gt;= 0; i--) {
+          const s = slides[i];
+          const h1 = s.querySelector("h1:not(.title)");
+          if (h1) {
+            const txt = clean(h1.textContent);
+            if (txt) return txt;
+          }
+        }
+        return " ";
+      }
+
+      function progressRatio() {
+        if (!window.Reveal) return 0;
+        const total = Reveal.getTotalSlides?.() ?? 0;
+        const past  = Reveal.getSlidePastCount?.() ?? 0;
+        if (!total || total &lt;= 1) return 0;
+        return Math.max(0, Math.min(1, past / (total - 1)));
+      }
+
+      function update() {
+        const weekEl = document.getElementById("deckWeek");
+        const titleEl = document.getElementById("deckTitle");
+        const unitEl = document.getElementById("deckUnit");
+        const fillEl = document.getElementById("deckProgressFill");
+
+        if (weekEl) weekEl.textContent = weekTitleFromDocument();
+
+        const cur = currentSlide();
+        if (titleEl) titleEl.textContent = slideTitle(cur);
+        if (unitEl) unitEl.textContent = currentUnitH1();
+
+        if (fillEl) {
+          const r = progressRatio();
+          // RAF para que el browser aplique transición siempre
+          requestAnimationFrame(() =&gt; {
+            fillEl.style.width = `${(r * 100).toFixed(1)}%`;
+          });
+        }
+      }
+
+      function init() {
+        if (!window.Reveal) return;
+
+        const hook = () =&gt; update();
+
+        Reveal.on("ready", hook);
+        Reveal.on("slidechanged", hook);
+        Reveal.on("fragmentshown", hook);
+        Reveal.on("fragmenthidden", hook);
+        Reveal.on("overviewshown", hook);
+        Reveal.on("overviewhidden", hook);
+
+        update();
+      }
+
+      document.readyState === "loading"
+        ? document.addEventListener("DOMContentLoaded", init)
+        : init();
+    })();
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copiado");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copiado");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</section></div></body></html>

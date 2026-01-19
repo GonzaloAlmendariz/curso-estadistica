@@ -3,10 +3,12 @@ project:
   output-dir: docs
   resources:
     - includes/
-
-website:
-  title: "Curso de Estadística"
-  navbar: false
+  render:
+    - index.qmd
+    - S1.qmd
+    - S2.qmd
+    - S3.qmd
+    - S4.qmd
 
 format:
   revealjs:
@@ -26,6 +28,7 @@ format:
       - includes/chrome.html
     include-after-body:
       - includes/chrome.js
+
 
 lang: es
 
