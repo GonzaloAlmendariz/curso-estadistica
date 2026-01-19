@@ -5,7 +5,6 @@ format:
     theme: none
     toc: false
     css:
-      - styles/site.scss
       - styles/reveal-custom.scss
     include-in-header:
       - text: |
