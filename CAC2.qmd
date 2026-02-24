@@ -1,0 +1,60 @@
+---
+title: "CAC2"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+
+```{r}
+set.seed(123)
+
+lanzamientos_10 = sample(1:6, 10, replace = T)
+
+
+lanzamientos_10
+```
+
+```{r}
+sum(lanzamientos_10 == 3) / 10
+```
+
+
+```{r}
+set.seed(123)
+
+lanzamientos_100 = sample(1:6, 100, replace = T)
+
+
+lanzamientos_100
+```
+
+```{r}
+sum(lanzamientos_100 == 3) / 100
+```
+
+
+```{r}
+set.seed(123)
+
+lanzamientos_10000 = sample(1:6, 10000, replace = T)
+
+
+lanzamientos_10000
+```
+
+```{r}
+sum(lanzamientos_10000 == 3) / 10000
+```
+
+
+
+
+
+
+
+
+
+

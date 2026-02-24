@@ -745,7 +745,7 @@ Las objetos se almacenan en el entorno (environment) de R.
 
 ## Funciones
 
-Anteriormente mencionamos que R es un lenguaje de programación que nos permite comunicarnos con la computadora para que esta realice tareas utilizando nuestros datos (input) y nos devuelva un resultado (output). Para que estas tareas se lleven a cabo, primero debemos indicarle a la computadora cómo hacerlo, y estas indicaciones se dan a través de **funciones**. Las funciones son instrucciones representadas por palabras seguidas de paréntesis, que le dicen a R que ejecute una acción específica.
+Anteriormente mencionamos que R es un lenguaje de programación que nos permite comunicarnos con la computadora para que esta realice tareas utilizando nuestros datos (input) y nos devuelva un resultado (output). Para que estas tareas se lleven a cabo, primero debemos indicarle a la computadora cómo hacerlo, y estas indicaciones se dan a través de **funciones**. Las funciones son instrucciones representadas por palabras seguidas de paréntesis, que le dicen a R que ejecute una acción específica.
 
 ![](images/clipboard-2980090527.png){fig-align="center" width="904"}
 
@@ -1549,12 +1549,12 @@ psych::describe(encuesta)
 dlookr::diagnose_numeric(encuesta)
 ```
 
-
 ```{r}
 #| echo: true
 #| eval: false
 dlookr::describe(encuesta)
 ```
+
 ::: {style="max-width:100%; overflow-x:auto; white-space:pre;"}
 ```{r}
 #| results: asis
@@ -1567,7 +1567,4 @@ cat(knitr::kable(tab, format = "html", digits = 2))
 ```
 :::
 
-
 # Gracias por tu atención
-
-

@@ -1,0 +1,2012 @@
+---
+title: "Semana 2: Comportamiento muestral e inferencia estadística"
+format: revealjs
+execute:
+  echo: false
+  warning: false
+  message: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo=FALSE, warning=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+Ya hemos visto cómo el **Teorema del Límite Central** nos ayuda a entender el comportamiento de las medias de múltiples muestras aleatorias. En otras palabras, si extraemos muchas muestras de una población y calculamos sus medias, los valores obtenidos formarán una nueva distribución, conocida como **distribución muestral de la media**. A medida que aumentamos el número de muestras, esta distribución tenderá a parecerse cada vez más a una **distribución normal**, sin importar la forma de la distribución original de los datos.
+
+------------------------------------------------------------------------
+
+Si bien en el capítulo anterior utilizamos la **media muestral** como ejemplo, este mismo principio se extiende a otros estadísticos. Por ejemplo, si en lugar de calcular la media de cada muestra calculamos la **proporción de individuos con una determinada característica**, obtendremos una **distribución muestral de proporciones**, que también se aproxima a una distribución normal cuando el tamaño de la muestra es suficientemente grande. Del mismo modo, si calculamos la **varianza**
+
+------------------------------------------------------------------------
+
+```{r, echo=FALSE, warning=FALSE}
+# Cargar librerías necesarias
+library(ggplot2)
+library(dplyr)
+
+# Parámetros de la población
+set.seed(123)  # Para reproducibilidad
+mu <- 50  # Media poblacional
+sigma <- 10  # Desviación estándar poblacional
+p_true <- 0.4  # Proporción real de éxito en la población
+n <- 30  # Tamaño de cada muestra
+num_samples <- 5000  # Número de muestras a generar
+
+# Simular múltiples muestras
+sample_means <- replicate(num_samples, mean(rnorm(n, mean = mu, sd = sigma)))
+sample_proportions <- replicate(num_samples, mean(rbinom(n, 1, p_true)))
+sample_variances <- replicate(num_samples, var(rnorm(n, mean = mu, sd = sigma)))
+
+# Crear un dataframe con los resultados
+data <- data.frame(
+  estadístico = c(rep("Media muestral", num_samples), 
+                  rep("Proporción muestral", num_samples),
+                  rep("Varianza muestral", num_samples)),
+  valor = c(sample_means, sample_proportions, sample_variances)
+)
+
+# Crear el gráfico con ggplot2
+ggplot(data, aes(x = valor, fill = estadístico)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(~ estadístico, scales = "free", ncol = 1) +  # Separa los gráficos por tipo de estadístico
+  labs(title = "Distribuciones muestrales de distintos estadísticos",
+       subtitle = "El Teorema del Límite Central se aplica no solo a medias, sino también a proporciones y varianzas",
+       x = "Valor del estadístico",
+       y = "") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+------------------------------------------------------------------------
+
+Entender este concepto es clave para la estadística inferencial, la cual va a ser el tema central de este y los próximos capítulos. En base a lo que conocemos sobre la distribución muestral, podemos aplicar una serie de herramientas que nos ayuden a estimar características de la población.
+
+------------------------------------------------------------------------
+
+Entre los métodos inferenciales que utilizamos están:
+
+-   **Estimación**: Nos permite aproximar valores poblacionales desconocidos, como la media o la proporción, basándonos en una muestra (estadístico observado). La estimación esta conformada por un intervalo de confianza, que indica el rango dentro del cual esperamos que se encuentre el valor real de la población (parámetro).
+
+-   **Contraste de hipótesis**: Nos permite evaluar afirmaciones o suposiciones sobre la población. Para ello, planteamos una hipótesis inicial (la hipótesis nula) y la comparamos con una hipótesis alternativa. Usamos los datos de nuestra muestra (estadístico observado) para decidir si tenemos evidencia suficiente para rechazar la hipótesis nula en favor de la alternativa.
+
+------------------------------------------------------------------------
+
+Ambos métodos aprovechan la idea de la distribución muestral. Gracias al Teorema del Límite Central, sabemos que al recolectar los estadísticos de múltiples muestras estos siguen una distribución aproximadamente normal, bajo ciertas condiciones. En este capítulo, exploraremos cómo aplicar estas técnicas para extraer conclusiones sobre una población basándonos en una muestra aleatoria representativa.
+
+------------------------------------------------------------------------
+
+## Estimación
+
+La estimación es el proceso mediante el cual **intentamos aproximarnos al verdadero valor de un parámetro poblacional**, como la media o la proporción, utilizando los estadísticos de una muestra. Dado que rara vez es posible observar a toda la población, la estimación nos permite hacer inferencias sobre sus características con base en una parte representativa de ella, la muestra. Gracias al Teorema del Límite Central, sabemos que, aunque los estadísticos obtenidos en distintas muestras pueden variar, con una muestra suficientemente grande, estos tienden a aproximarse al parámetro poblacional, siguiendo una distribución normal. Esta propiedad es fundamental en la estadística inferencial, ya que nos permite no solo obtener una estimación del parámetro desconocido, sino también **medir la incertidumbre asociada a dicha estimación**.
+
+------------------------------------------------------------------------
+
+Para cuantificar esta incertidumbre, utilizamos el **intervalo de confianza**, que nos proporciona un **rango de valores dentro del cual esperamos que se encuentre el verdadero parámetro poblacional** con un cierto nivel de certeza. Para ello, construimos una distribución normal alrededor del estadístico observado. Esta distribución refleja cómo variarían nuestras estimaciones si repitiéramos el muestreo múltiples veces, permitiéndonos delimitar un rango dentro del cual se encuentra el valor real del parámetro.
+
+------------------------------------------------------------------------
+
+### Estimación y la regla empírica
+
+La estimación es el proceso de construir un intervalo que, a partir de un estadístico calculado en una muestra, nos permite aproximarnos al valor del parámetro poblacional desconocido. Gracias al Teorema del Límite Central (TLC), sabemos que, bajo ciertas condiciones, la distribución de este estadístico tenderá a seguir una distribución normal.
+
+------------------------------------------------------------------------
+
+Entonces, utilizando las características de la distribución normal podemos construir intervalos de confianza. En particular, la **regla empírica (68-95-99.7)** nos dice que aproximadamente el **68%**, **95%** y **99.7%** de los valores de una distribución normal se encuentran dentro de **uno, dos o tres desviaciones estándar** de la media, respectivamente (5.3). Utilizando esta información, podemos calcular intervalos que reflejen con un grado de confianza el rango en el que es probable que se encuentre el parámetro poblacional.
+
+------------------------------------------------------------------------
+
+Habíamos visto que, en la distribución muestral, la desviación estándar se convierte en el **error estándar**, por lo que debemos calcularlo primero. Su fórmula varía según el tipo de variable y el estadístico que estemos analizando.
+
+Para una **media muestral**, el error estándar se calcula dividiendo la desviación estándar de la población ($\sigma$) entre la raíz cuadrada del tamaño de la muestra ($n$):
+
+$$ \text{Error estándar} = \frac{\sigma}{\sqrt{n}}$$ donde:
+
+-   ($\sigma$) es la desviación estándar de la población,
+
+-   ($n$) es el tamaño de la muestra.
+
+------------------------------------------------------------------------
+
+Recuerda que en la mayoría de los casos no conocemos $\sigma$, ya que es un parámetro poblacional desconocido, entonces: **¿cómo podemos conocer la desviación estándar de la población si, en realidad, solo tenemos una muestra?** Usando la desviación estándar de la muestra ($s$) como una aproximación de $\sigma$.
+
+$$
+\text{Error estándar} = \frac{s}{\sqrt{n}}
+$$
+
+------------------------------------------------------------------------
+
+Para una **proporción**, el error estándar se calcula distinto, ya que aquí estamos midiendo la variabilidad de una proporción (como el porcentaje de personas que apoyan un partido político, el porcentaje de personas con una característica particular, etc.). La fórmula del error estándar para una proporción ($\hat{p}$) es:
+
+$$\text{Error estándar} = \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}$$
+
+donde:
+
+-   $\hat{p}$ es la proporción observada en la muestra,
+
+-   $n$ es el tamaño de la muestra.
+
+------------------------------------------------------------------------
+
+En ambos casos, el error estándar nos indica cuánto esperaríamos que varíe el estadístico muestral (ya sea la media o la proporción de una muestra) respecto al valor real del parámetro poblacional.
+
+------------------------------------------------------------------------
+
+Observa como el tamaño de la muestra ($n$) aparece en el denominador de ambas fórmula. Esto significa que **a medida que la muestra crece, el error estándar disminuye**. En términos intuitivos, cuanto más grande sea la muestra, más información tendremos sobre la población, lo que reduce la variabilidad entre las estimaciones obtenidas a partir de diferentes muestras.
+
+------------------------------------------------------------------------
+
+### Nivel de Confianza y Alfa
+
+Cuando construimos un intervalo de confianza, elegimos un **nivel de confianza** para indicar cuánta certeza queremos tener de que el intervalo contiene el verdadero valor del parámetro poblacional. Por ejemplo, si elegimos un nivel de confianza del **95%**, estamos diciendo que, en el 95% de los casos, el intervalo construido incluirá el valor real de la población si repitiéramos el muestreo muchas veces. El **nivel de confianza** representa la probabilidad de que el intervalo contenga el verdadero valor.
+
+------------------------------------------------------------------------
+
+Al momento de seccionarlo tenemos que ser consciente que existe una relación inversa entre **precisión** y **certeza** en los intervalos de confianza. Cuanto mayor sea el nivel de confianza (y, por tanto, nuestra certeza de que el intervalo contiene el verdadero valor), más amplio será el intervalo y menor será la precisión. Esto se debe a que un nivel de confianza alto implica cubrir una mayor porción de la distribución, extendiendo el rango del intervalo para asegurar que se incluya el valor poblacional. Por el contrario, cuando optamos por un nivel de confianza menor (como el 90%), el intervalo se vuelve más estrecho, aumentando la precisión pero con menor certeza de que el intervalo incluya el verdadero valor poblacional.
+
+------------------------------------------------------------------------
+
+Esta relación inversa nos obliga a elegir un nivel de confianza que equilibre nuestras necesidades de precisión y certeza según el contexto del análisis. Comúnmente usamos niveles de confianza de:
+
+**90%** (nos da un poco menos de certeza, con intervalos más estrechos),
+
+**95%** (el más utilizado, balancea certeza y ancho del intervalo),
+
+**99%** (mayor certeza, pero con un intervalo más amplio).
+
+------------------------------------------------------------------------
+
+Este nivel de confianza se relaciona directamente con **alfa** ($\alpha$), que es el complemento del nivel de confianza. $\alpha$ representa la **probabilidad de error** o el **riesgo de equivocación** que estamos dispuestos a aceptar (ver *Tipos de error*)
+
+$$ \alpha = 1 - \text{Nivel de Confianza} $$
+
+------------------------------------------------------------------------
+
+Por ejemplo:
+
+-   Si tenemos un nivel de confianza del **95%**, entonces $\alpha = 0.05$.
+
+-   Si nuestro nivel de confianza es del **90%**, entonces $\alpha = 0.10$.
+
+-   Si optamos por un nivel de confianza del **99%**, entonces $\alpha = 0.01$.
+
+------------------------------------------------------------------------
+
+En el caso de un intervalo de confianza del 95%, $\alpha = 0.05$, lo que significa que hay un 5% de probabilidad de que el intervalo calculado no contenga el verdadero valor poblacional. Este margen de error del 5% normalmente se reparte en ambos extremos de la distribución (2.5% a la izquierda y 2.5% a la derecha) pero en algunas pruebas también puede distribuirse a un solo lado.
+
+------------------------------------------------------------------------
+
+Para construir un **intervalo de confianza** al estimar una proporción, debemos determinar **cuántos errores estándar** debemos desplazarnos a la izquierda y a la derecha de la media de la distribución muestral para capturar un área de la distribución que corresponda al nivel de confianza seleccionado. ¿Recuerdas el **valor z** en la distribución normal? (8.5). La distribución de las proporciones muestrales sigue aproximadamente una **distribución normal**, lo que nos permite utilizar los **valores críticos** $z$ para definir los límites del intervalo.
+
+------------------------------------------------------------------------
+
+El valor $z$ representa **cuántos errores estándar debemos alejarnos de la media** a ambos lados para capturar la fracción deseada de la distribución. Es decir, nos permite establecer un rango dentro del cual se encuentra la verdadera proporción poblacional. Este valor crítico depende del **nivel de confianza elegido**, ya que cuanto mayor sea el nivel de confianza, más lejos debemos extender el intervalo para asegurarnos de que incluya el parámetro poblacional en la mayoría de los casos.
+
+------------------------------------------------------------------------
+
+Dependiendo del **nivel de confianza** elegido, los valores críticos $z$ más comunes son:
+
+-   **90% de confianza**: $z = 1.645$\
+-   **95% de confianza**: $z = 1.96$\
+-   **99% de confianza**: $z = 2.576$
+
+Estos valores provienen de la **distribución normal estándar**, donde el área bajo la curva entre $-z$ y $+z$ corresponde al nivel de confianza seleccionado. Cuanto mayor sea el nivel de confianza, mayor será el valor crítico $z$, lo que significa que el intervalo de confianza será más amplio para abarcar una mayor proporción de la distribución.
+
+------------------------------------------------------------------------
+
+Cuando en lugar de una **proporción** estamos realizando inferencias sobre la **media poblacional**, la situación cambia ligeramente. Si conociéramos la **desviación estándar de la población**, podríamos seguir utilizando la distribución normal de la población para construir el intervalo de confianza. Sin embargo,recuerda que en la mayoría de los casos, no contamos con ella, por lo que debemos estimarla a partir de la muestra (5.7).
+
+------------------------------------------------------------------------
+
+Esta estimación introduce **incertidumbre adicional**, lo que nos obliga a usar la **distribución t de Student** en lugar de la normal. La distribución t es similar a la normal, pero tiene **colas más gruesas**, lo que refleja la mayor variabilidad esperada cuando trabajamos con la desviación estándar muestral ($s$) en lugar de la poblacional ($\sigma$).
+
+------------------------------------------------------------------------
+
+La diferencia entre la distribución t y la normal es más notable en muestras pequeñas. A medida que el tamaño de la muestra aumenta, la estimación de la desviación estándar poblacional mejora, y la distribución t se aproxima cada vez más a la normal. Generalmente, cuando el tamaño muestral es mayor a **30 observaciones**, la diferencia entre ambas distribuciones es mínima.
+
+------------------------------------------------------------------------
+
+![19 grados de libertad](images/clipboard-3783115314.png){fig-align="center" width="724"}
+
+------------------------------------------------------------------------
+
+La forma de la distribución t está determinada por un parámetro llamado **grados de libertad** ($df$, **d**egrees of **f**reedom), que refleja cuánta información útil tenemos en los datos para estimar la variabilidad. Los grados de libertad indican **cuántos valores en la muestra pueden variar libremente antes de que el resto esté completamente determinado**. Por ejemplo, si tenemos una muestra de $n$ datos **solo** $n - 1$ **valores pueden tomar cualquier valor antes de que el último quede determinado automáticamente**. Entonces, los grados de libertad se calculan como $df = n - 1$.
+
+------------------------------------------------------------------------
+
+Cuando el número de grados de libertad es bajo, la distribución t tiene colas más gruesas que la normal, reflejando la mayor incertidumbre en la estimación de la variabilidad. A medida que los grados de libertad aumentan, la distribución t se estrecha y se parece más a la normal.
+
+------------------------------------------------------------------------
+
+![](images/clipboard-1427679740.png)
+
+------------------------------------------------------------------------
+
+### Construcción del Intervalo de Confianza
+
+Con el valor $z$ o $t$ correspondiente al nivel de confianza deseado, el intervalo de confianza para la media poblacional $\mu$ se construye alrededor de la media muestral $\bar{x}$ y el error estándar ($\text{EE}$):
+
+$$ \text{Intervalo de Confianza} = \bar{x} \pm z \times \text{EE} $$
+
+ó
+
+$$ \text{Intervalo de Confianza} = \bar{x} \pm t \times \text{EE} $$
+
+------------------------------------------------------------------------
+
+donde:
+
+-   $\bar{x}$ es la media de la muestra,
+
+-   $z$ o $t$ es el valor correspondiente al nivel de confianza deseado de la distribución normal ($z$) o t de Student($t$),
+
+-   $\text{EE}$ es el error estándar.
+
+------------------------------------------------------------------------
+
+Este intervalo nos da un rango dentro del cual esperamos que se encuentre la verdadera media poblacional con el nivel de confianza seleccionado. Por ejemplo, para una distribución normal.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Definimos los valores z para cada nivel de confianza
+z_values <- c(1.645, 1.96, 2.576)
+confidence_levels <- c("90%", "95%", "99%")
+
+# Generamos una función para calcular la distribución normal
+x_vals <- seq(-4, 4, length.out = 100)
+data <- data.frame(
+  x = rep(x_vals, times = 3),
+  y = c(dnorm(x_vals, 0, 1), dnorm(x_vals, 0, 1), dnorm(x_vals, 0, 1)),
+  confidence = factor(rep(confidence_levels, each = 100), levels = confidence_levels)
+)
+
+# Crear el gráfico
+ggplot(data, aes(x = x, y = y, color = confidence, fill = confidence)) +
+  geom_line(size = 1) +
+  geom_ribbon(data = subset(data, x >= -z_values[1] & x <= z_values[1] & confidence == "90%"), aes(ymin = 0, ymax = y), alpha = 0.2) +
+  geom_ribbon(data = subset(data, x >= -z_values[2] & x <= z_values[2] & confidence == "95%"), aes(ymin = 0, ymax = y), alpha = 0.2) +
+  geom_ribbon(data = subset(data, x >= -z_values[3] & x <= z_values[3] & confidence == "99%"), aes(ymin = 0, ymax = y), alpha = 0.2) +
+  scale_color_manual(values = c("darkblue", "darkgreen", "darkred")) +
+  scale_fill_manual(values = c("darkblue", "darkgreen", "darkred")) +
+  labs(
+    title = "Diferentes intervalos de confianza en una distribución normal",
+    x = "Valor z (# de EE)",
+    y = "",
+    color = "Nivel de Confianza",
+    fill = "Nivel de Confianza"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  facet_wrap(~ confidence, ncol = 1)
+```
+
+------------------------------------------------------------------------
+
+En el caso de la **distribución t**, recuerda que su forma cambia en función de los **grados de libertad** ($df$). A medida que los grados de libertad aumentan, la distribución se va estrechando y sus colas se hacen menos pronunciadas, acercándose cada vez más a la normal estándar. Veamos cómo varía la distribución t para un nivel de confianza del 95% en diferentes valores de $df$.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Cargar librerías necesarias
+library(ggplot2)
+
+# Definir los grados de libertad
+df_values <- c(3, 15, 100)
+df_labels <- c("df = 3", "df = 15", "df = 100")
+
+# Generar valores de t desde -4 a 4
+x_vals <- seq(-4, 4, length.out = 500)
+
+# Valores críticos para un nivel de confianza del 95%
+t_critical <- qt(0.975, df_values)
+
+# Construir un dataframe con las distribuciones t para cada df
+data_t <- data.frame(
+  x = rep(x_vals, times = 3),
+  y = c(dt(x_vals, df = df_values[1]), 
+        dt(x_vals, df = df_values[2]), 
+        dt(x_vals, df = df_values[3])),
+  df = factor(rep(df_labels, each = length(x_vals)), levels = df_labels)
+)
+
+# Crear el gráfico de la distribución t
+ggplot(data_t, aes(x = x, y = y, color = df)) +
+  geom_line(size = 1) +  # Dibujar las curvas
+  # Rellenar solo el 95% central de cada distribución
+  geom_ribbon(data = subset(data_t, df == "df = 3" & x >= -t_critical[1] & x <= t_critical[1]), 
+              aes(ymin = 0, ymax = y, fill = df), alpha = 0.3) +
+  geom_ribbon(data = subset(data_t, df == "df = 15" & x >= -t_critical[2] & x <= t_critical[2]), 
+              aes(ymin = 0, ymax = y, fill = df), alpha = 0.3) +
+  geom_ribbon(data = subset(data_t, df == "df = 100" & x >= -t_critical[3] & x <= t_critical[3]), 
+              aes(ymin = 0, ymax = y, fill = df), alpha = 0.3) +
+  scale_color_manual(values = c("darkblue", "darkgreen", "darkred")) +
+  scale_fill_manual(values = c("darkblue", "darkgreen", "darkred")) +
+  labs(
+    title = "Distribución t con diferentes grados de libertad (df)",
+    subtitle = "El área sombreada representa el 95% en las 3 distribuciones",
+    x = "Valor t",
+    y = "Densidad",
+    color = "Grados de Libertad",
+    fill = "Grados de Libertad"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  facet_wrap(~ df, ncol = 1)
+
+```
+
+------------------------------------------------------------------------
+
+Cuando el número de **grados de libertad** ($df$) es pequeño, la estimación de la **desviación estándar poblacional** a partir de la muestra es menos precisa, lo que introduce una mayor variabilidad en la distribución de la media muestral. Para compensar esta incertidumbre, la distribución t tiene **colas más gruesas** y valores críticos ($t$) más grandes, lo que significa que, para un mismo nivel de confianza, los intervalos de confianza deben ser más amplios. A medida que el tamaño de la muestra aumenta, la estimación de la desviación estándar poblacional se vuelve más precisa, reduciendo la variabilidad en la distribución muestral y haciendo que la distribución t se asemeje cada vez más a la normal estándar. Esto a larga hace que los valores críticos $t$ se acerquen a los valores $z$ de la distribución normal al punto en el que la diferencia es mínima.
+
+------------------------------------------------------------------------
+
+Por ejemplo, calculemos los valores críticos $z$ y $t$ para un **nivel de confianza del 99%**, comparando la distribución normal con la distribución t cuando los **grados de libertad** son $df = 300$.
+
+------------------------------------------------------------------------
+
+Cuando calculamos los valores críticos para un **nivel de confianza del 99%**, normlamente dividimos la probabilidad restante ($\alpha$) entre dos, ya que los intervalos de confianza **van a ambos lados**. Dado que el nivel de confianza es del **99%**, la probabilidad total en las colas de la distribución es:
+
+$$
+\alpha = 1 - 0.99 = 0.01
+$$
+
+Como el intervalo es **simétrico**, la cola izquierda contiene $\alpha/2 = 0.005$ y la cola derecha también $\alpha/2 = 0.005$.
+
+------------------------------------------------------------------------
+
+![](images/Observación-11.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+Por ello, para asegurarnos de que el intervalo de confianza abarque **el 99% central de la distribución simétrica**, debemos establecer un **0.5% en cada cola**.
+
+Por lo tanto, el valor crítico ($z$) de la **distribución normal** se obtiene usando `qnorm()`
+
+```{r}
+qnorm(0.005)
+```
+
+------------------------------------------------------------------------
+
+Mientras que el valor crítico ($t$) para **df = 300** se obtiene usando `qt()` definiendo `df`
+
+```{r}
+qt(0.005, df = 300)
+```
+
+Como puedes ver, la diferencia con la distribución normal es mínima cuando los $df$ son mayores a 30.
+
+------------------------------------------------------------------------
+
+### Intervalo de Confianza para una Media
+
+Flor está estudiando la altura promedio de un grupo de personas y solo tiene acceso a una muestra de 350 individuos. Quiere calcular un intervalo de confianza para estimar la altura promedio de la población a partir de esta muestra.
+
+```{r}
+muestra = read_csv('alturas.csv')
+```
+
+```{r}
+glimpse(muestra)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+muestra %>% 
+  ggplot(aes(x = alturas)) +
+  geom_histogram(binwidth = 2, 
+                 fill = "skyblue", 
+                 color = "black", 
+                 alpha = 0.7) +
+  labs(title = "Histograma de las alturas de la muestra",
+       x = "Altura (cm)",
+       y = "Frecuencia") +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+Describe la variable `altura` de nuestra muestra
+
+Tamaño de la muestra
+
+```{r}
+length(muestra$alturas)
+```
+
+$n = 350$
+
+Media de la muestra
+
+```{r}
+mean(muestra$alturas)
+```
+
+$\bar x \approx  170$
+
+------------------------------------------------------------------------
+
+Desviación estándar de la muestra
+
+```{r}
+sd(muestra$alturas)
+```
+
+$s = 9.57$
+
+Define un nivel de confianza: Nivel de confianza = 95%
+
+------------------------------------------------------------------------
+
+**Paso 1: Determinar el valor t**
+
+Para un nivel de confianza del 95% (el 5% restante de divide en ambos lados). Por lo que el valor $t$ para cada lado será en el área que represente el 2.5%. En vez de usar `qnorm`, usa `qt` ya que hace uso de las distribución $t$, especificando los grados de libertad.
+
+Define los grados de libertad ($n - 1$)
+
+```{r}
+grad_lib = length(muestra$alturas) - 1
+grad_lib
+```
+
+------------------------------------------------------------------------
+
+```{r}
+qt(0.025, df = grad_lib)
+qt(0.975, df = grad_lib)
+```
+
+El valor $t$ correspondiente es aproximadamente **1.96** a cada lado. Este valor indica cuántos errores estándar abarcan el 95% de la distribución normal alrededor de la media, que es lo que necesitamos para construir el intervalo.
+
+------------------------------------------------------------------------
+
+**Paso 2: Calcular el Error Estándar**
+
+El error estándar ($EE$) es la desviación estándar de la districuión muestral. Por ello nos indica cuánto esperaríamos que varíe la media muestral con respecto a la media poblacional. Es importante observar que el tamaño de la muestra ($n$) se encuentra en el denominador de la fracción. Esto nos indica que, cuanto mayor sea el tamaño de la muestra, menor será el error estándar, lo cual hace que el intervalo de confianza sea más preciso.
+
+------------------------------------------------------------------------
+
+La fórmula para calcular el error estándar de la media es:
+
+$$ \text{EE} = \frac{s}{\sqrt{n}}$$
+
+donde:
+
+-   s es la desviación estándar de la muestra (9.57cm), y
+
+-   n es el tamaño de la muestra (350).
+
+------------------------------------------------------------------------
+
+Sustituye los valores a la formula del cálculo del EE:
+
+$$\text{EE} = \frac{9.57}{\sqrt{350}} = \frac{9.57}{18.71} \approx 0.51$$
+
+------------------------------------------------------------------------
+
+**Paso 3: Calcular el Intervalo de Confianza**
+
+Con el error estándar ($EE$) y el valor $t$, es posible calcular el intervalo de confianza para la media poblacional. La fórmula general para el intervalo de confianza se expresa como:
+
+$$\text{IC} = \bar{x} \pm t \times \text{EE}$$
+
+El valor t indica cuántas desviaciones estándar (error estándar $EE$) debemos alejarnos de la media muestral ($\bar{x}$) hacia ambos lados para cubrir una proporción específica de la distribución, determinada por el nivel de confianza deseado. El término $t \times EE$ se denomina margen de error (**ME**) y determina la amplitud del intervalo.
+
+------------------------------------------------------------------------
+
+Sustituyendo los valores:
+
+$$\text{IC} = 170.29 \pm 1.96 \times 0.51$$ Entonces, el intervalo de confianza es:
+
+Si la media es 170.29, el intervalo de confianza se expresaría así:
+
+$$\text{IC} = 170.29 \pm 0.99 = [169.30, 171.28]$$
+
+es decir:
+
+$$\text{IC} = 169.30 \text{ hasta } 171.28$$
+
+Esto indica que, con un nivel de confianza del 95%, estimamos que la media poblacional se encuentra entre **169.30** y **171.28**.
+
+------------------------------------------------------------------------
+
+**Interpretación del resultado**
+
+Con un nivel de confianza del 95%, Flor estima que la altura promedio de la población está entre **169.30 cm y 171.28 cm**.
+
+La función `t.test()` en R realiza automáticamente el cálculo del intervalo de confianza para la media de una muestra, ajustándose según el tamaño de la muestra y asumiendo la **distribución t de Student**
+
+------------------------------------------------------------------------
+
+Internamente, `t.test()` sigue los siguientes pasos para calcular el intervalo de confianza:
+
+1\. **Calcula la media de la muestra** y la **desviación estándar muestral**.
+
+2\. Determina el **error estándar**, que mide la variabilidad esperada de la media muestral con respecto a la media poblacional.
+
+3\. **Ajusta el valor** $t$ de acuerdo con el nivel de confianza especificado. En este caso, para un nivel de confianza del 95%.
+
+4\. **Calcula el intervalo de confianza** sumando y restando el margen de error (valor crítico multiplicado por el error estándar) a la media muestral.
+
+------------------------------------------------------------------------
+
+```{r}
+prueba_t = t.test(muestra, conf.level = 0.95)
+
+prueba_t$conf.int
+```
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+library(latex2exp)
+
+# Obtener valores del test t
+ic_min <- prueba_t$conf.int[1]  # Límite inferior del IC
+ic_max <- prueba_t$conf.int[2]  # Límite superior del IC
+media <- prueba_t$estimate      # Media observada
+df <- prueba_t$parameter         # Grados de libertad
+error_estandar <- (ic_max - ic_min) / (2 * qt(0.975, df))  # Calcular error estándar
+
+# Crear datos para la distribución t centrada en la media observada
+x <- seq(media - 4 * error_estandar, media + 4 * error_estandar, length.out = 1000)
+y <- dt((x - media) / error_estandar, df) / error_estandar
+
+# Crear un dataframe para graficar
+grafico_t_media <- data.frame(x = x, y = y)
+
+# Gráfico del intervalo de confianza con la distribución t centrada
+ggplot(grafico_t_media, aes(x = x, y = y)) +
+  # Curva de densidad t centrada
+  geom_line(color = "blue", size = 1) +
+  # Sombrear el intervalo de confianza
+  geom_area(data = subset(grafico_t_media, x >= ic_min & x <= ic_max), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Límites del intervalo de confianza
+  geom_vline(xintercept = c(ic_min, ic_max), linetype = "dashed", color = "black") +
+  # Línea verde sólida para la media observada
+  geom_vline(xintercept = media, linetype = "solid", color = "darkgreen", size = 1) +
+  # Etiquetas de los límites
+  annotate("text", x = ic_min - 0.45, y = max(y) * 0.8, label = paste0("IC Min: ", round(ic_min, 2)), hjust = 0, color = "black") +
+  annotate("text", x = ic_max + 0.5, y = max(y) * 0.8, label = paste0("IC Max: ", round(ic_max, 2)), hjust = 1, color = "black") +
+  annotate("text", x = media +0.4, y = max(y) * 1.1, label = TeX(paste0("$\\bar{x} = ", round(media, 2), "$")), hjust = 0.5, color = "darkgreen") +
+  labs(
+    title = "Intervalo de Confianza",
+    subtitle = "Formado a partir de la distribución muestral",
+    x = "Media observada",
+    y = ""
+  ) +
+  theme_minimal()
+
+```
+
+### Intervalo de Confianza para una Proporción
+
+Ahora supongamos que está estudiando la intención de voto en una población y ha recolectado una muestra de 350 personas. De estas, 210 han manifestado que votarían por el partido A. Quiere calcular un intervalo de confianza para estimar la proporción de la población que votaría por el partido A.
+
+```{r}
+apoyo = read_csv('apoyo.csv')
+```
+
+```{r}
+glimpse(apoyo)
+```
+
+```{r}
+apoyo %>% 
+  ggplot(aes(x = apoyo, fill = apoyo)) +
+  geom_bar(color = "black") +
+  labs(title = "Distribución de la intención de voto en la muestra",
+       x = "Opción de voto",
+       y = "Frecuencia") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+------------------------------------------------------------------------
+
+Describe la variable `apoyo` en su muestra.
+
+Tamaño de la muestra:
+
+```{r}
+length(apoyo$apoyo)
+```
+
+$n = 350$
+
+Proporción de la muestra (porcentaje que votaría por el partido A):
+
+```{r}
+prop_muestra = mean(apoyo$apoyo == "A")
+prop_muestra
+```
+
+$\hat{p} = 0.6$
+
+Define un nivel de confianza: Nivel de confianza = 95%
+
+------------------------------------------------------------------------
+
+**Paso 1: Determinar el Valor Z**
+
+Al estimar una proporción no hay problema con que use la distribución normal por lo que el valor crítico es $z$ y lo puede calcular haciendo uso de `qnorm`.
+
+```{r}
+qnorm(0.975)
+```
+
+Para un nivel de confianza del 95%, el valor $z$ correspondiente es aproximadamente **1.96**. Este valor indica cuántos errores estándar (z) abarcan el 95% de la distribución normal alrededor de la proporción muestral.
+
+------------------------------------------------------------------------
+
+**Paso 2: Calcular el Error Estándar**
+
+El error estándar (EE) nos indica cuánto esperaríamos que varíe la proporción muestral con respecto a la proporción poblacional. De la misma forma, cuanto mayor sea el tamaño de la muestra, menor será el error estándar, lo cual hace que el intervalo de confianza sea más preciso.
+
+La fórmula para calcular el error estándar de una proporción es:
+
+$$ \text{EE} = \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} $$
+
+------------------------------------------------------------------------
+
+donde:
+
+-   $\hat{p}$ es la proporción de la muestra (0.6),
+
+-   $n$ es el tamaño de la muestra (350).
+
+Sustituimos los valores en la fórmula para el cálculo del EE:
+
+$$\text{EE} = \sqrt{\frac{0.6 \times (1 - 0.6)}{350}} = \sqrt{\frac{0.6 \times 0.4}{350}} \approx 0.0252$$
+
+------------------------------------------------------------------------
+
+**Paso 3: Calcular el Intervalo de Confianza**
+
+Con el error estándar y el valor $z$, ahora puede calcular el intervalo de confianza para la proporción poblacional. La fórmula general para el intervalo de confianza es:
+
+$$\text{IC} = \hat{p} \pm z \times \text{EE}$$
+
+Sustituyendo los valores:
+
+$$\text{IC} = 0.6 \pm 1.96 \times 0.0252$$
+
+Calculando el margen de error:
+
+$$1.96 \times 0.0252 \approx 0.0494$$
+
+------------------------------------------------------------------------
+
+Entonces, el intervalo de confianza es:
+
+$$\text{IC} = 0.6 \pm 0.0494 = [0.5506, 0.6494]$$
+
+es decir:
+
+$$\text{IC} = 0.5506 \text{ hasta } 0.6494$$
+
+Esto indica que, con un nivel de confianza del 95%, estimamos que la proporción de la población que votaría por el partido A se encuentra entre **55.06%** y **64.94%**.
+
+------------------------------------------------------------------------
+
+**Interpretación del Resultado**
+
+Con un nivel de confianza del 95%, Flor estima que entre el **55.06% y el 64.94%** de la población votaría por el partido A.
+
+Podemos calcular este intervalo de confianza en R directamente usando `prop.test()`, una función que facilita los cálculos de intervalos de confianza para proporciones.
+
+```{r}
+prueba_prop = prop.test(210, 350, conf.level = 0.95)
+
+prueba_prop$conf.int
+```
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Datos de la prueba de proporciones
+n <- 350  # Tamaño de la muestra
+x <- 210  # Éxitos observados
+p_observada <- x / n  # Proporción observada
+ic_min <- 0.5464154  # Límite inferior del IC
+ic_max <- 0.6513532  # Límite superior del IC
+error_estandar <- (ic_max - ic_min) / (2 * qnorm(0.975))  # Error estándar aproximado
+
+# Crear datos para la distribución normal centrada en la proporción observada
+x_vals <- seq(p_observada - 4 * error_estandar, p_observada + 4 * error_estandar, length.out = 1000)
+y_vals <- dnorm(x_vals, mean = p_observada, sd = error_estandar)
+grafico_prop <- data.frame(x = x_vals, y = y_vals)
+
+# Gráfico del intervalo de confianza con la distribución centrada
+ggplot(grafico_prop, aes(x = x, y = y)) +
+  # Curva de densidad normal centrada
+  geom_line(color = "blue", size = 1) +
+  # Sombrear el intervalo de confianza
+  geom_area(data = subset(grafico_prop, x >= ic_min & x <= ic_max), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Límites del intervalo de confianza
+  geom_vline(xintercept = c(ic_min, ic_max), linetype = "dashed", color = "black") +
+  # Línea verde sólida para la proporción observada
+  geom_vline(xintercept = p_observada, linetype = "solid", color = "darkgreen", size = 1) +
+  # Etiquetas de los límites
+  annotate("text", x = ic_min - 0.045, y = max(y_vals) * 0.8, label = paste0("IC Min: ", round(ic_min, 3)), hjust = 0, color = "black") +
+  annotate("text", x = ic_max + 0.045, y = max(y_vals) * 0.8, label = paste0("IC Max: ", round(ic_max, 3)), hjust = 1, color = "black") +
+  annotate("text", x = p_observada + 0.015, y = max(y_vals) * 1.1, label = TeX(paste0("$\\hat{p} = ", round(p_observada, 3), "$")), hjust = 0.5, color = "darkgreen") +
+  labs(
+    title = "Intervalo de Confianza",
+    x = "Proporción observada",
+    y = "Densidad"
+  ) +
+  theme_minimal()
+
+```
+
+## Contraste de hipótesis
+
+El contraste de hipótesis es una herramienta estadística que nos permite decidir si un resultado observado en una muestra nos da suficiente evidencia para apoyar una afirmación sobre una población. Existen varias pruebas pero se caracterizan por ser todas un **proceso organizado que nos ayuda a diferenciar entre resultados que podrían ocurrir solo por variación aleatoria y aquellos que son lo suficientemente inusuales como para indicar un efecto real**.
+
+Aunque existen diversas pruebas, todas siguen un **proceso estructurado y sistemático** diseñado para diferenciar entre resultados que podrían ocurrir únicamente por variación aleatoria y aquellos que son **estadísticamente significativos**, es decir, lo suficientemente inusuales como para sugerir la presencia de un patrón o efecto real en la población.
+
+------------------------------------------------------------------------
+
+### Pasos del Contraste de Hipótesis
+
+**I. Planteamiento de Hipótesis**:
+
+Comenzamos formulando dos hipótesis opuestas:
+
+-   La **hipótesis nula** ($H_0$) representa la idea de "no hay efecto" o "no hay diferencia". Es nuestra afirmación de partida y sugiere que cualquier variación que veamos es simplemente producto de la variación aleatoria inherente a nuestra muestra.\
+-   La **hipótesis alternativa** ($H_1$) representa la afirmación que queremos evaluar. Indica que sí hay un efecto o diferencia en la población.
+
+La hipótesis nula nos da un punto de referencia neutral contra el cual comparamos nuestros resultados para evaluar si son suficientemente distintos como para sugerir algo real.
+
+------------------------------------------------------------------------
+
+Dependiendo de la dirección en la que buscamos evidencia contra $H_0$ el análisis puede ser:
+
+-   **Prueba bilateral (de dos colas):** Se usa cuando queremos evaluar si hay una diferencia sin importar la dirección. Por ejemplo, si estudiamos el impacto de una nueva política pública en la tasa de empleo, $H_1$ indicaría que la política cambia la tasa de empleo, ya sea aumentándola o reduciéndola. En este caso, consideramos ambos extremos de la distribución para determinar si el efecto observado es lo suficientemente inusual como para rechazar $H_0$.
+
+-   **Prueba unilateral (de una cola):** Se usa cuando tenemos una expectativa clara sobre la dirección del efecto. Por ejemplo, si evaluamos si un programa de capacitación **mejora** las habilidades laborales, la hipótesis alternativa indicaría que el programa **aumenta** el nivel de habilidades (y no simplemente que lo cambia en cualquier dirección). Aquí, solo nos interesa una de las colas de la distribución.
+
+------------------------------------------------------------------------
+
+![](images/clipboard-867629982.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+**II. Establecimiento de la Distribución Nula**
+
+Incluso si $H_0$ es cierta, los resultados de una muestra pueden fluctuar debido a la variación aleatoria. Sin embargo, estas fluctuaciones siguen un patrón: la mayoría de los valores observados estarán cerca de la media de la distribución nula, y conforme nos alejamos de esta media, los valores se vuelven menos probables. Esto significa que, en cualquier prueba de hipótesis, necesitamos un criterio que nos ayude a determinar **cuándo un resultado es lo suficientemente diferente de lo esperado bajo** $H_0$ **como para considerarlo significativo**. . Para hacer esta comparación, necesitamos una **distribución de referencia** que nos muestre cómo se comportaría nuestro estadístico (como la media o la proporción) **si la hipótesis nula fuera verdadera**.
+
+------------------------------------------------------------------------
+
+Al igual que podemos construir una distribución de posibles valores para el estadístico observado, podemos construir una **distribución para la hipótesis nula**. Recordando el Teorema del Límite Central (TLC), sabemos que, si tomamos muchas muestras de una población y calculamos su estadístico (como la media), los resultados tienden a seguir una distribución aproximadamente normal alrededor del valor supuesto por la hipótesis nula. Esta distribución para la hipótesis nula nos indica **qué tan probable es obtener diferentes valores del estadístico bajo la suposición de que no hay efecto o diferencia real**.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Cargar librerías necesarias
+library(ggplot2)
+library(latex2exp)  # Para incluir expresiones en LaTeX
+
+# Definir la distribución nula
+x <- seq(-4, 4, length.out = 1000)  # Rango de valores
+y <- dnorm(x, mean = 0, sd = 1)  # Función de densidad de probabilidad
+
+# Crear un data frame para ggplot
+df <- data.frame(x, y)
+
+# Crear el gráfico
+ggplot(df, aes(x, y)) +
+  geom_line(size = 1, color = "blue") +  # Línea de la distribución nula
+  labs(
+    title = TeX("Distribución Nula: $H_0$"),
+    x = TeX("Estadístico de prueba ($z$ o $t$)"),
+    y = ""
+  ) +
+  theme_minimal()
+
+```
+
+------------------------------------------------------------------------
+
+**III. Nivel de confianza y definición de la zonas criticas:**
+
+La esencia de un contraste de hipótesis radica en evaluar **qué tan diferente o extremo debe ser un valor observado** para poder afirmar que no es probable si la hipótesis nula ($H_0$) fuera cierta, incluso considerando la variabilidad natural que ocurre por azar. En otras palabras, el contraste de hipótesis busca determinar si el resultado obtenido se desvía tanto de lo esperado bajo $H_0$ que podemos justificar su rechazo. Este proceso nos permite distinguir entre variaciones que pueden explicarse simplemente por la aleatoriedad inherente al muestreo y aquellas que son lo suficientemente inusuales como para sugerir que existe un efecto real o una diferencia **significativa**.
+
+------------------------------------------------------------------------
+
+Para evaluar si un resultado es lo suficientemente extremo como para considerarlo evidencia en contra de $H_0$, necesitamos definir un umbral que nos ayude a tomar esta decisión. Este umbral se establece a través del **nivel de confianza** y el **nivel de significancia** ($\alpha$).
+
+------------------------------------------------------------------------
+
+Sabiendo que:
+
+$$ \text{Nivel de confianza} = 1 - \alpha $$
+
+El nivel de significancia $\alpha$ nos dice cuánto estamos dispuestos a aceptar el riesgo de cometer un **Error Tipo I** (rechazar $H_0$ cuando en realidad es cierta). Si elegimos $\alpha = 0.05$, estamos definiendo que solo el 5% de los valores más extremos de la distribución nula serán considerados "demasiado improbables" bajo $H_0$.
+
+------------------------------------------------------------------------
+
+Por ejemplo, si elegimos un nivel de confianza del **95%**, significa que queremos estar seguros en un **95%** de que la conclusión que tomemos será correcta y aceptamos un **5% de riesgo** de cometer un **Error Tipo I** (rechazar $H_0$ cuando en realidad es cierta). Esto implica que el **nivel de significancia** en este caso es:
+
+$$ \alpha = 0.05 $$
+
+------------------------------------------------------------------------
+
+El valor de $\alpha$ nos ayuda a definir las **zonas críticas** de la distribución nula, que son las regiones donde un resultado se considerará lo suficientemente improbable como para rechazar $H_0$. La ubicación exacta de estas zonas depende del tipo de prueba que estemos realizando:
+
+Si realizamos una **prueba bilateral (de dos colas)**, el nivel de significancia se divide en **dos extremos** de la distribución nula, dejando $\frac{\alpha}{2}$ **en cada cola**. Esto significa que rechazamos $H_0$ si el valor observado es **demasiado grande o demasiado pequeño** en comparación con lo que esperaríamos si $H_0$ fuera cierta.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+library(ggplot2)
+library(dplyr)
+
+# Niveles de significancia a analizar
+alpha_values <- c(0.10, 0.05, 0.01)
+
+# Crear un data frame con la distribución normal estándar para cada alpha
+grafico_normal <- expand.grid(x = seq(-4, 4, length.out = 1000), alpha = alpha_values) %>%
+  mutate(y = dnorm(x),
+         z_critico = qnorm(1 - alpha / 2),
+         zona_rechazo_min = -z_critico,
+         zona_rechazo_max = z_critico)
+
+# Crear el gráfico con facet_wrap para diferentes niveles de alpha
+ggplot(grafico_normal, aes(x = x, y = y)) +
+  # Curva de densidad normal estándar
+  geom_line(color = "blue", size = 1) +
+  # Sombrear zona de rechazo en la cola izquierda
+  geom_area(data = subset(grafico_normal, x <= zona_rechazo_min), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Sombrear zona de rechazo en la cola derecha
+  geom_area(data = subset(grafico_normal, x >= zona_rechazo_max), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Línea negra sólida para la media nula (0 en distribución normal estándar)
+  geom_vline(xintercept = 0, linetype = "solid", color = "black", size = 1) +
+  # Líneas punteadas en los valores críticos
+  geom_vline(aes(xintercept = zona_rechazo_min), linetype = "dashed", color = "black") +
+  geom_vline(aes(xintercept = zona_rechazo_max), linetype = "dashed", color = "black") +
+  # Facet wrap en una sola fila (disposición horizontal)
+  facet_wrap(~alpha, labeller = label_bquote(alpha == .(alpha)), nrow = 3) +
+  labs(
+    title = "Prueba bilateral",
+    x = TeX("Estadístico de prueba ($z$ o $t$)"),
+    y = ""
+  ) +
+  theme_minimal()
+
+```
+
+------------------------------------------------------------------------
+
+Si realizamos una **prueba unilateral (de una cola)**, todo el nivel de significancia $\alpha$ se coloca en una sola cola de la distribución, dependiendo de si estamos evaluando un efecto **mayor** o **menor**. En este caso, rechazamos $H_0$ solo si el resultado observado es **significativamente mayor** o **significativamente menor** de lo esperado bajo $H_0$.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+library(ggplot2)
+library(dplyr)
+
+# Niveles de significancia a analizar
+alpha_values <- c(0.10, 0.05, 0.01)
+
+# Crear un data frame con la distribución normal estándar para cada alpha
+grafico_normal <- expand.grid(x = seq(-4, 4, length.out = 1000), alpha = alpha_values) %>%
+  mutate(y = dnorm(x),
+         z_critico = qnorm(alpha),  # Valor crítico para prueba a la izquierda
+         zona_rechazo_max = z_critico)  # Solo hay rechazo en la cola izquierda
+
+# Crear el gráfico con facet_wrap para diferentes niveles de alpha
+ggplot(grafico_normal, aes(x = x, y = y)) +
+  # Curva de densidad normal estándar
+  geom_line(color = "blue", size = 1) +
+  # Sombrear zona de rechazo en la cola izquierda
+  geom_area(data = subset(grafico_normal, x <= zona_rechazo_max), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Línea negra sólida para la media nula (0 en distribución normal estándar)
+  geom_vline(xintercept = 0, linetype = "solid", color = "black", size = 1) +
+  # Línea punteada en el valor crítico (únicamente en la izquierda)
+  geom_vline(aes(xintercept = zona_rechazo_max), linetype = "dashed", color = "black") +
+  # Facet wrap en una sola fila (disposición horizontal)
+  facet_wrap(~alpha, labeller = label_bquote(alpha == .(alpha)), nrow = 3) +
+  labs(
+    title = "Prueba unitaleral a la izquierda",
+    y = ""
+  ) +
+  theme_minimal()
+
+```
+
+------------------------------------------------------------------------
+
+Para determinar qué tan extremo debe ser un resultado para considerarlo estadísticamente significativo, usamos el **valor crítico** ($z$ crítico o $t$ crítico) que determina la distancia en errores estándar de la media de la distribución.
+
+Por ejemplo, en una prueba basada en la distribución normal estándar, el $z$ crítico para $\alpha = 0.05$ en una prueba bilateral es el 2.5% más extremo a cada lado, por lo que aproximadamente $\pm1.96$
+
+```{r}
+qnorm(0.975)
+qnorm(0.025)
+```
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+library(ggplot2)
+
+# Nivel de significancia
+alpha <- 0.05
+
+# Valores críticos z
+z_critico <- qnorm(1 - alpha / 2)  # Aproximadamente ±1.96
+zona_rechazo_min <- -z_critico
+zona_rechazo_max <- z_critico
+
+# Crear la distribución normal estándar
+x <- seq(-4, 4, length.out = 1000)
+y <- dnorm(x)
+grafico_normal <- data.frame(x = x, y = y)
+
+# Crear el gráfico con zonas críticas
+ggplot(grafico_normal, aes(x = x, y = y)) +
+  # Curva de densidad normal estándar
+  geom_line(color = "blue", size = 1) +
+  # Sombrear zona de rechazo en la cola izquierda
+  geom_area(data = subset(grafico_normal, x <= zona_rechazo_min), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Sombrear zona de rechazo en la cola derecha
+  geom_area(data = subset(grafico_normal, x >= zona_rechazo_max), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Línea negra sólida para la media nula (0 en distribución normal estándar)
+  geom_vline(xintercept = 0, linetype = "solid", color = "black", size = 1) +
+  # Líneas punteadas en los valores críticos
+  geom_vline(xintercept = c(zona_rechazo_min, zona_rechazo_max), linetype = "dashed", color = "black") +
+  labs(
+    title = "Prueba bilateral para una distribución estándar",
+    subtitle = TeX("$\\alpha = 0.5$ | Valores críticos $z \\pm 1.96"),
+    x = "Estadístico z",
+    y = "Densidad"
+  ) +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+Esto que significa que cualquier estadístico que caiga fuera de este rango se considera lo suficientemente improbable bajo $H_0$ como para rechazarla. Además, recuerda que si la muestra es pequeña o la varianza es desconocida, usamos la distribución $t$ de Student, en cuyo caso el $t$ crítico dependerá del tamaño muestral y los grados de libertad.
+
+------------------------------------------------------------------------
+
+**IV. Comparación del Valor Observado con la Distribución Nula**
+
+Ya que escogimos $\alpha = 0.05$, si el valor observado cae en el **5% más extremo** de la distribución nula (es decir, en las áreas menos probables), lo consideramos lo suficientemente inusual como para que no pueda explicarse únicamente por la variabilidad aleatoria bajo la hipótesis nula ($H_0$). En este caso, rechazamos $H_0$ y favorecemos la hipótesis alternativa ($H_1$).
+
+Si el valor observado está dentro del **95%** de la distribución nula, significa que se encuentra dentro del rango esperado por variación natural. No es lo suficientemente inusual, por lo que **no rechazamos** $H_0$. En cambio, si el valor observado cae en el **5% más extremo** de la distribución, consideramos que es **lo suficientemente improbable** bajo $H_0$, por lo que tenemos suficiente evidencia para rechazarla en favor de $H_1$.
+
+------------------------------------------------------------------------
+
+Utilizamos el valor $t$ y el valor $z$ para evaluar cuán lejos está un valor observado de lo que esperaríamos bajo la hipótesis nula.
+
+-   Para pruebas sobre una media: $$
+    t = \frac{\bar{x} - \mu_0}{\text{Error estándar}}, \quad \text{donde } \mu_0 \text{ es la media bajo } H_0.
+    $$
+
+-   Para pruebas sobre una proporción: $$
+    z = \frac{\hat{p} - p_0}{\text{Error estándar}}, \quad \text{donde } p_0 \text{ es la proporción bajo } H_0.
+    $$
+
+    No olvidar que los valores $z$ y $t$ representan distancia (en errores estándar) con respecto al centro de la distribución.
+
+------------------------------------------------------------------------
+
+**V. Decisión Basada en el Nivel de Significancia (**$\alpha$**) y el p-valor:**
+
+El contraste de hipótesis, en esencia, usa una distribución nula para comparar los resultados observados con lo que esperaríamos bajo la hipótesis nula. Esto permite hacer una evaluación objetiva, decidiendo si el resultado es suficientemente extremo como para ser significativo o si podría explicarse simplemente por la variabilidad natural en los datos. Por lo que utilizamos nuestro estadístico observado y evaluamos si se encuentra en la zona crítica expresada en valores $t$ o $z$.
+
+$$
+  \text{Región de rechazo: } |t| > t_{\text{crítico}} \quad \text{o} \quad |z| > z_{\text{crítico}}
+$$
+
+El valor $t$ o $z$ observado puede estar tanto a la izquierda como a la derecha, por ello su valor absoluto.
+
+------------------------------------------------------------------------
+
+Hay que ser cautelosos ya que con este proceso es que no estamos diciendo que $H_0$ sea absolutamente falsa, sino que el resultado observado en nuestra muestra es **lo suficientemente improbable** como para justificar dudar de ella y considerar que $H_1$ es más plausible.
+
+Otra forma de evaluar si el resultado es suficientemente extremo es mediante el **p-valor**, que representa la **probabilidad de obtener un estadístico de prueba igual o más extremo que el observado, bajo la suposición de que** $H_0$ **es verdadera**.
+
+------------------------------------------------------------------------
+
+Ambos enfoques (comparar el estadístico con el valor crítico o utilizar el p-valor) son dos caras de la misma moneda y llevan a la misma conclusión. Mientras que la comparación con el valor crítico permite establecer de manera directa si un resultado cae dentro de la región de rechazo, el p-valor ofrece una medida de cuán improbable es el resultado bajo $H_0$.
+
+Para tomar una decisión utilizando el p-valor:
+
+-   Si $p \leq \alpha$ → Se rechaza $H_0$ ya que el resultado es demasiado improbable bajo la hipótesis nula.\
+-   Si $p > \alpha$ → No se rechaza $H_0$ ya que el resultado no es lo suficientemente extremo como para concluir que hay una diferencia significativa.
+
+Este enfoque es especialmente útil porque **las pruebas estadísticas en R reportan automáticamente el p-valor**.
+
+------------------------------------------------------------------------
+
+### Contraste de Hipótesis para una Media
+
+Flor está investigando si la altura promedio de una población es diferente de 170 cm. Para ello ha recolectado una muestra de 350 individuos y pretende realizar una prueba de hipótesis.
+
+**Planteamiento de Hipótesis:**
+
+-   **Hipótesis nula** ($H_0$): La altura promedio de la población es igual a 170 cm. $$ H_0: \mu = 170 $$
+
+-   **Hipótesis alternativa** ($H_1$): La altura promedio de la población es diferente de 170 cm. $$ H_1: \mu \neq 170 $$
+
+------------------------------------------------------------------------
+
+```{r}
+muestra = read_csv('alturas.csv')
+```
+
+```{r}
+glimpse(muestra)
+```
+
+------------------------------------------------------------------------
+
+Describe la variable `altura` de nuestra muestra.
+
+Tamaño de la muestra:
+
+```{r}
+length(muestra$alturas)
+```
+
+$n = 350$
+
+Media de la muestra:
+
+```{r}
+mean(muestra$alturas)
+```
+
+$\bar{x} = 170.3$
+
+------------------------------------------------------------------------
+
+Desviación estándar de la muestra:
+
+```{r}
+sd(muestra$alturas)
+```
+
+$s = 9.57$
+
+Define un nivel de significancia: $\alpha = 0.05$
+
+------------------------------------------------------------------------
+
+**Realización de la Prueba en R**
+
+Para realizar el contraste de hipótesis, utilizamos `t.test()` en R especificando el valor de la media poblacional bajo la hipótesis nula (`mu = 170`). El argumento `alternative` en la función t.test() en R permite definir el tipo de prueba de hipótesis que se realizará. Específicamente, determina si la prueba será bilateral (de dos colas) o unilateral (de una cola).
+
+```{r}
+# Prueba t para una media con hipótesis de que la media poblacional es 170
+prueba_t = t.test(muestra$alturas, 
+                  mu = 170, 
+                  conf.level = 0.95,
+                  alternative = "two.sided")
+
+prueba_t
+```
+
+------------------------------------------------------------------------
+
+Puedes llamar exclusivamente al p-valor:
+
+```{r}
+prueba_t$p.value
+```
+
+El p-valor es 0.56
+
+------------------------------------------------------------------------
+
+**Interpretación del Resultado**
+
+Si el p-valor es menor que $\alpha = 0.05$, rechazamos la hipótesis nula y concluye que la altura promedio de la población es significativamente diferente de 170 cm. Si el p-valor es mayor que 0.05, no tendría suficiente evidencia para rechazar la hipótesis nula, y por lo tanto, no podría afirmar que la altura promedio sea diferente de 170 cm.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+
+# Parámetros del test
+media_nula <- 170  # Media bajo H0
+media_observada <- 170.2981  # Media observada
+t_obs <- 0.58284  # Estadístico t observado
+df <- 349  # Grados de libertad
+p_valor <- 0.5604  # p-value
+alpha <- 0.05  # Nivel de significancia
+error_estandar <- (media_observada - media_nula) / t_obs  # Error estándar
+
+# Valor crítico t para las colas (rechazo bilateral)
+t_critico <- qt(1 - alpha / 2, df)
+zona_rechazo_min <- media_nula - t_critico * error_estandar
+zona_rechazo_max <- media_nula + t_critico * error_estandar
+
+# Crear distribución nula
+x <- seq(media_nula - 4 * error_estandar, media_nula + 4 * error_estandar, length.out = 1000)
+y <- dt((x - media_nula) / error_estandar, df) / error_estandar
+grafico_nulo <- data.frame(x = x, y = y)
+
+# Crear el gráfico
+ggplot(grafico_nulo, aes(x = x, y = y)) +
+  # Curva de densidad t nula
+  geom_line(color = "blue", size = 1) +
+  # Sombrear zona de rechazo en la cola izquierda
+  geom_area(data = subset(grafico_nulo, x <= zona_rechazo_min), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Sombrear zona de rechazo en la cola derecha
+  geom_area(data = subset(grafico_nulo, x >= zona_rechazo_max), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Línea negra sólida para la media nula
+  geom_vline(xintercept = media_nula, linetype = "solid", color = "black", size = 1) +
+  # Línea verde sólida para la media observada
+  geom_vline(xintercept = media_observada, linetype = "solid", color = "darkgreen", size = 1) +
+  # Límites de las zonas de rechazo
+  geom_vline(xintercept = c(zona_rechazo_min, zona_rechazo_max), linetype = "dashed", color = "black") +
+  # Etiquetas
+  annotate("text", x = zona_rechazo_min - 0.9, y = max(y) * 0.8, label = paste0("Rechazo: <", round(zona_rechazo_min, 2)), hjust = 0, color = "black", size = 2.7) +
+  annotate("text", x = zona_rechazo_max + 0.9, y = max(y) * 0.8, label = paste0("Rechazo: >", round(zona_rechazo_max, 2)), hjust = 1, color = "black", size = 2.7) +
+  annotate("text", x = media_observada + 0.25, y = (max(y) * 0.6) + 0.19, label = TeX(paste0("$\\bar{x} = ", round(media_observada, 2), "$")), hjust = 0.5, color = "darkgreen") +
+  annotate("text", x = media_nula - 0.3, y = max(y) * 0.6, label = TeX("$\\mu_0 = 170$"), hjust = 0.5, color = "black") +
+  labs(
+    title = "Distribución muestral nula",
+    subtitle = paste0("p-valor = ", round(p_valor, 4)),
+    x = "Media",
+    y = ""
+  ) +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+En este caso, la gráfica no muestra el intervalo de confianza de una estimación sino la **distribución nula**, que representa **cómo se distribuirían las medias muestrales si la hipótesis nula fuera cierta**. La línea negra en el centro marca el valor hipotético de la media $\mu_0 = 170$, mientras que la línea verde indica la media muestral observada $\bar{x} = 170.3$.
+
+Las regiones sombreadas en rojo representan las **áreas de rechazo**, es decir, los valores extremos donde, si la media muestral cayera dentro de estos rangos, consideraríamos que hay suficiente evidencia para rechazar $H_0$. En nuestro ejemplo, los valores de corte para el rechazo están aproximadamente en **168.99 y 171.01 cm**.
+
+------------------------------------------------------------------------
+
+El **p-valor obtenido es 0.5604**, lo que indica que la media muestral observada **no es lo suficientemente extrema** para rechazar la hipótesis nula. En otras palabras, la diferencia entre la media muestral ($\bar{x} = 170.3$) y la media hipotética ($\mu_0 = 170$) no es suficientmente significativa para que Flor pueda afirmar que la media poblacional sea diferente de 170 cm.
+
+------------------------------------------------------------------------
+
+### Contraste de Hipótesis para una Proporción
+
+Ahora, supongamos que está investigando si la proporción de personas que votarían por el partido A en la población es diferente de 50%. Realizamos una encuesta con 350 personas, de las cuales 210 manifestaron que votarían por el partido A.
+
+**Planteamiento de Hipótesis:**
+
+-   **Hipótesis nula** ($H_0$): La proporción de personas que votan por el partido A es igual a 60%. $$ H_0: p = 0.6 $$
+
+-   **Hipótesis alternativa** ($H_1$): La proporción de personas que votan por el partido A es diferente de 60%. $$ H_1: p \neq 0.6 $$
+
+------------------------------------------------------------------------
+
+```{r}
+apoyo = read_csv('apoyo.csv')
+```
+
+```{r}
+glimpse(apoyo)
+```
+
+Describe la variable `intencion` en su muestra.
+
+Tamaño de la muestra:
+
+```{r}
+length(apoyo$apoyo)
+```
+
+$n = 350$
+
+------------------------------------------------------------------------
+
+Proporción de la muestra (porcentaje que votaría por el partido A):
+
+```{r}
+prop_muestra = mean(apoyo$apoyo == "A")
+prop_muestra
+```
+
+$\hat{p} = 0.6$
+
+Definimos un nivel de significancia: $\alpha = 0.05$
+
+------------------------------------------------------------------------
+
+**Realización de la Prueba en R**
+
+Para realizar el contraste de hipótesis para una proporción, usamos `prop.test()` en R especificando la hipótesis nula de que la proporción poblacional es 0.6.
+
+```{r}
+prueba_prop = prop.test(210, 
+                        350, 
+                        p = 0.5, 
+                        conf.level = 0.95)
+
+prueba_prop
+```
+
+------------------------------------------------------------------------
+
+```{r}
+prueba_prop$p.value
+```
+
+El p-valor es 0.0002258415
+
+------------------------------------------------------------------------
+
+**Interpretación del Resultado**
+
+Si el p-valor es menor que $\alpha = 0.05$, rechazaría la hipótesis nula y llegaría a la conclusión que la proporción de personas que votarían por el partido A es significativamente diferente de 60%. Si el p-valor es mayor que 0.05, no tendría suficiente evidencia para rechazar la hipótesis nula, por lo que no podría afirmar que la proporción de votantes por el partido A difiera de 60%.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Parámetros del test de proporciones
+n <- 350               # Tamaño de la muestra
+x <- 210               # Número de éxitos
+p_nula <- 0.5          # Proporción bajo H0
+p_observada <- 0.6   # Proporción observada
+alpha <- 0.05          # Nivel de significancia
+error_estandar <- sqrt(p_nula * (1 - p_nula) / n)  # Error estándar bajo H0
+
+# Valores críticos para zonas de rechazo
+z_critico <- qnorm(1 - alpha / 2)
+zona_rechazo_min <- p_nula - z_critico * error_estandar
+zona_rechazo_max <- p_nula + z_critico * error_estandar
+
+# Crear distribución nula
+x_vals <- seq(p_nula - 4 * error_estandar, p_nula + 4 * error_estandar, length.out = 1000)
+y_vals <- dnorm(x_vals, mean = p_nula, sd = error_estandar)
+grafico_nulo <- data.frame(x = x_vals, y = y_vals)
+
+# Crear el gráfico
+ggplot(grafico_nulo, aes(x = x, y = y)) +
+  # Curva de densidad normal centrada
+  geom_line(color = "blue", size = 1) +
+  # Sombrear zona de rechazo en la cola izquierda
+  geom_area(data = subset(grafico_nulo, x <= zona_rechazo_min), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Sombrear zona de rechazo en la cola derecha
+  geom_area(data = subset(grafico_nulo, x >= zona_rechazo_max), aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  # Línea negra sólida para la proporción nula
+  geom_vline(xintercept = p_nula, linetype = "solid", color = "black", size = 1) +
+  # Línea verde sólida para la proporción observada
+  geom_vline(xintercept = p_observada, linetype = "solid", color = "darkgreen", size = 1) +
+  # Límites de las zonas de rechazo
+  geom_vline(xintercept = c(zona_rechazo_min, zona_rechazo_max), linetype = "dashed", color = "black") +
+  # Etiquetas
+  annotate("text", x = zona_rechazo_min - 0.05, y = max(y_vals) * 0.8, label = paste0("Rechazo: <", round(zona_rechazo_min, 3)), hjust = 0, color = "black", size = 2.7) +
+  annotate("text", x = zona_rechazo_max + 0.05, y = max(y_vals) * 0.8, label = paste0("Rechazo: >", round(zona_rechazo_max, 3)), hjust = 1, color = "black", size = 2.7) +
+  annotate("text", x = p_observada + 0.02, y = max(y_vals) * 0.6, label = TeX(paste0("$\\hat{p} = ", round(p_observada, 3), "$")), hjust = 0.5, color = "darkgreen") +
+  annotate("text", x = p_nula - 0.02, y = max(y_vals) * 0.6, label = TeX("$p_0 = 0.5$"), hjust = 0.5, color = "black") +
+  labs(
+    title = "Distribución muestral nula",
+    subtitle = paste0("p-valor = ", round(0.0002258415, 6)),  # p-value dado en el test
+    x = "Proporción",
+    y = "Densidad"
+  ) +
+  theme_minimal()
+
+```
+
+------------------------------------------------------------------------
+
+Dado que la proporción muestral observada 0.6 está claramente fuera de esta región crítica, el p-valor es extremadamente pequeño (0.000226), lo que indica que es altamente improbable obtener una proporción muestral tan distante de 0.5 solo por azar.
+
+------------------------------------------------------------------------
+
+### Tipos de error
+
+Debemos ser conscientes de que al realizar una prueba estadística estamos **tomando una decisión**. Al generar una zona de rechazo, estamos marcando un límite que determina si los resultados son o no significativos. Esta decisión es dicotómica (si/no) y, por tanto, tiene sus **limitaciones**. Para empezar, muchas veces la realidad no es tan simple, y otras veces la intrínseca variabilidad aleatoria de nuestra muestra puede llevarnos a cometer errores al momento de tomar la decisión.
+
+------------------------------------------------------------------------
+
+Estos errores **siempre están presentes** y no podemos evadirlos. De hecho, la presencia de uno está **inversamente relacionada** con la presencia del otro. Es decir, debido a la **variabilidad del muestreo**, la decisión que tomemos siempre esta expuesta a determinada probabilidad de cometer un error. Existen **cuatro escenarios posibles**, dos en los que la decisión que se toma es correcta y dos en los que se comete un error. Empecemos con un **ejemplo clásico** primero y luego lo llevamos a nuestro campo.
+
+------------------------------------------------------------------------
+
+**Error Tipo I y Error Tipo II**
+
+Imagina que estamos ante un juicio sobre la culpabilidad de una persona. En este juicio:
+
+-   Nuestra ($H_0$) es la opción conservadora: *el acusado es inocente*.\
+-   Nuestra ($H_1$) es la que propone un cambio y sobre la cual buscamos evidencia: *el acusado es culpable*.
+
+------------------------------------------------------------------------
+
+Ahora, piensa en las **cuatro posibles situaciones** en las que se puede dar su veredicto:
+
+| **Decisión tomada** | **El acusado es realmente inocente (**$H_0$ es verdadera) | **El acusado es realmente culpable (**$H_1$ es verdadera) |
+|------------------------|------------------------|------------------------|
+| **Declararlo culpable** (rechazar $H_0$) | **Error Tipo I** ($\alpha$): Se condena a un inocente. | **Correcto positivo**: Se condena a un culpable. También llamado **Poder** ($1 - \beta$). |
+| **Declararlo inocente (no rechazar** $H_0$) | **Correcto negativo**: Se absuelve a un inocente. | **Error Tipo II** ($\beta$): Se absuelve a un culpable. |
+
+------------------------------------------------------------------------
+
+Para desglosar la tabla. En el veredicto pueden suceder **cuatro situaciones distintas**, dependiendo de la decisión tomada y la realidad sobre la culpabilidad del acusado. Estos escenarios tienen su equivalente en estadística cuando realizamos una prueba de hipótesis.
+
+-   **Error Tipo I (**$\alpha$): Se condena a un inocente\
+    Ocurre cuando se rechaza la hipótesis nula ($H_0$) siendo esta verdadera. En el juicio, esto significa que el acusado es realmente inocente, pero la decisión tomada es declararlo culpable. En términos estadísticos, es un falso positivo, es decir, se detecta "culpabilidad" cuando en realidad no la hay.
+
+-   **Error Tipo II (**$\beta$): Se absuelve a un culpable\
+    Ocurre cuando no se rechaza la hipótesis nula ($H_0$) siendo esta falsa. En el juicio, esto significa que el acusado es culpable, pero la decisión tomada es declararlo inocente. En términos estadísticos, es un falso negativo, lo que significa que no se detecta la culpabilidad cuando realmente existe.
+
+------------------------------------------------------------------------
+
+-   **Decisión correcta: Se condena a un culpable**\
+    Ocurre cuando se rechaza la hipótesis nula ($H_0$) y esta es falsa. En el juicio, esto significa que el acusado es culpable y la decisión tomada es declararlo culpable. En términos estadísticos, corresponde a un verdadero positivo y su probabilidad se conoce como **poder de la prueba** ($1 - \beta$). **El poder de la prueba representa la capacidad de la prueba estadística para rechazar correctamente la hipótesis nula cuando realmente es falsa**. Un mayor poder implica una menor probabilidad de cometer un error tipo II.
+
+-   **Decisión correcta: Se absuelve a un inocente**\
+    Ocurre cuando no se rechaza la hipótesis nula ($H_0$) y esta es verdadera. En el juicio, esto significa que el acusado es realmente inocente y la decisión tomada es declararlo inocente. En términos estadísticos, corresponde a un verdadero negativo, lo que implica que no se comete un error.
+
+------------------------------------------------------------------------
+
+Existe una relación directa entre los tipos de error y el poder de la prueba. Si reducimos la probabilidad de cometer un error tipo I ($\alpha$), generalmente aumentamos la probabilidad de cometer un error tipo II ($\beta$), y viceversa. Recuerda que somos nosotros quienes elegimos el nivel de confianza que queremos tener y que $1 - \text{Nivel de confianza} = \alpha$. Por lo que el nivel de confianza que escojamos también determina el nivel de error tipo I ($\alpha$) que estamos dispuestos a aceptar.
+
+------------------------------------------------------------------------
+
+Podemos interpretarlo intuitivamente con nuestro ejemplo del juicio: **establecer un umbral más estricto (mayor nivel de confianza) significa que seremos más exigentes con la evidencia antes de declarar culpable a alguien**. Esto reduce la posibilidad de condenar a un inocente (error tipo I), pero también hace más probable que dejemos libres a algunos culpables (error tipo II). Por otro lado, si relajamos el criterio y aceptamos condenar con menos evidencia, **disminuimos la probabilidad de absolver a culpables (error tipo II), pero corremos el riesgo de castigar a más personas inocentes (error tipo I).**
+
+------------------------------------------------------------------------
+
+Vayamos ahora con otro ejemplo. Imagina que en un país se está evaluando la viabilidad de aprobar un referéndum. La ley establece que para que una propuesta sea aprobada, al menos el **60% de los votantes deben estar a favor**. En este contexto, se realiza una encuesta para estimar el nivel de apoyo y determinar si hay suficiente respaldo antes de llevar el referéndum a votación. Aquí planteamos la prueba de hipótesis:
+
+-   **Hipótesis nula** ($H_0$): El apoyo a la propuesta es del 60% o menos ($p \leq 0.60$).\
+-   **Hipótesis alternativa** ($H_1$): El apoyo a la propuesta es mayor al 60% ($p > 0.60$).
+
+------------------------------------------------------------------------
+
+Dado que queremos demostrar que el apoyo supera el 60%, realizamos **una prueba a la derecha**. Si los resultados de la encuesta proporcionan suficiente evidencia, rechazamos $H_0$ y concluimos que la propuesta tiene el respaldo necesario para ser aprobada en el referéndum.
+
+------------------------------------------------------------------------
+
+Este caso sigue la misma lógica que el juicio: **debemos decidir entre rechazar o no la hipótesis nula, sabiendo que cualquiera de las dos decisiones puede llevarnos a cometer un error.**
+
+-   **Error Tipo I (**$\alpha$): Concluir que la propuesta tiene más del 60% de apoyo cuando en realidad no lo tiene (un falso positivo).\
+-   **Error Tipo II (**$\beta$): No detectar que la propuesta tiene suficiente apoyo cuando en realidad sí lo tiene (un falso negativo).
+
+------------------------------------------------------------------------
+
+Recuerda que al establecer un nivel de confianza, también definimos $\alpha$ como $1 - \text{Nivel de confianza}$. En el contraste de hipótesis, $\alpha$ representa el área de rechazo, que puede ubicarse en un solo extremo si la prueba es **unilateral** (a la derecha o a la izquierda) o en ambos extremos si la prueba es **bilateral** (simétrica).
+
+Es importante entender que $\alpha$ no solo define el área de rechazo, sino que también representa el nivel de error tipo I que estamos dispuestos a aceptar. Es decir, **la probabilidad de rechazar incorrectamente la hipótesis nula cuando en realidad es verdadera**. Cuanto menor sea $\alpha$, mayor será el nivel de confianza, lo que implica ser más cautelosos antes de rechazar $H_0$.
+
+------------------------------------------------------------------------
+
+Incluso si la hipótesis nula fuese cierta, la variación aleatoria haría que los valores observados fluctúen alrededor de $H_0$. Es decir, **no todos los valores serán exactamente del 60%**, pero la mayoría se acercará a este valor, ya sea ligeramente por debajo o por encima, formando la distribución nula que conocemos, aproximadamente normal.
+
+En nuestro caso, al realizar una prueba a la derecha, el área de rechazo **se encuentra en la cola derecha** de la distribución. Esto significa que, si nuestra proporción estimada cae dentro de esta región, rechazamos $H_0$ y asumimos que el apoyo supera el umbral del 60%. Sin embargo, **esta decisión podría ser errónea si en realidad** $H_0$ es verdadera, y en ese caso estaríamos cometiendo un error tipo I.
+
+------------------------------------------------------------------------
+
+Por tanto, cuanto menor sea $\alpha$, menor será la zona de rechazo, lo que nos hace **más cautelosos antes de rechazar** $H_0$. Sin embargo, esta mayor precaución tiene un costo: **aumenta la probabilidad de cometer un error tipo II (**$\beta$), es decir, no detectar que el apoyo realmente supera el 60% cuando en realidad lo hace.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Cargar librerías
+library(ggplot2)
+library(dplyr)
+
+# Definir parámetros
+mu <- 0.60  # Media bajo H0 (60% de apoyo)
+sigma <- 0.05  # Desviación estándar de la estimación
+confidence_levels <- c(0.90, 0.95, 0.99)  # Niveles de confianza
+alphas <- 1 - confidence_levels  # Valores de alpha correspondientes
+
+# Generar datos para la curva normal
+x_vals <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 1000)
+data <- expand.grid(x = x_vals, confidence = confidence_levels)
+
+# Calcular la densidad de la distribución normal
+data$y <- dnorm(data$x, mean = mu, sd = sigma)
+
+# Calcular los valores críticos para cada alpha
+critical_vals <- qnorm(1 - alphas, mean = mu, sd = sigma)
+
+# Crear un dataframe con los valores de corte para sombrear alpha
+alpha_data <- data %>%
+  group_by(confidence) %>%
+  filter(x >= qnorm(1 - (1 - confidence), mean = mu, sd = sigma))
+
+# Graficar usando ggplot2 con disposición 3x1
+ggplot(data, aes(x = x, y = y)) +
+  geom_line(color = "blue") +  # Curva normal
+  geom_ribbon(data = alpha_data, aes(ymin = 0, ymax = y), fill = "red", alpha = 0.5) +  # Sombreado de alpha
+  geom_vline(data = data.frame(confidence = confidence_levels, x = critical_vals), 
+             aes(xintercept = x), color = "red", linetype = "dashed") +  # Línea del valor crítico
+  facet_wrap(~confidence, labeller = label_bquote(alpha == .(1 - confidence)), ncol = 1, nrow = 3) +  # Disposición en 3x1
+  labs(title = " Alpha define la probabilidad que permitimos del Error Tipo I",
+       x = "Variación bajo la hipótesis nula (H0)", y = "") +
+  theme_minimal()
+
+```
+
+------------------------------------------------------------------------
+
+Pero esto también significa que **seremos más exigentes con la evidencia**, lo que **aumenta la posibilidad de no detectar un cambio real** (es decir, aumenta la probabilidad de cometer un error tipo II). Si en lugar de asumir que $H_0$ es cierta, definiéramos la distribución bajo $H_1$, veríamos que hay una nueva curva desplazada a la derecha, correspondiente a la verdadera proporción en caso de que el apoyo realmente supere el 60%.
+
+------------------------------------------------------------------------
+
+Supongamos que, en realidad, la hipótesis alternativa $H_1$ es verdadera, es decir, que el verdadero apoyo a la propuesta sí supera el 60%. Si esto es cierto, entonces la proporción muestral que observamos no debería seguir la distribución bajo $H_0$, sino una **nueva distribución desplazada hacia la derecha**, que representa los verdaderos valores posibles del apoyo. Esta nueva distribución es la que correspondería a $H_1$, y nos muestra qué valores esperaríamos si efectivamente el apoyo ha aumentado. En este caso, la media de la muestra ya no estaría centrada en el 60%, sino en un valor mayor.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Cargar librerías
+library(ggplot2)
+library(dplyr)
+
+# Definir parámetros
+mu_H0 <- 0.60  # Media bajo H0 (60% de apoyo)
+mu_H1 <- 0.72  # Media bajo H1 (65% de apoyo, si hay un cambio real)
+sigma <- 0.05  # Desviación estándar
+alpha <- 0.05  # Nivel de significancia
+
+# Calcular valor crítico para la prueba a la derecha
+z_critical <- qnorm(1 - alpha, mean = mu_H0, sd = sigma)
+
+# Crear un rango de valores para la curva normal
+x_vals <- seq(mu_H0 - 4*sigma, mu_H1 + 4*sigma, length.out = 1000)
+data <- expand.grid(x = x_vals, distribution = c("H0", "H1"))
+
+# Calcular la densidad de la distribución normal bajo H0 y H1
+data <- data %>%
+  mutate(y = ifelse(distribution == "H0", 
+                    dnorm(x, mean = mu_H0, sd = sigma),
+                    dnorm(x, mean = mu_H1, sd = sigma)))
+
+# Definir los valores para sombrear alpha y beta
+alpha_data <- data %>%
+  filter(distribution == "H0" & x >= z_critical)
+
+beta_data <- data %>%
+  filter(distribution == "H1" & x <= z_critical)
+
+# Graficar usando ggplot2 con colores más intensos y etiquetas en LaTeX
+ggplot(data, aes(x = x, y = y, color = distribution)) +
+  geom_line(size = 1) +  # Curvas de distribución
+  geom_ribbon(data = alpha_data, aes(ymin = 0, ymax = y), fill = "red", alpha = 0.6) +  # Sombreado de alpha
+  geom_ribbon(data = beta_data, aes(ymin = 0, ymax = y), fill = "darkgreen", alpha = 0.6) +  # Sombreado de beta
+  geom_vline(xintercept = z_critical, color = "red", linetype = "dashed") +  # Línea del valor crítico
+  scale_color_manual(values = c("H0" = "blue", "H1" = "darkgreen")) +  # Colores de H0 y H1
+  annotate("text", x = mu_H0 + 3*sigma, y = 2, label = expression(alpha ~ "(Error Tipo I)"), color = "red", size = 5) +
+  annotate("text", x = mu_H0 - 3*sigma + 0.12, y = 2, label = expression(beta ~ "(Error Tipo II)"), color = "darkgreen", size = 5) +
+  annotate("text", x = mu_H0, y = 8.3, label = expression(H[0]), color = "blue", size = 5) +
+  annotate("text", x = mu_H1, y = 8.3, label = expression(H[1]), color = "darkgreen", size = 5) +
+  labs(title = expression("Relación entre " ~ alpha ~ " y " ~ beta),
+       x = "Proporción estimada en la encuesta", 
+       y = "",
+       color = "Distribución") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+------------------------------------------------------------------------
+
+Observa la línea roja en el gráfico. No olvidemos que esta línea marca el **valor crítico**, que define la región de rechazo de $H_0$. En la distribución azul ($H_0$), cualquier valor a la derecha de esta línea nos llevaba a rechazar la hipótesis nula, y la zona roja que ves representa $\alpha$ (error tipo I), es decir, los casos en los que rechazamos incorrectamente $H_0$ cuando en realidad era verdadera.
+
+------------------------------------------------------------------------
+
+Sin embargo, cuando consideramos la distribución verde ($H_1$), **lo que está a la izquierda de esta línea se vuelve importante**. ¿Por qué? Porque ahora sabemos que $H_1$ es la verdadera distribución, y todos los valores que caen a la izquierda del valor crítico **nos llevan a no rechazar** $H_0$ **cuando en realidad deberíamos hacerlo**. Esta zona sombreada en verde en la distribución de $H_1$ es **el error tipo II** ($\beta$), que representa la probabilidad de no detectar el verdadero aumento en el apoyo cuando en realidad existe.
+
+Es aquí donde vemos la relación inversa entre $\alpha$ y $\beta$:
+
+-   Si movemos la línea de decisión hacia la derecha (disminuyendo $\alpha$), la zona roja de error tipo I se reduce, pero **la zona verde de error tipo II crece**, lo que significa que seremos más propensos a no detectar un aumento real en el apoyo.\
+
+-   Si movemos la línea hacia la izquierda (aumentando $\alpha$), seremos más propensos a detectar un cambio cuando lo hay, pero **corremos más riesgo de cometer errores tipo I**.
+
+------------------------------------------------------------------------
+
+Ahora, el **poder de la prueba** se define como $1 - \beta$, es decir, **la probabilidad de detectar correctamente un cambio real cuando este realmente existe**. En nuestro caso, representa la capacidad de la prueba estadística para identificar que el apoyo supera el 60% cuando esto es cierto.
+
+Si observamos el gráfico, la **curva azul** representa la distribución bajo $H_0$, donde asumimos que la proporción de apoyo no supera el 60%. La **curva verde**, en cambio, representa la distribución bajo $H_1$, la cual refleja la verdadera proporción de apoyo si en realidad es mayor al 60%.
+
+------------------------------------------------------------------------
+
+Por tanto, el **poder de la prueba (**$1 - \beta$) es la fracción de la distribución de $H_1$ que cae dentro de la **región de rechazo de** $H_0$, es decir, la parte de la curva verde que **no está sombreada en verde oscuro**.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Cargar librerías
+library(ggplot2)
+library(dplyr)
+
+# Definir parámetros
+mu_H0 <- 0.60  # Media bajo H0 (60% de apoyo)
+mu_H1 <- 0.72  # Media bajo H1 (72% de apoyo, si hay un cambio real)
+sigma <- 0.05  # Desviación estándar
+alpha <- 0.05  # Nivel de significancia
+
+# Calcular valor crítico para la prueba a la derecha
+z_critical <- qnorm(1 - alpha, mean = mu_H0, sd = sigma)
+
+# Crear un rango de valores para la curva normal
+x_vals <- seq(mu_H0 - 4*sigma, mu_H1 + 4*sigma, length.out = 1000)
+data <- expand.grid(x = x_vals, distribution = c("H0", "H1"))
+
+# Calcular la densidad de la distribución normal bajo H0 y H1
+data <- data %>%
+  mutate(y = ifelse(distribution == "H0", 
+                    dnorm(x, mean = mu_H0, sd = sigma),
+                    dnorm(x, mean = mu_H1, sd = sigma)))
+
+# Definir los valores para sombrear alpha, beta y el poder de la prueba
+alpha_data <- data %>%
+  filter(distribution == "H0" & x >= z_critical)
+
+beta_data <- data %>%
+  filter(distribution == "H1" & x <= z_critical)
+
+power_data <- data %>%
+  filter(distribution == "H1" & x > z_critical)  # Zona del poder de la prueba
+
+# Graficar usando ggplot2 con colores más intensos y etiquetas en LaTeX
+ggplot(data, aes(x = x, y = y, color = distribution)) +
+  geom_line(size = 1) +  # Curvas de distribución
+  geom_ribbon(data = alpha_data, aes(ymin = 0, ymax = y), fill = "red", alpha = 0.6) +  # Sombreado de alpha
+  geom_ribbon(data = beta_data, aes(ymin = 0, ymax = y), fill = "darkgreen", alpha = 0.6) +  # Sombreado de beta
+  geom_ribbon(data = power_data, aes(ymin = 0, ymax = y), fill = "skyblue", alpha = 0.6) +  # Sombreado del poder
+  geom_vline(xintercept = z_critical, color = "red", linetype = "dashed") +  # Línea del valor crítico
+  scale_color_manual(values = c("H0" = "blue", "H1" = "darkgreen")) +  # Colores de H0 y H1
+  annotate("text", x = mu_H0 + 3*sigma, y = 2, label = expression(alpha ~ "(Error Tipo I)"), color = "red", size = 5) +
+  annotate("text", x = mu_H0 - 3*sigma + 0.12, y = 2, label = expression(beta ~ "(Error Tipo II)"), color = "darkgreen", size = 5) +
+  annotate("text", x = mu_H1 - 2*sigma +0.22, y = 6, label = expression(1 - beta ~ "(Poder de la prueba)"), color = "blue", size = 5) +
+  annotate("text", x = mu_H0, y = 8.3, label = expression(H[0]), color = "blue", size = 5) +
+  annotate("text", x = mu_H1, y = 8.3, label = expression(H[1]), color = "darkgreen", size = 5) +
+  labs(title = expression("Relación entre " ~ alpha ~ ", " ~ beta ~ " y el Poder de la Prueba"),
+       x = "Proporción estimada en la encuesta", 
+       y = "",
+       color = "Distribución") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+------------------------------------------------------------------------
+
+**Parámetros en los tipos de error**
+
+La razón por la cual la desviación estándar, el tamaño de la muestra y el valor observado son tan importantes en un contraste de hipótesis es porque **determinan nuestra capacidad para detectar diferencias reales y afectan la probabilidad de cometer errores tipo I y II**. Estos factores influyen directamente en la forma en que las distribuciones de $H_0$ y $H_1$ se comportan.
+
+------------------------------------------------------------------------
+
+Recuerda que, para inferir sobre una media, la **desviación estándar** ($s$) representa la variabilidad de los datos en la muestra y está directamente relacionada con el **error estándar** ($SE$), dado por la fórmula $SE = \frac{s}{\sqrt{n}}$. Si $\sigma$ es grande, el error estándar también será mayor, lo que implica que las medias muestrales estarán más dispersas, aumentando la superposición entre ambas distribuciones y, en consecuencia, incrementando la probabilidad de cometer un **error tipo II** ($\beta$). Por el contrario, si $s$ es pequeña, el error estándar se reduce, las medias muestrales estarán más concentradas, lo que facilita la detección de diferencias estadísticamente significativas y **aumenta el poder de la prueba** ($1 - \beta$).
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Cargar librerías
+library(ggplot2)
+library(dplyr)
+
+# Definir parámetros base
+mu_H0 <- 0.60  # Media bajo H0 (60% de apoyo)
+mu_H1 <- 0.72  # Media bajo H1 (72% de apoyo, si hay un cambio real)
+alpha <- 0.05  # Nivel de significancia
+z_critical <- qnorm(1 - alpha, mean = mu_H0, sd = 0.05)  # Valor crítico basado en H0
+
+# Definir dos valores de desviación estándar
+sigma_low <- 0.03   # Baja desviación estándar
+sigma_high <- 0.08  # Alta desviación estándar
+
+# Crear un rango de valores para la curva normal
+x_vals <- seq(mu_H0 - 4*sigma_high, mu_H1 + 4*sigma_high, length.out = 1000)
+data_sigma <- expand.grid(x = x_vals, sigma = c(sigma_low, sigma_high))
+
+# Calcular la densidad de la distribución normal bajo H0 y H1 para ambas situaciones
+data_sigma <- data_sigma %>%
+  mutate(y_H0 = dnorm(x, mean = mu_H0, sd = sigma),
+         y_H1 = dnorm(x, mean = mu_H1, sd = sigma),
+         sigma_label = ifelse(sigma == sigma_low, "Baja Desviación Estándar", "Alta Desviación Estándar"))
+
+# Definir los valores para sombrear alpha, beta y el poder de la prueba
+alpha_data <- data_sigma %>%
+  filter(x >= z_critical & sigma == sigma)  # Área de error tipo I (alpha)
+
+beta_data <- data_sigma %>%
+  filter(x <= z_critical & sigma == sigma)  # Área de error tipo II (beta)
+
+power_data <- data_sigma %>%
+  filter(x > z_critical & sigma == sigma)  # Área del poder de la prueba (1 - beta)
+
+# Graficar usando ggplot2 con facet_wrap() y colores para los errores y el poder
+ggplot(data_sigma, aes(x = x)) +
+  geom_line(aes(y = y_H0), color = "blue", size = 1, linetype = "dashed") +  # Curva H0
+  geom_line(aes(y = y_H1), color = "darkgreen", size = 1) +  # Curva H1
+  geom_vline(xintercept = z_critical, color = "red", linetype = "dashed") +  # Línea del valor crítico
+  geom_ribbon(data = alpha_data, aes(ymin = 0, ymax = y_H0), fill = "red", alpha = 0.6) +  # Sombreado de alpha
+  geom_ribbon(data = beta_data, aes(ymin = 0, ymax = y_H1), fill = "darkgreen", alpha = 0.6) +  # Sombreado de beta
+  geom_ribbon(data = power_data, aes(ymin = 0, ymax = y_H1), fill = "skyblue", alpha = 0.6) +  # Sombreado del poder
+  labs(title = "Impacto de la Desviación Estándar en la Prueba de Hipótesis",
+       subtitle = expression("Cómo " ~ sigma ~ " afecta el error tipo II y el poder de la prueba"),
+       x = "Proporción estimada", y = "") +
+  facet_wrap(~sigma_label, ncol = 1) +  # Dividir en dos facetas
+  theme_minimal()
+
+```
+
+------------------------------------------------------------------------
+
+De la misma forma, el **tamaño de la muestra (**$n$) afecta la precisión de nuestras estimaciones, ya que está inversamente relacionado con el **error estándar (**$SE$) a través de la misma fórmula $SE = \frac{\sigma}{\sqrt{n}}$. Cuando $n$ es grande, el error estándar disminuye, lo que significa que las medias muestrales estarán menos dispersas, reduciendo la superposición entre las distribuciones de $H_0$ y $H_1$, lo que facilita la detección de diferencias significativas y **disminuye la probabilidad de cometer un error tipo II** ($\beta$), **aumentando así el poder de la prueba** ($1 - \beta$).
+
+------------------------------------------------------------------------
+
+En cambio, si el tamaño de la muestra es pequeño, el error estándar será mayor, lo que provoca que las distribuciones sean más anchas y se solapen más, dificultando la diferenciación entre $H_0$ y $H_1$, aumentando la incertidumbre y reduciendo la capacidad de detectar efectos reales cuando estos existen.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Cargar librerías
+library(ggplot2)
+library(dplyr)
+
+# Definir parámetros base
+mu_H0 <- 0.60  # Media bajo H0 (60% de apoyo)
+mu_H1 <- 0.72  # Media bajo H1 (72% de apoyo, si hay un cambio real)
+alpha <- 0.05  # Nivel de significancia
+z_critical <- qnorm(1 - alpha, mean = mu_H0, sd = 0.05)  # Valor crítico basado en H0
+
+# Definir dos valores de desviación estándar (sin depender de n)
+sigma_small <- 0.08  # Alta variabilidad (similar a muestra pequeña)
+sigma_large <- 0.03  # Baja variabilidad (similar a muestra grande)
+
+# Crear un rango de valores para la curva normal
+x_vals <- seq(mu_H0 - 4*sigma_small, mu_H1 + 4*sigma_small, length.out = 1000)
+data_n <- expand.grid(x = x_vals, sigma = c(sigma_small, sigma_large))
+
+# Calcular la densidad de la distribución normal bajo H0 y H1 para ambos casos
+data_n <- data_n %>%
+  mutate(y_H0 = dnorm(x, mean = mu_H0, sd = sigma),
+         y_H1 = dnorm(x, mean = mu_H1, sd = sigma),
+         n_label = ifelse(sigma == sigma_small, "Muestra Pequeña", "Muestra Grande"))
+
+# Definir los valores para sombrear alpha, beta y el poder de la prueba
+alpha_data <- data_n %>%
+  filter(x >= z_critical)  # Área de error tipo I (alpha)
+
+beta_data <- data_n %>%
+  filter(x <= z_critical)  # Área de error tipo II (beta)
+
+power_data <- data_n %>%
+  filter(x > z_critical)  # Área del poder de la prueba (1 - beta)
+
+# Graficar usando ggplot2 con facet_wrap() y colores para los errores y el poder
+ggplot(data_n, aes(x = x)) +
+  geom_line(aes(y = y_H0), color = "blue", size = 1, linetype = "dashed") +  # Curva H0
+  geom_line(aes(y = y_H1), color = "darkgreen", size = 1) +  # Curva H1
+  geom_vline(xintercept = z_critical, color = "red", linetype = "dashed") +  # Línea del valor crítico
+  geom_ribbon(data = alpha_data, aes(ymin = 0, ymax = y_H0), fill = "red", alpha = 0.6) +  # Sombreado de alpha
+  geom_ribbon(data = beta_data, aes(ymin = 0, ymax = y_H1), fill = "darkgreen", alpha = 0.6) +  # Sombreado de beta
+  geom_ribbon(data = power_data, aes(ymin = 0, ymax = y_H1), fill = "skyblue", alpha = 0.6) +  # Sombreado del poder
+  labs(title = "Impacto del Tamaño de la Muestra en la Prueba de Hipótesis",
+       subtitle = "Cómo el tamaño de la muestra afecta el error tipo II y el poder de la prueba",
+       x = "Proporción estimada", y = "") +
+  facet_wrap(~n_label, ncol = 1) +  # Dividir en dos facetas
+  theme_minimal()
+
+```
+
+------------------------------------------------------------------------
+
+El valor observado, que determina la posición de la media bajo la hipótesis alternativa ($H_1$) con respecto a la hipótesis nula ($H_0$) también influye en la probabilidad de cometer errores y en la capacidad de detectar un efecto real. Cuando la diferencia entre $H_0$ y $H_1$ es pequeña, las distribuciones se superponen significativamente, lo que dificulta distinguir entre ambas y **aumenta la probabilidad de cometer un error tipo II** ($\beta$), es decir, no rechazar $H_0$ cuando en realidad $H_1$ es verdadera. En este caso, el poder de la prueba ($1 - \beta$) es menor, lo que significa que la prueba tiene menos capacidad para detectar cambios reales.
+
+En contraste, cuando la media de $H_1$ está más alejada de $H_0$, la superposición entre las distribuciones disminuye, facilitando la detección de diferencias y **reduciendo la probabilidad de error tipo II**, aumentando así el poder de la prueba.
+
+------------------------------------------------------------------------
+
+```{r, echo= FALSE, warning = FALSE, fig.width = 12, fig.height = 7}
+# Cargar librerías
+library(ggplot2)
+library(dplyr)
+
+# Definir parámetros
+mu_H0 <- 0.60  # Media bajo H0 (60% de apoyo)
+sigma <- 0.05  # Desviación estándar
+alpha <- 0.05  # Nivel de significancia
+
+# Definir dos escenarios con distintas medias para H1
+mu_H1_cercano <- 0.63  # H1 cerca de H0
+mu_H1_lejano <- 0.72  # H1 lejos de H0
+
+# Calcular valor crítico para la prueba a la derecha
+z_critical <- qnorm(1 - alpha, mean = mu_H0, sd = sigma)
+
+# Crear un rango de valores para la curva normal
+x_vals <- seq(mu_H0 - 4*sigma, mu_H1_lejano + 4*sigma, length.out = 1000)
+data <- expand.grid(x = x_vals, escenario = c("H1 Cercano", "H1 Lejano"))
+
+# Calcular la densidad de la distribución normal bajo H0 y H1 para ambos escenarios
+data <- data %>%
+  mutate(y = ifelse(escenario == "H1 Cercano",
+                    dnorm(x, mean = mu_H1_cercano, sd = sigma),
+                    dnorm(x, mean = mu_H1_lejano, sd = sigma)),
+         y_H0 = dnorm(x, mean = mu_H0, sd = sigma))
+
+# Definir los valores para sombrear alpha, beta y el poder de la prueba
+alpha_data <- data %>%
+  filter(x >= z_critical & escenario == escenario)  # Área de error tipo I (alpha)
+
+beta_data <- data %>%
+  filter(x <= z_critical & escenario == escenario)  # Área de error tipo II (beta)
+
+power_data <- data %>%
+  filter(x > z_critical & escenario == escenario)  # Área del poder de la prueba (1 - beta)
+
+# Graficar usando ggplot2 con facet_wrap() y colores para los errores y el poder
+ggplot(data, aes(x = x)) +
+  geom_line(aes(y = y_H0), color = "blue", size = 1, linetype = "dashed") +  # Curva H0
+  geom_line(aes(y = y), color = "darkgreen", size = 1) +  # Curva H1
+  geom_vline(xintercept = z_critical, color = "red", linetype = "dashed") +  # Línea del valor crítico
+  geom_ribbon(data = alpha_data, aes(ymin = 0, ymax = y_H0), fill = "red", alpha = 0.6) +  # Sombreado de alpha
+  geom_ribbon(data = beta_data, aes(ymin = 0, ymax = y), fill = "darkgreen", alpha = 0.6) +  # Sombreado de beta
+  geom_ribbon(data = power_data, aes(ymin = 0, ymax = y), fill = "skyblue", alpha = 0.6) +  # Sombreado del poder
+  labs(title = "Impacto de la Distancia entre H0 y H1 en la Prueba de Hipótesis",
+       subtitle = "Cómo la cercanía o lejanía de H1 afecta el error tipo II y el poder de la prueba",
+       x = "Proporción estimada", y = "") +
+  facet_wrap(~escenario, ncol = 1) +  # Dividir en dos facetas
+  theme_minimal()
+
+```
+
+## Supuestos en la inferencia
+
+Todo esto suena muy bien, pero cuidado: **Hacer inferencia estadística implica asumir ciertos supuestos sobre los datos y la forma en que fueron recolectados**. Estos supuestos no son simples formalidades, sino condiciones necesarias para que los métodos sean válidos y los resultados confiables. Si alguno de estos supuestos no se cumple, las conclusiones pueden ser erróneas o, peor aún, engañosas.
+
+------------------------------------------------------------------------
+
+**Muestreo aleatorio e independencia de las observaciones**
+
+Cada individuo de la población tiene la misma probabilidad de ser seleccionado en la muestra y que las observaciones son independientes unas de otras, es decir, el valor de una observación no influye en el valor de las demás. La independencia es crucial porque garantiza que los resultados de la muestra sean representativos de la población. Si este supuesto se viola, los resultados pueden estar sesgados, y las inferencias serán poco confiables. Es importante revisar cuidadosamente cómo se recolectaron los datos y verificar que no existan patrones obvios de dependencia entre las observaciones.
+
+------------------------------------------------------------------------
+
+**Tamaño suficiente de la muestra**
+
+Recordarás que una muestra pequeña puede introducir una alta variabilidad en las estimaciones, lo que dificulta obtener resultados confiables. El Teorema del Límite Central (TLC), que permite que la distribución muestral sea aproximadamente normal, pero esto es solo es válido cuando el tamaño de la muestra es suficientemente grande. En general, se recomienda que ($n > 30$) para confiabilidad en análisis basados en el TLC. Para proporciones, cada categoría debe tener al menos cinco observaciones para asegurar una buena aproximación. Si el tamaño de la muestra es insuficiente, los resultados pueden ser demasiado inestables.
+
+------------------------------------------------------------------------
+
+**Normalidad de la Distribución**
+
+Inferir sobre la media puede ser complicado en ciertos casos. Si recuerdas el capítulo de estadística descriptiva, la media no siempre es un valor robusto, especialmente cuando la distribución de los datos es asimétrica o presenta valores extremos. En distribuciones con colas pesadas o sesgo pronunciado, la media puede estar fuertemente influenciada por valores atípicos, lo que afecta la validez de los resultados inferenciales. Si bien el Teorema del Límite Central permite aproximar la distribución de los estadísticos a una normal bajo ciertas condiciones, asumir su aplicación sin verificar la naturaleza de los datos puede llevar a estimaciones sesgadas o poco representativas.
+
+------------------------------------------------------------------------
+
+Sin embargo, en la práctica, muchas variables no siguen una distribución normal exacta, lo que puede afectar la validez de los resultados si se aplican pruebas paramétricas sin verificar este supuesto. Para evaluar si los datos cumplen con la normalidad, utilizamos pruebas estadísticas como la **prueba de Shapiro-Wilk**, que nos permite detectar desviaciones significativas respecto a la distribución normal. Esta prueba se basa en la comparación de los datos observados con los valores esperados bajo normalidad y plantea las siguientes hipótesis:
+
+-   **Hipótesis nula** ($H_0$): Los datos siguen una distribución normal.\
+-   **Hipótesis alternativa** ($H_1$): Los datos no siguen una distribución normal.
+
+------------------------------------------------------------------------
+
+Si el p-valor resultante de la prueba es menor que 0.05, se rechaza la hipótesis nula, indicando que los datos no presentan una distribución normal. En estos casos, puede ser preferible emplear métodos no paramétricos que no dependan de la normalidad, como pruebas basadas en la mediana o en los cuantiles, lo que permite realizar inferencias más robustas y menos sensibles a distribuciones atípicas.
+
+Por ejemplo para los datos que recolectó de las alturas:
+
+```{r}
+shapiro.test(muestra$alturas)
+```
+
+------------------------------------------------------------------------
+
+El p-valor es 0.07, por no se rechaza la hipótesis nula. Esto significa que no hay suficiente evidencia para concluir que los datos no son normales. Es decir, la prueba no detecta una desviación significativa de la normalidad, por lo que se puede asumir que la variable alturas sigue una distribución normal.
+
+------------------------------------------------------------------------
+
+Ahora, en caso la prueba de Shapiro-Wilk indica que los datos no siguen una distribución normal, una alternativa es utilizar una prueba no parametrica. La pruebas no paramétricas no asumen normalidad en la distribución de tu muestra y cada prueba tiene una versión no paramétrica. En el caso de una prueba para una media, la **prueba de los rangos con signo de Wilcoxon** en lugar de la **prueba t**.
+
+Lo que evalúa es lo mismo:
+
+-   **Hipótesis nula** ($H_0$): La mediana de la población es igual a un valor específico ($\mu_0$).\
+-   **Hipótesis alternativa** ($H_1$): La mediana de la población es diferente de ese valor.
+
+------------------------------------------------------------------------
+
+```{r}
+wilcox.test(muestra$alturas,
+            mu = 170, 
+                  conf.level = 0.95,
+                  alternative = "two.sided")
+```
+
+------------------------------------------------------------------------
+
+El p-valor indica 0.9419, por lo que es mucho mayor que 0.05 y por tanto no se rechaza la hipótesis nula. Esto significa que no hay suficiente evidencia estadística para concluir que la mediana de las alturas es significativamente diferente de 170 cm.
+
+A diferencia de la prueba t, que evalúa diferencias en la media, la prueba de Wilcoxon analiza diferencias en la **mediana**, lo que la hace robusta a la presencia de valores atípicos o distribuciones sesgadas (recuerda las propiedad de la mediana el el capítulo 4)
+
+## Resumen del capítulo
+
+La estadística inferencial permite hacer estimaciones y contrastes sobre una población a partir de muestras. Su fundamento es el Teorema del Límite Central, que establece que, al tomar múltiples muestras de una población, la distribución de sus estadísticos se aproximará a una normal conforme el tamaño de la muestra sea suficientemente grande.
+
+------------------------------------------------------------------------
+
+La estimación es un método inferencial que busca aproximar parámetros desconocidos, como la media o la proporción poblacional, utilizando los estadísticos de la muestra. La incertidumbre en la estimación se mide a través del intervalo de confianza, que se construye considerando el error estándar y un valor crítico, determinado por el nivel de confianza elegido. A medida que el tamaño de la muestra aumenta, el error estándar disminuye, lo que genera estimaciones más precisas.
+
+------------------------------------------------------------------------
+
+El contraste de hipótesis permite evaluar afirmaciones sobre una población al comparar una hipótesis nula con una hipótesis alternativa. Para ello, se establece un umbral de significancia ($\alpha$) que define las regiones de rechazo de $H_0$. Dependiendo de la dirección del análisis, las pruebas pueden ser bilaterales, cuando buscan detectar diferencias en cualquier sentido, o unilaterales, cuando solo se considera un extremo de la distribución. El resultado de la prueba se evalúa mediante valores críticos y p-valores, que indican la probabilidad de obtener un resultado igual o más extremo bajo la suposición de que $H_0$ es cierta.
+
+------------------------------------------------------------------------
+
+El error tipo I se comete cuando se rechaza una hipótesis nula verdadera, mientras que el error tipo II ocurre cuando no se rechaza una hipótesis nula falsa. Existe una relación inversa entre ambos: reducir la probabilidad de cometer un error tipo I aumenta la probabilidad de cometer un error tipo II y viceversa. La capacidad de detectar un efecto real cuando este existe se conoce como poder de la prueba y depende del tamaño de la muestra, la variabilidad de los datos y la distancia entre $H_0$ y $H_1$. A medida que la muestra es mayor o la diferencia entre la media nula y la alternativa es más grande, el poder de la prueba aumenta y la probabilidad de error tipo II disminuye.
+
+------------------------------------------------------------------------
+
+La validez de estos métodos depende del cumplimiento de ciertos supuestos, como la aleatoriedad en el muestreo y la independencia de las observaciones. Además, la normalidad de los datos es esencial en pruebas paramétricas, por lo que se utiliza la prueba de Shapiro-Wilk para verificar este supuesto. Si los datos no siguen una distribución normal, se pueden emplear métodos no paramétricos, como la prueba de los rangos con signo de Wilcoxon, que no asumen una distribución específica.
+
+## Ejercicios
+
+------------------------------------------------------------------------
+
+**1: El Teorema del Límite Central (TLC) es un principio fundamental en la estadística inferencial. Hemos visto que tiene una amplia aplicabilidad en el análisis de muestras y la estimación de parámetros poblacionales. ¿Cuál es la principal utilidad del Teorema del Límite Central?**
+
+A)  Permite conocer la distribución de los datos originales.
+
+B)  Garantiza que cualquier muestra siga una distribución normal.
+
+C)  Explica que la distribución de ciertas estadísticas muestrales tiende a la normalidad conforme aumenta el tamaño de la muestra.
+
+D)  Se usa exclusivamente para contrastes de hipótesis.
+
+------------------------------------------------------------------------
+
+**2: Para estimar la media poblacional con un intervalo de confianza a partir de una única muestra, recordemos que un intervalo se construye tomando la estimación puntual más un margen de error. En este caso, el error estándar depende de la variabilidad dentro de la muestra y el tamaño muestral, y el valor crítico ¿Cuál de las siguientes expresiones es la correcta?**
+
+A)  $\hat{p} \pm t \times \sqrt{\frac{\hat{p} (1 - \hat{p})}{n}}$
+
+B)  $\bar{X} \pm t \times \frac{s}{\sqrt{n}}$
+
+C)  $\sqrt{\frac{s^2}{n}}$
+
+D)  $\bar{X} \pm z \times \frac{\sigma}{\sqrt{n}}$
+
+------------------------------------------------------------------------
+
+**3: Si queremos estimar una proporción poblacional con un intervalo de confianza, la fórmula del error estándar es:**\
+A) $\frac{s}{\sqrt{n}}$\
+B) $\sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}$\
+C) $\frac{\sigma}{\sqrt{n}}$\
+D) $\hat{p} \pm z \times \text{EE}$
+
+------------------------------------------------------------------------
+
+**4: Cuando construimos un intervalo de confianza, el nivel de confianza refleja la certeza con la que estimamos el parámetro poblacional. Si aumentamos el nivel de confianza de un intervalo (por ejemplo, de 95% a 99%), ¿qué efecto tendrá sobre el intervalo de confianza?**
+
+A)  Más estrecho.
+
+B)  Más amplio.
+
+C)  No cambiará.
+
+D)  Dependerá de la desviación estándar.
+
+------------------------------------------------------------------------
+
+**5: ¿Cuál de las siguientes afirmaciones es correcta sobre el valor crítico** $t$ **en comparación con el valor crítico** $z$?\
+A) El valor $t$ es mayor que $z$ cuando la muestra es pequeña.\
+B) El valor $t$ siempre es menor que $z$.\
+C) Los valores $t$ y $z$ son idénticos si $n < 30$.\
+D) El valor $t$ solo se usa para pruebas de proporciones.
+
+------------------------------------------------------------------------
+
+**6: En una prueba de hipótesis bilateral con un nivel de significancia del 5%, el área total de las colas de la distribución es 0.05, lo que implica que cada cola contiene un 2.5% de la probabilidad. Si la muestra es pequeña y se usa la distribución** $t$ **con un determinado número de grados de libertad, ¿cuál sería el valor crítico** $t$ **aproximado?**
+
+A)  1.645
+
+B)  1.96
+
+C)  2.576
+
+D)  Depende de los grados de libertad
+
+------------------------------------------------------------------------
+
+**7: En el contexto de un contraste de hipótesis, ¿qué representa el p-valor?**
+
+A)  La probabilidad de que $H_0$ sea verdadera, dado el resultado observado.
+
+B)  La media de la distribución muestral bajo la hipótesis nula.
+
+C)  El valor crítico de la prueba de hipótesis, que determina el umbral de rechazo.
+
+D)  La probabilidad de obtener un resultado tan extremo como el observado, dado que $H_0$ sea cierta.
+
+------------------------------------------------------------------------
+
+**8: Si el p-valor obtenido en una prueba de hipótesis bilateral es 0.07 y usamos un nivel de significancia de 0.05, la decisión correcta sería:**\
+A) Rechazar $H_0$.\
+B) No rechazar $H_0$.\
+C) El p-valor se acerca a 0.05 por lo que Rechazar $H_0$. D) No se puede tomar una decisión sin conocer la desviación estándar.
+
+------------------------------------------------------------------------
+
+**9: Si cometemos un Error Tipo I, significa que:**
+
+A)  Rechazamos $H_0$ cuando en realidad $H_0$ es verdadera.
+
+B)  No rechazamos $H_0$ cuando en realidad $H_0$ es falsa.
+
+C)  El p-valor es mayor que $\alpha$.
+
+D)  Nuestro intervalo de confianza es demasiado estrecho.
+
+------------------------------------------------------------------------
+
+**10: Si aumentamos el tamaño de la muestra en un contraste de hipótesis, ¿qué sucede con la probabilidad de cometer un Error Tipo II** ($\beta$)?\
+A) Aumenta.\
+B) Disminuye.\
+C) Se mantiene igual.\
+D) Depende del nivel de confianza.
+
+------------------------------------------------------------------------
+
+**11: Flor está evaluando si un programa de reciclaje en una ciudad ha tenido un impacto en la cantidad promedio de basura reciclada por hogar. El programa fue implementado hace 6 meses y está interesada en comparar la cantidad promedio de basura reciclada antes y después de su implementación. Si el valor** $p$ o**btenido en la prueba es** $0.04$ **y el nivel de significancia es** $\alpha = 0.05$, **¿cuál es la interpretación correcta?**
+
+A)  No hay evidencia suficiente para rechazar la hipótesis nula, lo que sugiere que el programa no ha tenido impacto.
+
+B)  Se rechaza la hipótesis nula, lo que sugiere que el programa ha tenido un impacto significativo en la cantidad de basura reciclada.
+
+C)  El valor $p$ indica que la diferencia es irrelevante y no afecta el resultado de la prueba.
+
+D)  No se puede concluir nada porque no se conoce el tamaño de la muestra.
+
+------------------------------------------------------------------------
+
+**12: En un estudio sobre el consumo de energía en hogares de una ciudad, un investigador quiere saber si la proporción de hogares que utilizan energía renovable es diferente de un** 30%. **Después de aplicar una prueba de hipótesis sobre una única proporción, obtiene un valor** $p$ de $0.03$ **y el nivel de significancia es** $\alpha = 0.05$. **¿Cuál es la conclusión correcta?**
+
+A)  No hay evidencia suficiente para rechazar la hipótesis nula, por lo que la proporción de hogares con energía renovable es igual al 30%.
+
+B)  Se rechaza la hipótesis nula, lo que indica que la proporción de hogares con energía renovable es significativamente diferente de 30%.
+
+C)  El valor $p$ no es suficientemente pequeño como para rechazar la hipótesis nula.
+
+D)  La hipótesis nula no puede ser rechazada sin realizar más pruebas estadísticas.
+
+------------------------------------------------------------------------
+
+**13: Un economista está evaluando el impacto de un cambio en la política fiscal sobre el ingreso promedio de los hogares en un país. El economista realiza una prueba de hipótesis sobre una media para determinar si el ingreso promedio ha cambiado significativamente después de la reforma fiscal. Si el valor** $p$ **obtenido es** $0.06$ **y el nivel de significancia es** $\alpha = 0.05$, **¿cuál es la conclusión correcta?**
+
+A)  Se rechaza la hipótesis nula, indicando que el cambio en la política fiscal ha tenido un impacto significativo.
+
+B)  El valor $p$ indica que el impacto es extremadamente relevante y debe considerarse.
+
+C)  Se concluye que el cambio en la política fiscal no ha tenido impacto en los ingresos promedio.
+
+D)  No se rechaza la hipótesis nula, ya que el valor $p$ es mayor que el nivel de significancia.
+
+------------------------------------------------------------------------
+
+**14: Un politólogo está estudiando si el porcentaje de votantes en favor de un candidato presidencial es mayor al 40%. El investigador realiza una prueba de hipótesis sobre una proporción. ¿Cuál es el planteamiento adecuado para las hipótesis nula y alternativa? El nivel de significancia es** $\alpha = 0.05$.
+
+A)  $H_0$: La proporción de votantes a favor del candidato es menor o igual al 40%.   $H_a$: La proporción de votantes a favor del candidato es mayor al 40%.
+
+B)  $H_0$: La proporción de votantes a favor del candidato es exactamente el 40%.   $H_a$: La proporción de votantes a favor del candidato es mayor al 40%.
+
+C)  $H_0$: La proporción de votantes a favor del candidato es igual al 40%.   $H_a$: La proporción de votantes a favor del candidato es diferente al 40%.
+
+D)  $H_0$: La proporción de votantes a favor del candidato es mayor al 40%.   $H_a$: La proporción de votantes a favor del candidato es menor o igual al 40%.
+
+------------------------------------------------------------------------
+
+**15: Un sociólogo está investigando si la media de horas dedicadas al trabajo voluntario por mes ha cambiado significativamente después de la implementación de una nueva ley en una comunidad. Para ello, realiza una prueba** $t$ **sobre una única media con los datos obtenidos antes y después de la implementación de la ley. Si el valor** $p$ **obtenido es** $0.04$ **y el nivel de significancia es** $\alpha = 0.05$, **¿cuál es la interpretación correcta?**
+
+A)  No se puede rechazar la hipótesis nula, ya que el valor $p$ es mayor que el nivel de significancia.
+
+B)  Se rechaza la hipótesis nula, lo que sugiere que el cambio en la ley ha tenido un impacto significativo en las horas dedicadas al trabajo voluntario.
+
+C)  El valor $p$ indica que el resultado no es estadísticamente significativo, por lo que no hay evidencia suficiente para rechazar la hipótesis nula.
+
+D)  La hipótesis nula no puede ser rechazada sin realizar más pruebas estadísticas.

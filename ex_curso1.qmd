@@ -1,0 +1,205 @@
+---
+title: "EXAMEN PARCIAL - Curso 1"
+format: docx
+editor_options: 
+  chunk_output_type: console
+---
+
+# **Indicaciones generales**
+
+```         
+1.  La entrega debe realizarse en un archivo Word (.docx).
+
+2.  Cada respuesta debe incluir obligatoriamente:
+
+    -   El gráfico y/o la tabla correspondiente, pegado(a) como imagen en el documento Word.
+
+    -   Un texto de interpretación redactado de forma clara, precisa y coherente.
+
+3.  La evaluación considerará principalmente:
+
+    -   La calidad de la interpretación de los resultados.
+
+    -   La validez analítica del procedimiento utilizado.
+
+    -   La adecuación del tipo de gráfico o tabla al tipo de variables analizadas.
+
+    -   La claridad y estética del gráfico o tabla presentado(a) (legibilidad de ejes, títulos, escalas y leyendas y ceñido solo a lo visto en clase).
+
+4.  Todas las interpretaciones deben realizarse exclusivamente a partir de los resultados obtenidos en el análisis.
+
+5.  No se deben incluir capturas de pantalla del entorno de RStudio. Únicamente deben incluirse los gráficos o tablas finales.
+
+6.  La nota mínima aprobatoria es 11 sobre 20.
+```
+
+## **PARTE A — Banco Mundial – WDI**
+
+**Puntaje total: 8 puntos**
+
+### **Instrucciones para la preparación de datos**
+
+Ejecutar exactamente el siguiente código en R:
+
+```{r, eval=FALSE}
+library(WDI)
+library(dplyr)
+library(tidyr)
+
+paises <- c("PER","CHL","ARG","BRA","COL","URY","MEX","ECU","BOL","PRY",
+            "USA","DEU","JPN","KOR","ZAF")
+
+indicadores <- c(
+  desempleo = "SL.UEM.TOTL.ZS",
+  acceso_elec = "EG.ELC.ACCS.ZS",
+  gasto_salud = "SH.XPD.CHEX.GD.ZS"
+)
+
+wdi_2022 <- WDI(
+  country = paises,
+  indicator = indicadores,
+  start = 2022,
+  end = 2022,
+  extra = TRUE
+) %>%
+  filter(region != "Aggregates")
+
+```
+
+Variables de interés:
+
+-   desempleo: tasa de desempleo total (% de la fuerza laboral).
+
+-   acceso_elec: porcentaje de población con acceso a electricidad.
+
+-   gasto_salud: gasto corriente en salud como porcentaje del PBI.
+
+-   country: país.
+
+-   region: región del Banco Mundial.
+
+### **Pregunta A.1 (4pts.)**
+
+Genere un gráfico que permita describir la distribución de la tasa de desempleo en 2022 para los países incluidos.
+
+A partir del gráfico:
+
+-   Describa la forma general de la distribución (simetría, concentración de valores, presencia de colas).
+
+-   Indique si se observan valores extremos y señale, cuando corresponda, los países asociados a dichos valores.
+
+### **Pregunta A.2 (4 pts.)**
+
+Genere un gráfico que muestre la relación entre:
+
+-   Gasto en salud (% del PBI).
+
+-   Acceso a electricidad (% de la población).
+
+A partir del gráfico:
+
+-   Describa el patrón observado entre ambas variables.
+
+-   Indique si el patrón sugiere una relación clara o difusa entre los indicadores.
+
+### **Pregunta A.3 (4pts.)**
+
+Genere una **tabla de resumen descriptivo** para las variables:
+
+-   desempleo
+
+-   acceso_elec
+
+-   gasto_salud
+
+La tabla debe incluir, como mínimo: media, mediana y rango intercuartílico.
+
+A partir de la tabla:
+
+-   Identifique qué variable presenta mayor dispersión relativa entre países.
+
+-   Indique si existen diferencias relevantes entre la media y la mediana en alguna variable e interprete qué sugiere ello sobre la distribución de los datos.
+
+## **PARTE B — Latinobarómetro**
+
+**Puntaje total: 8 puntos**
+
+### **Instrucciones para la preparación de datos**
+
+Usar la base de datos de Latinobarómetro 2023 que fue utilizada en clase.
+
+Importar el archivo en R y ejecutar:
+
+```{r, eval=FALSE}
+library(readr)
+library(dplyr)
+
+latb <- read_csv("latb2023.csv")
+
+latb_peru <- latb %>%
+  filter(IDENPA == 604) %>%
+  select(
+    SEXO,
+    EDAD,
+    P15STGBS,
+    P18ST.A,
+    P11STGBS.A
+  ) %>%
+  rename(
+    sexo = SEXO,
+    edad = EDAD,
+    interes_politica = P15STGBS,
+    confianza_medios = P18ST.A,
+    satisfaccion_democracia = P11STGBS.A
+  )
+```
+
+Variables:
+
+-   interes_politica: interés en la política (escala ordinal).
+
+-   confianza_medios: confianza en los medios de comunicación (escala ordinal).
+
+-   satisfaccion_democracia: satisfacción con la democracia (escala ordinal).
+
+-   edad: edad en años.
+
+-   sexo: sexo de la persona encuestada.
+
+### **Pregunta B.1 (4pts.)**
+
+Construya una tabla de frecuencias y un gráfico adecuados para describir la distribución de interes_politica.
+
+A partir de los resultados:
+
+-   Describa el nivel predominante de interés en la política.
+
+-   Indique si la distribución se concentra en valores bajos, intermedios o altos.
+
+### **Pregunta B.2 (4pts.)**
+
+Genere un gráfico que permita analizar la relación entre:
+
+-   satisfaccion_democracia (categórica)
+
+-   confianza_medios (categórica)
+
+A partir del gráfico:
+
+-   Describa cómo varía la confianza en los medios según el nivel de satisfacción con la democracia.
+
+-   Indique si se observan diferencias sistemáticas entre los niveles de satisfacción.
+
+-   Interprete el resultado en términos de actitudes políticas y percepción institucional.
+
+### **Pregunta B.3 (4pts.)**
+
+Genere un gráfico adecuado para analizar cómo varía el **interés en la política** según:
+
+-   sexo
+
+A partir del gráfico:
+
+-   Indique si se observan diferencias entre grupos.
+
+-   Interprete si dichas diferencias parecen relevantes o marginales en términos sustantivos.

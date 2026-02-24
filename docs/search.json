@@ -119,11 +119,39 @@
     "text": "Gráfico de barras apilado o de posición\nCuando ambas variables son categóricas.\n\nggplot(df_22, aes(x = income, fill = region)) +\n  geom_bar(position = \"fill\") +\n  labs(x = \"Nivel de ingreso\", y = \"Proporción\", fill = \"Región\") +\n  theme_minimal()"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Estadística con R",
-    "section": "",
-    "text": "Cursos\n           R + Quarto\n           Estadística\n        \n\n        \n          Estadística con R\n          \n            Materiales de clase en formato web\n          \n        \n      \n\n      \n        \n          Autor\n          Gonzalo Almendariz Villanueva\n        \n\n        \n          Formato\n          Material de clase en R\n        \n\n        \n          Estado\n          Curso 1 disponible\n        \n      \n    \n\n\n    \n    \n      \n        \n          Curso 1 · Estadística Descriptiva con R\n          \n            Estadística descriptiva y análisis exploratorio orientados a datos sociales.\n            El objetivo es producir tablas y gráficos estandarizados para describir muestras,\n            diagnosticar calidad de datos y comunicar resultados.\n          \n        \n\n        \n          \n             4 semanas\n             Quarto\n             Reportes\n          \n        \n      \n\n      \n\n        \n        \n          \n            Semana 1\n            →\n          \n\n          Conceptos básicos e introducción a R\n\n          \n            • Estadística descriptiva e inferencial\n            • Población, muestra, parámetros y estadísticos\n            • Tipos de variables e ideas centrales de descripción\n            • Introducción al muestreo\n            • Entorno de trabajo en RStudio y librerías\n            • Objetos básicos, vectores y funciones elementales\n            • Importación de datos y exploración inicial\n          \n        \n\n        \n        \n          \n            Semana 2\n            →\n          \n\n          dplyr y visualización introductoria con ggplot2\n\n          \n            • Datos ordenados y limpieza básica\n            • Manejo de valores perdidos\n            • Selección, filtrado y ordenamiento\n            • Creación y transformación de variables\n            • Agrupamiento y resumen\n            • Gramática de gráficos (ggplot2)\n            • Barras, histogramas, densidades y boxplots\n            • Estética, títulos, etiquetas y temas básicos\n          \n        \n\n        \n        \n          \n            Semana 3 y 4\n            →\n          \n\n          Medidas descriptivas y análisis exploratorio\n\n          \n            • Tendencia central: media, mediana, proporción\n            • Dispersión: varianza, desviación estándar, IQR\n            • Resúmenes por grupos y comparaciones entre categorías\n            • Visualización de medidas: boxplots, histogramas, densidades, barras de proporciones\n            • Interpretación estadística orientada al análisis exploratorio\n          \n        \n\n        \n        \n          \n            Semana 4\n            →\n          \n\n          Reportes descriptivos, diagnóstico y presentación\n\n          \n            • Tablas de frecuencia simples y cruzadas\n            • Proporciones por fila y columna\n            • Tablas limpias con gt\n            • Reportes con summarytools\n            • Diagnóstico con dlookr\n            • Visualización avanzada: escalas, colores, facetas, temas\n            • Integración de tablas y gráficos en reportes reproducibles\n          \n        \n\n      \n    \n\n\n    \n    \n      \n        \n          \n            Curso 2 · Probabilidades e Inferencia con R\n            Próximamente\n          \n          \n            Probabilidad, distribuciones, simulación e inferencia estadística aplicada.\n            El énfasis está en comprensión conceptual, supuestos y selección de técnicas\n            según la estructura de los datos.\n          \n        \n\n        \n          \n             4 semanas\n             Simulación\n             Inferencia\n          \n        \n      \n\n      \n\n        \n        \n          \n            Semana 1\n            \n          \n          Probabilidad y fundamentos de la inferencia\n          \n            • Variabilidad muestral y motivación de la inferencia\n            • Concepto de probabilidad y reglas fundamentales\n            • Eventos y experimentos aleatorios\n            • Variables aleatorias y funciones asociadas\n            • Exploración empírica mediante simulación en R\n          \n        \n\n        \n        \n          \n            Semana 2\n            \n          \n          Distribuciones y comportamiento muestral\n          \n            • Distribuciones principales en estadística aplicada\n            • Generación, evaluación y visualización en R\n            • Muestreo repetido y comportamiento de estimadores\n            • Ley de los Grandes Números\n            • Introducción al TCL y normalidad como aproximación\n            • Error estándar y variabilidad muestral\n          \n        \n\n        \n        \n          \n            Semana 3\n            \n          \n          Bases formales de la inferencia\n          \n            • TCL (profundización) y rol en la inferencia\n            • Distribución t y muestras finitas\n            • Intervalos de confianza (medias y proporciones)\n            • Contraste de hipótesis, errores y p-valor\n            • Implementación de IC y pruebas básicas en R\n          \n        \n\n        \n        \n          \n            Semana 4\n            \n          \n          Comparación y relación entre variables\n          \n            • Pruebas para proporciones y medias (1 y 2 muestras)\n            • Comparación de muestras relacionadas\n            • Chi-cuadrado y asociación (Cramer)\n            • ANOVA y métodos no paramétricos\n            • Correlaciones (Pearson, Spearman, Kendall)\n            • Regresión lineal simple: estimación e interpretación\n            • Selección de técnicas según supuestos y estructura de datos\n          \n        \n\n      \n    \n\n\n    \n    \n      \n        © 2026 · Elaborado por Gonzalo Almendariz\n      \n\n      \n        \n          \n        \n        \n          \n        \n        \n          La Datafora"
+    "objectID": "C2S2.html#estimación",
+    "href": "C2S2.html#estimación",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Estimación",
+    "text": "Estimación\nLa estimación es el proceso mediante el cual intentamos aproximarnos al verdadero valor de un parámetro poblacional, como la media o la proporción, utilizando los estadísticos de una muestra. Dado que rara vez es posible observar a toda la población, la estimación nos permite hacer inferencias sobre sus características con base en una parte representativa de ella, la muestra. Gracias al Teorema del Límite Central, sabemos que, aunque los estadísticos obtenidos en distintas muestras pueden variar, con una muestra suficientemente grande, estos tienden a aproximarse al parámetro poblacional, siguiendo una distribución normal. Esta propiedad es fundamental en la estadística inferencial, ya que nos permite no solo obtener una estimación del parámetro desconocido, sino también medir la incertidumbre asociada a dicha estimación."
+  },
+  {
+    "objectID": "C2S2.html#contraste-de-hipótesis",
+    "href": "C2S2.html#contraste-de-hipótesis",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Contraste de hipótesis",
+    "text": "Contraste de hipótesis\nEl contraste de hipótesis es una herramienta estadística que nos permite decidir si un resultado observado en una muestra nos da suficiente evidencia para apoyar una afirmación sobre una población. Existen varias pruebas pero se caracterizan por ser todas un proceso organizado que nos ayuda a diferenciar entre resultados que podrían ocurrir solo por variación aleatoria y aquellos que son lo suficientemente inusuales como para indicar un efecto real.\nAunque existen diversas pruebas, todas siguen un proceso estructurado y sistemático diseñado para diferenciar entre resultados que podrían ocurrir únicamente por variación aleatoria y aquellos que son estadísticamente significativos, es decir, lo suficientemente inusuales como para sugerir la presencia de un patrón o efecto real en la población."
+  },
+  {
+    "objectID": "C2S2.html#supuestos-en-la-inferencia",
+    "href": "C2S2.html#supuestos-en-la-inferencia",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Supuestos en la inferencia",
+    "text": "Supuestos en la inferencia\nTodo esto suena muy bien, pero cuidado: Hacer inferencia estadística implica asumir ciertos supuestos sobre los datos y la forma en que fueron recolectados. Estos supuestos no son simples formalidades, sino condiciones necesarias para que los métodos sean válidos y los resultados confiables. Si alguno de estos supuestos no se cumple, las conclusiones pueden ser erróneas o, peor aún, engañosas."
+  },
+  {
+    "objectID": "C2S2.html#resumen-del-capítulo",
+    "href": "C2S2.html#resumen-del-capítulo",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Resumen del capítulo",
+    "text": "Resumen del capítulo\nLa estadística inferencial permite hacer estimaciones y contrastes sobre una población a partir de muestras. Su fundamento es el Teorema del Límite Central, que establece que, al tomar múltiples muestras de una población, la distribución de sus estadísticos se aproximará a una normal conforme el tamaño de la muestra sea suficientemente grande."
+  },
+  {
+    "objectID": "C2S2.html#ejercicios",
+    "href": "C2S2.html#ejercicios",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Ejercicios",
+    "text": "Ejercicios"
   },
   {
     "objectID": "S4.html#tipos-de-variables",
@@ -182,6 +210,76 @@
     "text": "Comparación por grupo\nTambién podemos comparar la distribución de una variable ordinal según otra variable ordinal o categórica."
   },
   {
+    "objectID": "C2S1.html#la-probabilidad-como-frecuencia-relativa-a-largo-plazo",
+    "href": "C2S1.html#la-probabilidad-como-frecuencia-relativa-a-largo-plazo",
+    "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
+    "section": "La probabilidad como frecuencia relativa a largo plazo",
+    "text": "La probabilidad como frecuencia relativa a largo plazo\nEn situaciones sencillas, el proceso es completamente conocido y la probabilidad puede estimarse de forma intuitiva. Imaginemos un escenario básico: un dado de seis caras numeradas del 1 al 6, y el objetivo es calcular la probabilidad de obtener un 3 al lanzarlo."
+  },
+  {
+    "objectID": "C2S1.html#distribuciones-de-probabilidad",
+    "href": "C2S1.html#distribuciones-de-probabilidad",
+    "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
+    "section": "Distribuciones de probabilidad",
+    "text": "Distribuciones de probabilidad\nA medida que realizamos estos lanzamientos del dado y analizamos los resultados, hemos visto que los resultados pueden variar. Sin embargo, con suficientes lanzamientos, empezamos a notar ciertos patrones. En el caso de los dados, por ejemplo, la distribución teórica es uniforme, lo que significa que cada evento (cada cara del dado) tiene la misma probabilidad de ocurrir. Esto es lo que esperamos en un dado justo: que a lo largo de muchos lanzamientos, cada número salga aproximadamente la misma cantidad de veces. Lo mismo ocurre cuando lanzamos una moneda o sacamos una carta de un mazo: cada resultado tiene la misma probabilidad de ocurrencia. A este tipo de distribución la llamamos distribución uniforme, y básicamente indica que, a largo plazo, todos los eventos tienen la misma probabilidad de aparecer."
+  },
+  {
+    "objectID": "C2S1.html#la-distribución-normal-en-detalle",
+    "href": "C2S1.html#la-distribución-normal-en-detalle",
+    "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
+    "section": "La distribución normal en detalle",
+    "text": "La distribución normal en detalle\nSi nos vamos a embarcar en la inferencia, sin lugar a duda la distribución más importante es la distribución normal y por ello merece su propio apartado en donde describamos sus características.\nSu forma es simétrica y tiene apariencia de campana. Esta distribución se define por dos parámetros clave: la media (\\(\\mu\\)) y la desviación estándar (\\(\\sigma\\)). La media es el valor central donde la mayor parte de los datos se agrupan, mientras que la desviación estándar mide qué tan dispersos están los datos alrededor de la media."
+  },
+  {
+    "objectID": "C2S1.html#funciones-para-distribuciones-de-probabilidad",
+    "href": "C2S1.html#funciones-para-distribuciones-de-probabilidad",
+    "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
+    "section": "Funciones para distribuciones de probabilidad",
+    "text": "Funciones para distribuciones de probabilidad\nCuando realizamos análisis estadístico, es común trabajar con estas distribuciones de probabilidad. Al fin y al cabo, estas distribuciones buscan modelar fenómenos reales, como la altura de las personas, el número de clientes que llegan a un restaurante o el número de éxitos en una serie de intentos. Las funciones dxxx, pxxx, qxxx y rxxx en R permiten explorar estas distribuciones, cada una respondiendo a preguntas estadísticas fundamentales:"
+  },
+  {
+    "objectID": "C2S1.html#probabilidades-y-valor-z",
+    "href": "C2S1.html#probabilidades-y-valor-z",
+    "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
+    "section": "Probabilidades y valor z",
+    "text": "Probabilidades y valor z\nEn una distribución normal, la probabilidad de que un valor caiga en un cierto rango está representada por el área bajo la curva. Por ejemplo, la probabilidad de que un valor esté por debajo de la media es del 50%, ya que la curva normal es simétrica alrededor de la media."
+  },
+  {
+    "objectID": "C2S1.html#distribución-muestral",
+    "href": "C2S1.html#distribución-muestral",
+    "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
+    "section": "Distribución muestral",
+    "text": "Distribución muestral\nPerfecto, ahora que ya entendemos las bases de la probabilidad y la distribución normal, es momento de ponernos manos a la obra y ver como podemos integrarlo en la inferencia.\nRecuerdas que vimos en el curso anterior que cuando extraemos una muestra de una población, calculamos resúmenes numéricos como la media, la desviación estándar o la proporción, que nos dan información sobre el comportamiento de nuestras variables. Sin embargo, como nuestras muestras representan solo una fracción de la población, es natural que las métricas obtenidas de diferentes muestras varíen. Debemos ser capaces de poder representar esa variación, para ello tenemos la distribución muestral: se refiere a la distribución de un estadístico (por ejemplo, la media o la proporción) calculado a partir de múltiples muestras extraídas de la misma población."
+  },
+  {
+    "objectID": "C2S1.html#teorema-del-límite-central",
+    "href": "C2S1.html#teorema-del-límite-central",
+    "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
+    "section": "Teorema del límite central",
+    "text": "Teorema del límite central\nExacto, lo que estamos observando es un fenómeno descrito por el Teorema del Límite Central (TLC). Este teorema afirma que, si tomamos suficientes muestras grandes de una población, la distribución de sus medias tenderá a ser aproximadamente normal, independientemente de la forma de la distribución original de los datos."
+  },
+  {
+    "objectID": "C2S1.html#flor-y-el-uso-de-las-redes-sociales",
+    "href": "C2S1.html#flor-y-el-uso-de-las-redes-sociales",
+    "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
+    "section": "Flor y el uso de las redes sociales",
+    "text": "Flor y el uso de las redes sociales\nFlor está interesada en analizar cuántas horas a la semana dedica un peruano adulto al uso de redes sociales. Para llevar a cabo este análisis, utilizó los resultados de una encuesta aplicada a 2000 personas, cuyos datos se encuentran en un archivo llamado internet.csv."
+  },
+  {
+    "objectID": "C2S1.html#resumen-del-capítulo",
+    "href": "C2S1.html#resumen-del-capítulo",
+    "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
+    "section": "Resumen del capítulo",
+    "text": "Resumen del capítulo\nLa inferencia estadística permite ir más allá del análisis descriptivo y realizar generalizaciones sobre una población a partir de una muestra. Esto se logra aplicando la probabilidad para modelar la incertidumbre en los datos y predecir comportamientos futuros. La probabilidad puede entenderse como una proporción que mide la frecuencia esperada de un evento en relación con el total de posibles resultados. Por ejemplo, en un lanzamiento de moneda, la probabilidad de obtener cara es \\(\\frac{1}{2}\\), lo que equivale al 50%."
+  },
+  {
+    "objectID": "C2S1.html#ejercicios",
+    "href": "C2S1.html#ejercicios",
+    "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n1. Se lanza un dado justo de seis caras. Queremos calcular la probabilidad de obtener un número mayor a 4 en un solo lanzamiento. ¿Cuál es la probabilidad de este evento?\n\n\\(\\frac{4}{6}\\) (0.6667)\n\n\\(\\frac{2}{6}\\) (0.3333)\n\n\\(\\frac{1}{6}\\) (0.1667)\n\n\\(\\frac{3}{6}\\) (0.5000)"
+  },
+  {
     "objectID": "S1.html#variables-numéricas",
     "href": "S1.html#variables-numéricas",
     "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
@@ -221,7 +319,7 @@
     "href": "S1.html#funciones",
     "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
     "section": "Funciones",
-    "text": "Funciones\nAnteriormente mencionamos que R es un lenguaje de programación que nos permite comunicarnos con la computadora para que esta realice tareas utilizando nuestros datos (input) y nos devuelva un resultado (output). Para que estas tareas se lleven a cabo, primero debemos indicarle a la computadora cómo hacerlo, y estas indicaciones se dan a través de funciones. Las funciones son instrucciones representadas por palabras seguidas de paréntesis, que le dicen a R que ejecute una acción específica."
+    "text": "Funciones\nAnteriormente mencionamos que R es un lenguaje de programación que nos permite comunicarnos con la computadora para que esta realice tareas utilizando nuestros datos (input) y nos devuelva un resultado (output). Para que estas tareas se lleven a cabo, primero debemos indicarle a la computadora cómo hacerlo, y estas indicaciones se dan a través de funciones. Las funciones son instrucciones representadas por palabras seguidas de paréntesis, que le dicen a R que ejecute una acción específica."
   },
   {
     "objectID": "S1.html#paquetes",

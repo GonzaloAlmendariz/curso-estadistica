@@ -1,0 +1,1447 @@
+---
+title: "CA_S1"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+# Semana 1
+
+
+```{r}
+4 + 5
+```
+
+```{r}
+variable =  4 + 5
+```
+
+```{r}
+variable
+```
+
+```{r}
+numero = 45
+```
+
+```{r}
+numero
+```
+
+```{r}
+logico_1 = T
+
+logico_2 = F
+```
+
+```{r}
+logico_1
+
+logico_2
+```
+
+```{r}
+primaria = 'Primaria'
+
+secundaria = 'Secundaria'
+
+universidad = 'Universidad'
+```
+
+```{r}
+grados_academicos = c(primaria, secundaria, universidad)
+```
+
+```{r}
+grados_academicos
+```
+
+```{r}
+numeros = c(5, 10, 100, 34.56, 6, 7)
+```
+
+```{r}
+numeros
+```
+
+```{r}
+# Sumar 10, 20 y 30
+sum(c(10, 20, 30, NA), na.rm = T)
+```
+
+```{r}
+round(2.54934, 2)
+```
+
+```{r}
+length(grados_academicos)
+```
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+psych::describe(iris)
+```
+
+```{r}
+numeros = c(1, 2, 3, 4, 5)
+letras = c("a", "b", "c", "d", "e")
+```
+
+```{r}
+numeros
+
+letras
+```
+
+```{r}
+edad = c(25, 30, 35, 
+         40, 28)
+
+genero = c("Femenino", "Masculino", 
+           "Femenino", "Masculino", 
+           "Femenino")
+
+medio_comunicacion = c("Internet", "Televisión", 
+                       "Radio", "Prensa Escrita", 
+                       "Internet")
+
+# Combina los vectores en un data.frame
+encuesta = data.frame(
+  edad = edad, 
+  genero = genero, 
+  med_com = medio_comunicacion
+  )
+```
+
+
+```{r}
+encuesta
+```
+
+```{r}
+encuesta$genero
+```
+
+```{r}
+encuesta_csv = readr::read_csv("encuesta.csv")
+```
+
+```{r}
+encuesta_csv
+```
+
+```{r}
+# Cargamos el paquete readxl
+library(readxl)
+```
+
+```{r}
+encuesta_excel = read_xlsx("encuesta.xlsx")
+```
+
+
+```{r}
+encuesta_excel
+```
+
+```{r}
+# Información estructural básica del tibble
+str(encuesta_csv)
+```
+
+```{r}
+glimpse(encuesta_csv)
+```
+
+```{r}
+# Resumen estadístico de las variables
+summary(encuesta_csv)
+```
+
+```{r}
+# Visualizamos las primeras seis filas
+head(encuesta_csv, 4)
+```
+
+```{r}
+# Visualizamos las últimas seis filas
+tail(encuesta_csv, 1)
+```
+
+```{r}
+# Verificamos las dimensiones del tibble
+dim(encuesta_csv)
+```
+
+```{r}
+# Consultamos los nombres de las columnas
+colnames(encuesta_csv)
+```
+
+
+# Semana 2
+
+```{r}
+datos_problema = read.csv('encuesta_problematica.csv')
+
+datos_problema
+```
+
+
+```{r}
+colnames(datos_problema)
+```
+
+```{r}
+# Cargar el paquete janitor
+library(janitor)
+
+# Estandarizar los nombres de las columnas
+datos_problema = clean_names(datos_problema)
+```
+
+
+
+
+```{r}
+datos_problema
+
+colnames(datos_problema)
+```
+
+
+```{r}
+# Cargamos dplyr
+library(dplyr)
+
+# Número total de filas
+nrow(datos_problema)
+```
+
+
+```{r}
+# Número de filas únicas
+nrow(distinct(datos_problema))
+```
+
+
+```{r}
+sum(duplicated(datos_problema))
+```
+
+```{r}
+datos_problema[, 1:3]
+```
+
+
+```{r}
+datos_problema[duplicated(datos_problema), ]
+```
+
+
+```{r}
+datos_problema =  distinct(datos_problema)
+
+datos_problema
+```
+
+
+```{r}
+# Cargamos el paquete readxl
+library(readxl)
+```
+
+
+```{r}
+# Importamos los datos desde un archivo Excel
+encuesta_excel = read_excel("encuesta.xlsx")
+
+encuesta_excel
+```
+
+
+```{r}
+str(encuesta_excel)
+```
+
+```{r}
+is.na(encuesta_excel$edad)
+```
+
+```{r}
+# Cantidad de valores perdidos 
+sum(is.na(encuesta_excel$edad)) 
+```
+
+
+```{r}
+# Índices de las observaciones con edad faltante
+indices = which(is.na(encuesta_excel$edad))
+```
+
+
+```{r}
+encuesta_excel[indices, ]
+```
+
+
+```{r}
+# Cargamos tidyr
+library(tidyr)
+```
+
+```{r}
+# Eliminamos filas con valores faltantes
+encuesta_limpia = drop_na(encuesta_excel)
+
+encuesta_limpia
+```
+
+
+
+```{r}
+data(airquality)
+str(airquality)
+```
+
+
+```{r}
+dlookr::diagnose(airquality)
+```
+
+
+
+```{r}
+naniar::vis_miss(airquality)
+```
+
+
+```{r}
+library(WDI)
+library(dplyr)
+```
+
+
+```{r}
+df = WDI(
+  country = "all",
+  indicator = c(
+    # A los indicadores les ponemos un nombre más manejable
+    pib_capita = "NY.GDP.PCAP.CD",
+    esp_vida = "SP.DYN.LE00.IN",
+    poblacion = "SP.POP.TOTL"
+  ),
+  start = 2014, end = 2024, extra = T
+)
+```
+
+```{r}
+glimpse(df)
+```
+
+```{r}
+df = df %>% 
+  select(country, year, pib_capita, 
+         esp_vida, poblacion, region, income)
+```
+
+```{r}
+head(unique(df$country), 15)
+```
+
+
+```{r}
+df_paises = df %>%
+  # '!=' significa diferente a...
+  filter(region != "Aggregates") 
+
+unique(df_paises$country) 
+```
+
+```{r}
+agr = df %>%
+  filter(region == "Aggregates") 
+```
+
+
+```{r}
+df_22 = df_paises %>% 
+  filter(year == 2022)
+```
+
+
+```{r}
+df_22 = df %>% 
+  filter(region != "Aggregates" & year == 2022) 
+```
+
+
+```{r}
+df_22 %>% 
+  head()
+```
+
+
+```{r}
+df_22 = df_22 %>% 
+  select(-year)
+
+df_22 %>% 
+  head()
+```
+
+
+```{r}
+mayor_pbi = df_22 %>% 
+  arrange(desc(pib_capita))
+```
+
+```{r}
+df_22 %>% 
+  arrange(pib_capita)
+```
+
+
+```{r}
+df_22 = df_22 %>%
+  mutate(
+    log_pib = log(pib_capita)
+         )
+```
+
+
+
+```{r}
+df_22 %>%
+  reframe(media_pib = mean(pib_capita, na.rm = TRUE))
+```
+
+
+```{r}
+df_22 %>%
+  group_by(region) 
+```
+
+
+```{r}
+df_22 %>%
+  group_by(region) %>%
+  reframe(media_pib = mean(pib_capita, na.rm = TRUE)) %>% 
+  arrange(media_pib)
+```
+
+
+```{r}
+df_22 %>%
+  filter(region == "Europe & Central Asia") %>%      
+  arrange(esp_vida) %>%                        
+  select(country, esp_vida) %>%
+  head(3)
+```
+
+
+```{r}
+df_22 %>%
+  group_by(region) %>%
+  arrange(desc(poblacion), .by_group = TRUE) %>%
+  slice_head(n = 1) %>%
+  select(country, region, poblacion) %>% 
+  arrange(desc(poblacion))
+```
+
+```{r}
+df_22 %>%
+  group_by(region) %>%
+  arrange(desc(poblacion), .by_group = TRUE) %>%
+  slice_tail(n = 1) %>%
+  select(country, region, poblacion) %>% 
+  arrange(desc(poblacion))
+```
+
+
+
+
+```{r}
+library(ggplot2)
+```
+
+
+```{r}
+ggplot(df_22)
+```
+
+```{r}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point()
+```
+
+```{r}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+```{r}
+ggplot(df_22, aes(x = pib_capita, 
+                  y = esp_vida, 
+                  color = region)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+```{r}
+ggplot(df_22, aes(x = pib_capita, 
+                  y = esp_vida, 
+                  color = region)) +
+  geom_point() +
+  scale_x_log10() +
+  labs(title = "Relación entre PIB per cápita y Esperanza de Vida",
+       x = "PIB per cápita (log)",
+       y = "Esperanza de vida",
+       color = "Región")
+```
+
+```{r}
+grafico = ggplot(df_22, aes(x = pib_capita, 
+                  y = esp_vida, 
+                  color = region)) +
+  geom_point() +
+  scale_x_log10() +
+  labs(title = "Relación entre PIB per cápita y Esperanza de Vida",
+       x = "PIB per cápita (escala logarítmica)",
+       y = "Esperanza de Vida",
+       color = "Región") +
+  facet_wrap(~ region) +
+  theme(legend.position = "none")  
+```
+
+
+```{r}
+df_22 %>% 
+  filter(region %in% c("North America", "Latin America & Caribbean")) %>% 
+ggplot(aes(x = pib_capita, 
+                  y = esp_vida, 
+                  color = region)) +
+  geom_point() +
+  scale_x_log10() +
+  labs(title = "Relación entre PIB per cápita y Esperanza de Vida",
+       x = "PIB per cápita (escala logarítmica)",
+       y = "Esperanza de Vida",
+       color = "Región") +
+  facet_wrap(~ region) +
+  theme(legend.position = "none")  
+```
+
+
+```{r}
+grafico + 
+  theme_bw()+
+  theme(legend.position = "none")
+```
+
+
+
+```{r}
+df_22 %>% 
+  filter(esp_vida > 30) %>% 
+ggplot(aes(x = esp_vida)) +
+  geom_histogram(binwidth = 1, 
+                 fill = "skyblue", 
+                 color = "black") +
+  labs(title = "Distribución de la esperanza de vida",
+       x = "Esperanza de vida",
+       y = "Frecuencia") +
+  theme_minimal()
+```
+
+
+```{r}
+df %>%
+  filter(region != "Aggregates") %>% 
+  group_by(year, region) %>%
+  reframe(esp_vida_media = mean(esp_vida, na.rm = TRUE)) %>%
+  ggplot(aes(x = year, y = esp_vida_media, color = region)) +
+  geom_line(size = 1) +
+  labs(title = "Evolución de la esperanza de vida por región",
+       x = "Año",
+       y = "Esperanza de vida (promedio)",
+       color = "Región") +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+
+```{r}
+df_22 %>% 
+  ggplot(aes(x = region, y = esp_vida, fill = region)) +
+  geom_boxplot() +
+  labs(title = "Distribución de la esperanza de vida por región",
+       x = "Región",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+```{r}
+df_22 %>%
+  ggplot(aes(x = region, fill = region)) +
+  geom_bar() +
+  labs(
+    title = "Frecuencia de observaciones por región",
+    x = "Región",
+    y = "Frecuencia"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  coord_flip()
+```
+
+```{r}
+df_22 %>%
+  group_by(region) %>%
+  reframe(vida_media = mean(esp_vida, na.rm = TRUE)) %>%
+  ggplot(aes(x = reorder(region, vida_media), 
+             y = vida_media, fill = region)) +
+  geom_col() +
+  labs(title = "Esperanza de vida promedio en 2022",
+       x = "Región",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  coord_flip()
+```
+
+
+```{r}
+df_22 = df_22 %>%
+  filter(income != "Not classified") %>%
+  mutate(income = forcats::fct_relevel(income,
+                                       "Low income",
+                                       "Lower middle income",
+                                       "Upper middle income",
+                                       "High income"))
+```
+
+```{r}
+df_22 %>% 
+  ggplot(aes(x = region, fill = income)) +
+  geom_bar(position = "fill") +
+  labs(title = "Distribución proporcional de ingresos por región",
+       x = "Región",
+       y = "Proporción",
+       fill = "Tipo de ingreso") +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent)
+```
+
+
+```{r}
+df_22 %>%
+  ggplot(aes(x = income, y = esp_vida, fill = income)) +
+  geom_boxplot() +
+  labs(title = "Distribución de la esperanza de vida por tipo de ingreso",
+       x = "Tipo de ingreso",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+```{r}
+df_22 %>%
+  ggplot(aes(x = income, y = esp_vida, fill = income)) +
+  geom_violin(trim = FALSE, alpha = 0.7) +
+  labs(title = "Distribución de la esperanza de vida por tipo de ingreso",
+       x = "Tipo de ingreso",
+       y = "Esperanza de vida") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+
+```{r}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  labs(x = "PIB per cápita (log10)", y = "Esperanza de vida") +
+  theme_minimal()
+```
+
+
+```{r}
+ggplot(df_22, aes(x = pib_capita, y = esp_vida)) +
+  geom_point(alpha = 0.6) +
+  scale_x_log10() +
+  geom_smooth(method = "lm", se = F, color = "red") +
+  labs(x = "PIB per cápita (log10)", y = "Esperanza de vida") +
+  theme_minimal()
+```
+
+
+```{r}
+library(tidyverse)
+library(gapminder)
+
+gapminder_2007 = gapminder %>% 
+  filter(year == 2007) %>%
+    mutate(continent = as.factor(continent))
+```
+
+```{r}
+library(dlookr)
+```
+
+
+```{r}
+mean(gapminder_2007$lifeExp, na.rm = T)
+```
+
+
+```{r}
+median(gapminder_2007$lifeExp, na.rm = T)
+```
+
+
+```{r}
+max(gapminder_2007$lifeExp) - min(gapminder_2007$lifeExp)
+```
+
+
+```{r}
+range(gapminder_2007$lifeExp)
+```
+
+
+```{r}
+var(gapminder_2007$lifeExp)
+```
+
+
+```{r}
+sqrt(var(gapminder_2007$lifeExp))
+```
+
+```{r}
+sd(gapminder_2007$lifeExp)
+```
+
+
+```{r}
+quantile(gapminder_2007$lifeExp)
+```
+
+```{r}
+IQR(gapminder_2007$lifeExp)
+```
+
+```{r}
+quantile(gapminder_2007$lifeExp, c(0.2, 0.4, 0.6, 0.8))
+```
+
+
+```{r}
+dlookr::skewness(gapminder_2007$lifeExp)
+```
+
+```{r}
+gapminder_2007 %>% 
+  ggplot(aes(x = lifeExp)) +
+  geom_density()
+```
+
+
+```{r}
+kurtosis(gapminder_2007$lifeExp)
+```
+
+
+```{r}
+gapminder_mod = gapminder_2007 %>%
+  mutate(nivel_esp = cut(lifeExp,
+                         breaks = c(0, 65, 80, Inf),
+                         labels = c("bajo", "medio", "alto")))  %>% 
+  select(country, continent, lifeExp, nivel_esp)
+
+head(gapminder_mod)
+```
+
+```{r}
+table(gapminder_mod$nivel_esp)
+```
+
+```{r}
+prop.table(table(gapminder_mod$nivel_esp))
+```
+
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = lifeExp)) +  
+  geom_histogram(
+    # Color de relleno del histograma 
+    fill = '#2ecc71',  
+    # Color de los bordes de las barras
+    color = 'black',   
+    # Ancho de las barras del histograma
+    binwidth = 5) +  
+  labs(title = 'Distribución de la esperanza de vida (2007)',  
+       x = 'Esperanza de vida',  
+       y = 'Frecuencia') +  
+  theme_minimal() 
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = lifeExp)) +  
+  geom_histogram(
+    # Color de relleno del histograma 
+    fill = '#2ecc71',  
+    # Color de los bordes de las barras
+    color = 'black',   
+    # Ancho de las barras del histograma
+    binwidth = 1) +  
+  labs(title = 'Distribución de la esperanza de vida (2007)',  
+       x = 'Esperanza de vida',  
+       y = 'Frecuencia') +  
+  theme_minimal()  
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = lifeExp, y = 1)) +  
+  geom_boxplot(
+    # Color de relleno del boxplot 
+    fill = '#2ecc71',  
+    # Color de los bordes del boxplot
+    color = 'black') +  
+  labs(title = 'Distribución de la esperanza de vida mundial (2007)',  
+       x = 'Continente',  
+       y = 'Esperanza de vida') +  
+  theme_minimal() 
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = lifeExp, 
+             y = continent)) +
+  geom_boxplot(fill = '#2ecc71', 
+               color = 'black') +
+  labs(title = 'Distribución de la esperanza de vida por continente (2007)',
+       x = 'Continente',
+       y = 'Esperanza de vida') +
+  theme_minimal()
+```
+
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap), 
+             y = lifeExp)) +
+  geom_point(color = '#2ecc71') +
+  labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',
+       x = 'PIB per cápita',
+       y = 'Esperanza de vida') +
+  theme_minimal()
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap), 
+             y = lifeExp)) +
+  geom_point(
+    # Color de los puntos (verde claro)
+    color = '#2ecc71',  
+    # Tamaño de los puntos
+    size = 0.5) +  
+  labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',
+       x = 'PIB per cápita',
+       y = 'Esperanza de vida') +
+  theme_minimal() 
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap),  
+             y = lifeExp)) +
+  geom_point(
+    # Color de los puntos (verde claro)
+    color = '#2ecc71',  
+    # Tamaño de los puntos
+    size = 3,  
+    # Transparencia de los puntos (valor entre 0 y 1)
+    alpha = 0.7) +  
+  labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',  
+       x = 'PIB per cápita',  
+       y = 'Esperanza de vida') +  
+  theme_minimal() 
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap),  
+             y = lifeExp,
+              size = pop,  )) +  
+  geom_point(
+    # Color de los puntos
+    color = '#2ecc71',  
+    # Tamaño de los puntos
+    # Transparencia de los puntos (entre 0 y 1)
+    alpha = 0.8,  
+    # Forma de los puntos (17 es el símbolo de un triángulo)
+    shape = 16) +  
+  labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',  
+       x = 'PIB per cápita',  
+       y = 'Esperanza de vida') +  
+  theme_minimal()  
+```
+
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap), 
+             y = lifeExp, 
+             # Asigna un color diferente a cada continente
+             color = continent)) +
+  geom_point() +
+  labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',
+       x = 'PIB per cápita',
+       y = 'Esperanza de vida',
+       color = 'Continente') +
+  theme_minimal()
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap), 
+             y = lifeExp, 
+             # El tamaño de los puntos se asigna según la población
+             size = pop,
+             color = continent)) +
+  geom_point() +
+  labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',
+       x = 'PIB per cápita',
+       y = 'Esperanza de vida',
+       color = 'Continente') +
+  theme_minimal()
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap), 
+             y = lifeExp, 
+             # Se asigna la transparencia según el logaritmo de la población
+             alpha = log(pop))) +
+  geom_point(size = 3) +
+  labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',
+       x = 'PIB per cápita',
+       y = 'Esperanza de vida',
+       color = 'Continente') +
+  theme_minimal()
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap), 
+             y = lifeExp, 
+             shape = continent)) +
+  geom_point() +
+  labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',
+       x = 'PIB per cápita',
+       y = 'Esperanza de vida',
+       color = 'Continente') +
+  theme_minimal()
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap),  
+             y = lifeExp,  
+             # Asigna colores según el continente
+             color = continent,  
+             # Asigna el tamaño de los puntos según la población
+             size = pop)) +  
+  # Establece la transparencia de los puntos
+  geom_point(alpha = 0.6,   
+  # Forma de los puntos (19 corresponde a círculos sólidos)          
+              shape = 19) +  
+  labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',  
+       x = 'PIB per cápita',  # Etiqueta del eje X
+       y = 'Esperanza de vida',  # Etiqueta del eje Y
+       color = 'Continente') +  # Leyenda para los colores, correspondiente al continente
+  scale_color_manual(values = c("Asia" = "#2471a3", # Asigna color azul a Asia
+                               "Europe" = "#229954", # Asigna color verde a Europa
+                               "Africa" = "#a93226", # Asigna color rojo a África
+                               "Americas" = "#884ea0", # Asigna color morado a las Américas
+                               "Oceania" = "#d4ac0d")) + # Asigna color amarillo a Oceanía
+  # Establece el rango del tamaño de los puntos entre 1 y 20
+  scale_size_continuous(range = c(1, 20),  
+  # Define puntos de ruptura para los tamaños (1M, 100M, 1B)                      
+                        breaks = c(1e6, 1e8, 1e9),  
+  # Etiquetas de los tamaños (1 millón, 100 millones, 1 mil millones) 
+                       labels = c("1M","100M", "1B")) +  
+  theme_minimal()  
+```
+
+
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap), y = lifeExp, color = continent)) +
+    geom_point(alpha = 0.6, shape = 15, size = 3) +  # Mantener el tamaño fijo y más pequeño
+    labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',
+         x = 'PIB per cápita',
+         y = 'Esperanza de vida',
+         color = 'Continente') +
+    scale_color_manual(values = c("Asia" = "#2471a3",    
+                                  "Europe" = "#229954", 
+                                  "Africa" = "#a93226", 
+                                  "Americas" = "#884ea0", 
+                                  "Oceania" = "#d4ac0d")) + 
+    theme_minimal()
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = log(gdpPercap), y = lifeExp, size = pop)) +
+    geom_point(alpha = 0.6, color = '#229954') +
+    labs(title = 'Relación entre PIB per cápita y esperanza de vida (2007)',
+         x = 'PIB per cápita',
+         y = 'Esperanza de vida',
+         color = 'Continente')  + 
+  scale_size_continuous(range = c(1, 20),             
+                          breaks = c(1e6, 1e8, 1e9),  
+                          labels = c("1M","100M", "1000M")) + 
+  theme_minimal()
+```
+
+```{r}
+gapminder_2007 = gapminder_2007 %>%
+  mutate(nivel = cut(lifeExp, 
+                                breaks = c(0, 50, 70, Inf), 
+                                labels = c("Baja", "Media", "Alta")))
+```
+
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = nivel)) +
+  geom_bar(fill = '#884ea0', color = 'black') +
+  labs(title = 'Distribución de países por esperanza de vida (2007)',
+       x = 'Nivel de Esperanza de Vida',
+       y = 'Cantidad de países') +
+  theme_minimal()
+```
+
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = nivel, fill = nivel)) +
+  geom_bar(color = 'black') +
+  labs(title = 'Distribución de países por esperanza de vida (2007)',
+       x = 'Nivel de Esperanza de Vida',
+       y = 'Cantidad de países',
+       fill = 'Niveles') +
+  theme_minimal()
+```
+
+```{r}
+gapminder_2007 %>%
+  ggplot(aes(x = nivel, fill = nivel)) +
+  geom_bar(color = 'black') +
+  labs(title = 'Distribución de países por esperanza de vida (2007)',
+       x = '',
+       y = 'Cantidad de países',
+       fill = 'Niveles') +
+  theme_minimal() +
+  facet_wrap(~continent)
+```
+
+```{r}
+library(patchwork)
+```
+
+```{r}
+g1 = gapminder_2007 %>% 
+  ggplot(aes(x = lifeExp)) +
+  geom_histogram(fill = '#884ea0', color = "black") +
+  theme_minimal()
+```
+
+```{r}
+g2 = gapminder_2007 %>% 
+  ggplot(aes(x = lifeExp, y = 1)) +
+  geom_boxplot(fill = '#884ea0', color = "black") +
+  theme_minimal()
+```
+
+```{r}
+g1 / g2
+```
+
+
+
+
+```{r}
+str(gapminder_2007)
+```
+
+```{r}
+glimpse(gapminder_2007)
+```
+
+
+```{r}
+resumen = dlookr::describe(gapminder_2007)
+```
+
+
+```{r}
+colnames(describe(gapminder_2007))
+```
+
+```{r}
+describe(gapminder_2007)[c("described_variables", "n", "mean", "sd", "IQR", 
+                           "skewness", "kurtosis", "p50")]
+```
+
+```{r}
+gapminder %>% 
+  describe() %>% 
+  select(described_variables, mean, p25, p50, p75)
+```
+
+
+```{r}
+univar_category(gapminder_2007)
+```
+
+```{r}
+library(skimr)
+```
+
+
+```{r}
+resumen = gapminder_2007 %>%
+  select(-pop) %>%  
+  skim()
+```
+
+
+```{r}
+gapminder_2007 = gapminder_2007 %>% 
+  mutate(nivel = factor(gapminder_2007$nivel,
+                        ordered = T))
+```
+
+```{r}
+str(gapminder_2007)
+```
+
+```{r}
+resumen %>%
+  select(skim_variable, skim_type)
+```
+
+
+```{r}
+resumen %>%
+  filter(skim_type == "numeric") %>%
+  select(
+    skim_variable,
+    numeric.mean,
+    numeric.sd,
+    numeric.p25,
+    numeric.p50,
+    numeric.p75
+  )
+```
+
+
+```{r}
+resumen %>%
+  filter(skim_type == "factor") %>%
+  select(
+    skim_variable,
+    factor.ordered,
+    factor.n_unique,
+    factor.top_counts
+  )
+```
+
+
+```{r}
+gapminder_2007 %>% 
+  diagnose_numeric()
+```
+
+```{r}
+gapminder_2007 %>% 
+  plot_hist_numeric()
+```
+
+```{r}
+gapminder_2007 %>% 
+  plot_box_numeric()
+```
+
+
+```{r}
+plot = gapminder_2007 %>% 
+  select(-country) %>% 
+  plot_bar_category()
+```
+
+```{r}
+class(plot)
+```
+
+```{r}
+gapminder_2007 = gapminder_2007 %>% 
+  select(-year)
+```
+
+```{r}
+correlate(gapminder_2007)
+```
+
+
+```{r}
+plot_correlate(gapminder_2007)
+```
+
+
+```{r}
+tabla_cont = gapminder_2007 %>%
+  count(continent, nivel)
+
+tabla_cont
+```
+
+```{r}
+tabla_contingencia = table(gapminder_2007$continent, gapminder_2007$nivel)
+
+
+tabla_contingencia
+```
+
+
+```{r}
+tabla_proporciones = prop.table(tabla_contingencia)  
+
+tabla_proporciones
+```
+
+
+```{r}
+# Carga paquetes necesarios
+library(readr) # Importación
+library(dplyr)    # Para manipulación de datos
+library(ggplot2)  # Para visualización de datos
+library(dlookr)   # Para EDA 
+```
+
+```{r}
+# Importa la base de datos 
+latb2023 = read_csv("latb2023.csv")
+```
+
+```{r}
+# Filtra datos de Perú y selecciona variables clave
+confianza = latb2023 %>%
+  # Filtra solo las respuestas de Perú (Código 604)
+  filter(IDENPA == 604) %>%  
+         # Variables sociodemográficas
+  select(SEXO, EDAD,        
+         # Confianza en instituciones
+         P13STGBS.A:P13ST.I,
+         # Variables económicas
+         P5STGBS, P6STGBS,  
+        # Opinión sobre democracia y progreso del país
+         P11STGBS.A, P2ST)  
+```
+
+```{r}
+glimpse(confianza)
+```
+
+```{r}
+# Renombra variables de confianza en instituciones
+confianza = confianza %>%
+  rename(
+    confianza_ejercito = P13STGBS.A,
+    confianza_policia = P13STGBS.B,
+    confianza_iglesia = P13ST.C,
+    confianza_congreso = P13ST.D,
+    confianza_gobierno = P13ST.E,
+    confianza_judicial = P13ST.F,
+    confianza_partidos = P13ST.G,
+    confianza_electoral = P13ST.H,
+    confianza_presidente = P13ST.I
+  )
+```
+
+```{r}
+# Renombra variables de percepción económica
+confianza = confianza %>%
+  rename(
+    situacion_economica = P5STGBS,    
+    economia_vs_anterior = P6STGBS    
+  )
+
+# Renombra variables de percepción política
+confianza = confianza %>%
+  rename(
+    satisfaccion_democracia = P11STGBS.A,  
+    percepcion_progreso = P2ST             
+  )
+
+# Renombra variables sociodemográficas
+confianza = confianza %>%
+  rename(
+    sexo = SEXO,  
+    edad = EDAD     
+  )
+```
+
+
+
+```{r}
+dim(confianza)
+
+# Elimina valores NA
+confianza = confianza %>%
+  drop_na()
+
+dim(confianza)
+```
+
+
+```{r}
+# Resumen estadístico de confianza en instituciones
+confianza %>% 
+# Selecciona las variables de confianza  
+  select(starts_with("confianza_")) %>% 
+  describe() %>% 
+  select(described_variables, mean, p50, sd, skewness, kurtosis) %>% 
+# Los ordena por orden de confianza
+    arrange(mean)
+```
+
+
+```{r}
+# Histograma de confianza en la Iglesia
+ggplot(confianza, aes(x = confianza_iglesia)) +
+  geom_bar(fill = "#1F618D", 
+           color = "black") +
+  labs(title = "Distribución de confianza en la Iglesia", 
+       x = "Nivel de confianza", 
+       y = "Frecuencia") +
+  theme_minimal()
+```
+
+```{r}
+# Histograma de confianza en el Congreso
+ggplot(confianza, aes(x = confianza_congreso)) +
+  geom_bar(fill = "#1F618D", 
+           color = "black") +
+  labs(title = "Distribución de confianza en el Congreso", 
+       x = "Nivel de confianza", 
+       y = "Frecuencia") +
+  theme_minimal()
+```
+
+
+```{r}
+ggplot(confianza, aes(x = confianza_congreso)) +
+  geom_bar(fill = "#1F618D", 
+           color = "black") +
+    geom_text(stat = "count",
+    aes(
+      label = ifelse(after_stat(count) == 0, "", percent(after_stat(count / sum(count)), accuracy = 1)),
+      y     = after_stat(count)
+    ),
+    vjust = -0.35,
+    size  = 4
+  ) +
+  labs(title = "Distribución de confianza en el Congreso", 
+       x = "Nivel de confianza", 
+       y = "Frecuencia") +
+  theme_minimal()
+```
+
+
+```{r}
+confianza %>%
+  # Agrupa por satisfacción con la democracia
+  group_by(satisfaccion_democracia) %>%  
+  # Calcula la media de confianza en el Gobierno
+  reframe(media_confianza_gobierno = 
+            mean(confianza_gobierno))  
+```
+
+
+```{r}
+ggplot(confianza, aes(x = satisfaccion_democracia, 
+                      y = confianza_gobierno, 
+                      # Usa colores diferentes para cada nivel de satisfacción
+                      fill = as.factor(satisfaccion_democracia))) +  
+  # Representa la media de confianza en el Gobierno como barras
+  geom_bar(stat = "summary", fun = "mean") +  
+  # Escala de satisfacción 
+  scale_fill_manual(values = 
+                      c("#2ECC71", "#ABEBC6", "#E67E22", "#C0392B")) +  
+  labs(title = "Confianza en el Gobierno según Satisfacción con la Democracia", 
+       x = "Satisfacción con la Democracia", 
+       y = "Confianza") +
+  theme_minimal() +  
+  # Elimina la leyenda para evitar redundancia
+  theme(legend.position = "none")  
+```
+
+```{r}
+confianza %>%
+  group_by(situacion_economica) %>%
+  reframe(media_confianza_congreso = 
+            mean(confianza_congreso))
+```
+
+
+```{r}
+df_stack <- confianza %>%
+  filter(!is.na(confianza_congreso), !is.na(situacion_economica)) %>%
+  count(confianza_congreso, situacion_economica) %>%
+  group_by(confianza_congreso) %>%
+  mutate(pct = n / sum(n)) %>%
+  ungroup()
+
+ggplot(df_stack, aes(x = as.factor(confianza_congreso),
+                     y = n,
+                      fill = as.factor(situacion_economica))) +
+  # Usa "fill" para apilar las barras proporcionalmente
+  geom_col(position = "fill") + 
+    geom_text(
+    aes(label = percent(pct, accuracy = 1)),
+    position = position_fill(vjust = 0.5),
+    color = "white",
+    size = 3.5
+  ) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +  
+  scale_fill_manual(values = 
+                       # Verde a rojo
+                       c("#2ECC71", "#ABEBC6", "#F1C40F", "#E67E22", "#C0392B")) +  
+  labs(title = "Confianza en el Congreso según Situación Económica",
+       x = "Confianza en el Congreso",
+       y = "Proporción",
+       fill = "Situación Económica") +
+  theme_minimal()
+```
+
+```{r}
+confianza %>% 
+  select(confianza_gobierno) %>% 
+  describe() %>% 
+  select(described_variables, mean, p50, sd) 
+```
+
