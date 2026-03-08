@@ -6,7 +6,31 @@
 
   <div class="deck-footer">
     <div class="deck-footer-left">
-      <div class="deck-pill" id="deckUnit">Unidad</div>
+      <div class="deck-nav-shell">
+        <div class="deck-menu" id="deckMenu">
+          <button
+            class="deck-pill deck-pill-button"
+            id="deckSectionButton"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="deckSectionMenu"
+          >
+            <span class="deck-pill-label" id="deckSectionLabel">Sección</span>
+            <span class="deck-pill-icon" aria-hidden="true">▾</span>
+          </button>
+
+          <div
+            class="deck-menu-panel"
+            id="deckSectionMenu"
+            role="menu"
+            aria-label="Navegación por secciones"
+            hidden
+          ></div>
+        </div>
+
+        <a class="deck-home-button" href="index.html">Índice</a>
+      </div>
     </div>
 
     <div class="deck-footer-right">

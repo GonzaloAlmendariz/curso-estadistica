@@ -119,97 +119,6 @@
     "text": "Gráfico de barras apilado o de posición\nCuando ambas variables son categóricas.\n\nggplot(df_22, aes(x = income, fill = region)) +\n  geom_bar(position = \"fill\") +\n  labs(x = \"Nivel de ingreso\", y = \"Proporción\", fill = \"Región\") +\n  theme_minimal()"
   },
   {
-    "objectID": "C2S2.html#estimación",
-    "href": "C2S2.html#estimación",
-    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
-    "section": "Estimación",
-    "text": "Estimación\nLa estimación es el proceso mediante el cual intentamos aproximarnos al verdadero valor de un parámetro poblacional, como la media o la proporción, utilizando los estadísticos de una muestra. Dado que rara vez es posible observar a toda la población, la estimación nos permite hacer inferencias sobre sus características con base en una parte representativa de ella, la muestra. Gracias al Teorema del Límite Central, sabemos que, aunque los estadísticos obtenidos en distintas muestras pueden variar, con una muestra suficientemente grande, estos tienden a aproximarse al parámetro poblacional, siguiendo una distribución normal. Esta propiedad es fundamental en la estadística inferencial, ya que nos permite no solo obtener una estimación del parámetro desconocido, sino también medir la incertidumbre asociada a dicha estimación."
-  },
-  {
-    "objectID": "C2S2.html#contraste-de-hipótesis",
-    "href": "C2S2.html#contraste-de-hipótesis",
-    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
-    "section": "Contraste de hipótesis",
-    "text": "Contraste de hipótesis\nEl contraste de hipótesis es una herramienta estadística que nos permite decidir si un resultado observado en una muestra nos da suficiente evidencia para apoyar una afirmación sobre una población. Existen varias pruebas pero se caracterizan por ser todas un proceso organizado que nos ayuda a diferenciar entre resultados que podrían ocurrir solo por variación aleatoria y aquellos que son lo suficientemente inusuales como para indicar un efecto real.\nAunque existen diversas pruebas, todas siguen un proceso estructurado y sistemático diseñado para diferenciar entre resultados que podrían ocurrir únicamente por variación aleatoria y aquellos que son estadísticamente significativos, es decir, lo suficientemente inusuales como para sugerir la presencia de un patrón o efecto real en la población."
-  },
-  {
-    "objectID": "C2S2.html#supuestos-en-la-inferencia",
-    "href": "C2S2.html#supuestos-en-la-inferencia",
-    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
-    "section": "Supuestos en la inferencia",
-    "text": "Supuestos en la inferencia\nTodo esto suena muy bien, pero cuidado: Hacer inferencia estadística implica asumir ciertos supuestos sobre los datos y la forma en que fueron recolectados. Estos supuestos no son simples formalidades, sino condiciones necesarias para que los métodos sean válidos y los resultados confiables. Si alguno de estos supuestos no se cumple, las conclusiones pueden ser erróneas o, peor aún, engañosas."
-  },
-  {
-    "objectID": "C2S2.html#resumen-del-capítulo",
-    "href": "C2S2.html#resumen-del-capítulo",
-    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
-    "section": "Resumen del capítulo",
-    "text": "Resumen del capítulo\nLa estadística inferencial permite hacer estimaciones y contrastes sobre una población a partir de muestras. Su fundamento es el Teorema del Límite Central, que establece que, al tomar múltiples muestras de una población, la distribución de sus estadísticos se aproximará a una normal conforme el tamaño de la muestra sea suficientemente grande."
-  },
-  {
-    "objectID": "C2S2.html#ejercicios",
-    "href": "C2S2.html#ejercicios",
-    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
-    "section": "Ejercicios",
-    "text": "Ejercicios"
-  },
-  {
-    "objectID": "S4.html#tipos-de-variables",
-    "href": "S4.html#tipos-de-variables",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Tipos de variables",
-    "text": "Tipos de variables\n\nresumen %&gt;%\n  select(skim_variable, skim_type)\n\n# A tibble: 11 × 2\n   skim_variable           skim_type\n   &lt;chr&gt;                   &lt;chr&gt;    \n 1 peso                    numeric  \n 2 edad                    numeric  \n 3 sexo                    numeric  \n 4 percepcion_progreso     numeric  \n 5 situacion_economica     numeric  \n 6 economia_vs_anterior    numeric  \n 7 satisfaccion_democracia numeric  \n 8 confianza_iglesia       numeric  \n 9 confianza_congreso      numeric  \n10 confianza_gobierno      numeric  \n11 confianza_partidos      numeric"
-  },
-  {
-    "objectID": "S4.html#valores-faltantes",
-    "href": "S4.html#valores-faltantes",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Valores faltantes",
-    "text": "Valores faltantes\nSe identifican variables con mayor cantidad de faltantes.\n\nresumen %&gt;%\n  select(skim_variable, n_missing, complete_rate) %&gt;%\n  arrange(desc(n_missing))\n\n# A tibble: 11 × 3\n   skim_variable           n_missing complete_rate\n   &lt;chr&gt;                       &lt;int&gt;         &lt;dbl&gt;\n 1 economia_vs_anterior          448         0.627\n 2 situacion_economica           225         0.812\n 3 satisfaccion_democracia        16         0.987\n 4 confianza_iglesia              11         0.991\n 5 confianza_gobierno              7         0.994\n 6 confianza_congreso              6         0.995\n 7 percepcion_progreso             4         0.997\n 8 confianza_partidos              4         0.997\n 9 sexo                            0         1    \n10 peso                            0         1    \n11 edad                            0         1"
-  },
-  {
-    "objectID": "S4.html#limpieza-mínima-para-el-bloque-analizado",
-    "href": "S4.html#limpieza-mínima-para-el-bloque-analizado",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Limpieza mínima para el bloque analizado",
-    "text": "Limpieza mínima para el bloque analizado\nEn reportes descriptivos por bloques, una práctica estándar es crear una versión “cc” (complete cases) solo para las variables relevantes.\n\n# Crea una versión solo con casos completos\n# para variables clave del bloque bivariado\nconfianza_cc = confianza %&gt;%\n  drop_na(confianza_congreso, satisfaccion_democracia, sexo, edad)\n\n\n# Compara tamaños (antes/después)\ndim(confianza)\n\n[1] 1200   11\n\ndim(confianza_cc)\n\n[1] 1180   11"
-  },
-  {
-    "objectID": "S4.html#variables-numéricas",
-    "href": "S4.html#variables-numéricas",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Variables numéricas",
-    "text": "Variables numéricas\n\n# Se filtran numéricas y se seleccionan estadísticas clave\nresumen %&gt;%\n  filter(skim_type == \"numeric\") %&gt;%\n  select(skim_variable, numeric.mean, numeric.sd, numeric.p25, \n         numeric.p50, numeric.p75, numeric.hist)\n\n# A tibble: 2 × 7\n  skim_variable numeric.mean numeric.sd numeric.p25 numeric.p50 numeric.p75\n  &lt;chr&gt;                &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;\n1 peso                   1          0             1           1         1  \n2 edad                  39.6       16.0          26          38        51.2\n# ℹ 1 more variable: numeric.hist &lt;chr&gt;"
-  },
-  {
-    "objectID": "S4.html#variables-categóricas",
-    "href": "S4.html#variables-categóricas",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Variables categóricas",
-    "text": "Variables categóricas\n\nresumen %&gt;%\n  filter(skim_type %in% c(\"factor\")) %&gt;%\n  select(skim_variable, factor.n_unique, factor.top_counts)\n\n# A tibble: 9 × 3\n  skim_variable           factor.n_unique factor.top_counts                     \n  &lt;chr&gt;                             &lt;int&gt; &lt;chr&gt;                                 \n1 sexo                                  2 Hom: 600, Muj: 600                    \n2 percepcion_progreso                   3 Sin: 692, Ret: 409, Pro: 95, No : 0   \n3 situacion_economica                   4 Mal: 485, Muy: 401, Bue: 78, Muy: 11  \n4 economia_vs_anterior                  4 No : 393, Peo: 218, Igu: 121, Mej: 20 \n5 satisfaccion_democracia               4 Poc: 577, Nad: 512, Bas: 49, Muy: 46  \n6 confianza_iglesia                     4 Muc: 396, Alg: 316, Poc: 296, Nin: 181\n7 confianza_congreso                    4 Nin: 842, Poc: 292, Alg: 47, Muc: 13  \n8 confianza_gobierno                    4 Nin: 745, Poc: 337, Alg: 93, Muc: 18  \n9 confianza_partidos                    4 Nin: 790, Poc: 313, Alg: 70, Muc: 23"
-  },
-  {
-    "objectID": "S4.html#distribución-simple",
-    "href": "S4.html#distribución-simple",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Distribución simple",
-    "text": "Distribución simple\nEl gráfico de barras es la forma más directa de representar la distribución de una variable ordinal, ya que muestra cuántas observaciones se concentran en cada nivel.\n\nggplot(confianza_cc, aes(x = confianza_congreso)) +\n  geom_bar(fill = \"#1F4E79\", color = \"black\") +\n  labs(\n    title = \"Distribución de la confianza en el Congreso\",\n    x = \"Nivel de confianza\",\n    y = \"Frecuencia\"\n  ) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "S4.html#distribución-relativa",
-    "href": "S4.html#distribución-relativa",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Distribución relativa",
-    "text": "Distribución relativa\nEn reportes descriptivos, las proporciones suelen ser más informativas que las frecuencias absolutas, especialmente cuando se comparan subgrupos.\nEste gráfico responde a la pregunta:\n\n¿Qué porcentaje de la muestra se ubica en cada nivel de confianza?"
-  },
-  {
-    "objectID": "S4.html#comparación-por-grupo",
-    "href": "S4.html#comparación-por-grupo",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Comparación por grupo",
-    "text": "Comparación por grupo\nTambién podemos comparar la distribución de una variable ordinal según otra variable ordinal o categórica."
-  },
-  {
     "objectID": "C2S1.html#la-probabilidad-como-frecuencia-relativa-a-largo-plazo",
     "href": "C2S1.html#la-probabilidad-como-frecuencia-relativa-a-largo-plazo",
     "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
@@ -278,6 +187,153 @@
     "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
     "section": "Ejercicios",
     "text": "Ejercicios\n1. Se lanza un dado justo de seis caras. Queremos calcular la probabilidad de obtener un número mayor a 4 en un solo lanzamiento. ¿Cuál es la probabilidad de este evento?\n\n\\(\\frac{4}{6}\\) (0.6667)\n\n\\(\\frac{2}{6}\\) (0.3333)\n\n\\(\\frac{1}{6}\\) (0.1667)\n\n\\(\\frac{3}{6}\\) (0.5000)"
+  },
+  {
+    "objectID": "S4.html#tipos-de-variables",
+    "href": "S4.html#tipos-de-variables",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Tipos de variables",
+    "text": "Tipos de variables\n\nresumen %&gt;%\n  select(skim_variable, skim_type)\n\n# A tibble: 11 × 2\n   skim_variable           skim_type\n   &lt;chr&gt;                   &lt;chr&gt;    \n 1 peso                    numeric  \n 2 edad                    numeric  \n 3 sexo                    numeric  \n 4 percepcion_progreso     numeric  \n 5 situacion_economica     numeric  \n 6 economia_vs_anterior    numeric  \n 7 satisfaccion_democracia numeric  \n 8 confianza_iglesia       numeric  \n 9 confianza_congreso      numeric  \n10 confianza_gobierno      numeric  \n11 confianza_partidos      numeric"
+  },
+  {
+    "objectID": "S4.html#valores-faltantes",
+    "href": "S4.html#valores-faltantes",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Valores faltantes",
+    "text": "Valores faltantes\nSe identifican variables con mayor cantidad de faltantes.\n\nresumen %&gt;%\n  select(skim_variable, n_missing, complete_rate) %&gt;%\n  arrange(desc(n_missing))\n\n# A tibble: 11 × 3\n   skim_variable           n_missing complete_rate\n   &lt;chr&gt;                       &lt;int&gt;         &lt;dbl&gt;\n 1 economia_vs_anterior          448         0.627\n 2 situacion_economica           225         0.812\n 3 satisfaccion_democracia        16         0.987\n 4 confianza_iglesia              11         0.991\n 5 confianza_gobierno              7         0.994\n 6 confianza_congreso              6         0.995\n 7 percepcion_progreso             4         0.997\n 8 confianza_partidos              4         0.997\n 9 sexo                            0         1    \n10 peso                            0         1    \n11 edad                            0         1"
+  },
+  {
+    "objectID": "S4.html#limpieza-mínima-para-el-bloque-analizado",
+    "href": "S4.html#limpieza-mínima-para-el-bloque-analizado",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Limpieza mínima para el bloque analizado",
+    "text": "Limpieza mínima para el bloque analizado\nEn reportes descriptivos por bloques, una práctica estándar es crear una versión “cc” (complete cases) solo para las variables relevantes.\n\n# Crea una versión solo con casos completos\n# para variables clave del bloque bivariado\nconfianza_cc = confianza %&gt;%\n  drop_na(confianza_congreso, satisfaccion_democracia, sexo, edad)\n\n\n# Compara tamaños (antes/después)\ndim(confianza)\n\n[1] 1200   11\n\ndim(confianza_cc)\n\n[1] 1180   11"
+  },
+  {
+    "objectID": "S4.html#variables-numéricas",
+    "href": "S4.html#variables-numéricas",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Variables numéricas",
+    "text": "Variables numéricas\n\n# Se filtran numéricas y se seleccionan estadísticas clave\nresumen %&gt;%\n  filter(skim_type == \"numeric\") %&gt;%\n  select(skim_variable, numeric.mean, numeric.sd, numeric.p25, \n         numeric.p50, numeric.p75, numeric.hist)\n\n# A tibble: 2 × 7\n  skim_variable numeric.mean numeric.sd numeric.p25 numeric.p50 numeric.p75\n  &lt;chr&gt;                &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;\n1 peso                   1          0             1           1         1  \n2 edad                  39.6       16.0          26          38        51.2\n# ℹ 1 more variable: numeric.hist &lt;chr&gt;"
+  },
+  {
+    "objectID": "S4.html#variables-categóricas",
+    "href": "S4.html#variables-categóricas",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Variables categóricas",
+    "text": "Variables categóricas\n\nresumen %&gt;%\n  filter(skim_type %in% c(\"factor\")) %&gt;%\n  select(skim_variable, factor.n_unique, factor.top_counts)\n\n# A tibble: 9 × 3\n  skim_variable           factor.n_unique factor.top_counts                     \n  &lt;chr&gt;                             &lt;int&gt; &lt;chr&gt;                                 \n1 sexo                                  2 Hom: 600, Muj: 600                    \n2 percepcion_progreso                   3 Sin: 692, Ret: 409, Pro: 95, No : 0   \n3 situacion_economica                   4 Mal: 485, Muy: 401, Bue: 78, Muy: 11  \n4 economia_vs_anterior                  4 No : 393, Peo: 218, Igu: 121, Mej: 20 \n5 satisfaccion_democracia               4 Poc: 577, Nad: 512, Bas: 49, Muy: 46  \n6 confianza_iglesia                     4 Muc: 396, Alg: 316, Poc: 296, Nin: 181\n7 confianza_congreso                    4 Nin: 842, Poc: 292, Alg: 47, Muc: 13  \n8 confianza_gobierno                    4 Nin: 745, Poc: 337, Alg: 93, Muc: 18  \n9 confianza_partidos                    4 Nin: 790, Poc: 313, Alg: 70, Muc: 23"
+  },
+  {
+    "objectID": "S4.html#distribución-simple",
+    "href": "S4.html#distribución-simple",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Distribución simple",
+    "text": "Distribución simple\nEl gráfico de barras es la forma más directa de representar la distribución de una variable ordinal, ya que muestra cuántas observaciones se concentran en cada nivel.\n\nggplot(confianza_cc, aes(x = confianza_congreso)) +\n  geom_bar(fill = \"#1F4E79\", color = \"black\") +\n  labs(\n    title = \"Distribución de la confianza en el Congreso\",\n    x = \"Nivel de confianza\",\n    y = \"Frecuencia\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "S4.html#distribución-relativa",
+    "href": "S4.html#distribución-relativa",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Distribución relativa",
+    "text": "Distribución relativa\nEn reportes descriptivos, las proporciones suelen ser más informativas que las frecuencias absolutas, especialmente cuando se comparan subgrupos.\nEste gráfico responde a la pregunta:\n\n¿Qué porcentaje de la muestra se ubica en cada nivel de confianza?"
+  },
+  {
+    "objectID": "S4.html#comparación-por-grupo",
+    "href": "S4.html#comparación-por-grupo",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Comparación por grupo",
+    "text": "Comparación por grupo\nTambién podemos comparar la distribución de una variable ordinal según otra variable ordinal o categórica."
+  },
+  {
+    "objectID": "C2S2.html#estimación",
+    "href": "C2S2.html#estimación",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Estimación",
+    "text": "Estimación\nLa estimación es el proceso mediante el cual intentamos aproximarnos al verdadero valor de un parámetro poblacional, como la media o la proporción, utilizando los estadísticos de una muestra. Dado que rara vez es posible observar a toda la población, la estimación nos permite hacer inferencias sobre sus características con base en una parte representativa de ella, la muestra. Gracias al Teorema del Límite Central, sabemos que, aunque los estadísticos obtenidos en distintas muestras pueden variar, con una muestra suficientemente grande, estos tienden a aproximarse al parámetro poblacional, siguiendo una distribución normal. Esta propiedad es fundamental en la estadística inferencial, ya que nos permite no solo obtener una estimación del parámetro desconocido, sino también medir la incertidumbre asociada a dicha estimación."
+  },
+  {
+    "objectID": "C2S2.html#contraste-de-hipótesis",
+    "href": "C2S2.html#contraste-de-hipótesis",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Contraste de hipótesis",
+    "text": "Contraste de hipótesis\nEl contraste de hipótesis es una herramienta estadística que nos permite decidir si un resultado observado en una muestra nos da suficiente evidencia para apoyar una afirmación sobre una población. Existen varias pruebas pero se caracterizan por ser todas un proceso organizado que nos ayuda a diferenciar entre resultados que podrían ocurrir solo por variación aleatoria y aquellos que son lo suficientemente inusuales como para indicar un efecto real.\nAunque existen diversas pruebas, todas siguen un proceso estructurado y sistemático diseñado para diferenciar entre resultados que podrían ocurrir únicamente por variación aleatoria y aquellos que son estadísticamente significativos, es decir, lo suficientemente inusuales como para sugerir la presencia de un patrón o efecto real en la población."
+  },
+  {
+    "objectID": "C2S2.html#supuestos-en-la-inferencia",
+    "href": "C2S2.html#supuestos-en-la-inferencia",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Supuestos en la inferencia",
+    "text": "Supuestos en la inferencia\nTodo esto suena muy bien, pero cuidado: Hacer inferencia estadística implica asumir ciertos supuestos sobre los datos y la forma en que fueron recolectados. Estos supuestos no son simples formalidades, sino condiciones necesarias para que los métodos sean válidos y los resultados confiables. Si alguno de estos supuestos no se cumple, las conclusiones pueden ser erróneas o, peor aún, engañosas."
+  },
+  {
+    "objectID": "C2S2.html#resumen-del-capítulo",
+    "href": "C2S2.html#resumen-del-capítulo",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Resumen del capítulo",
+    "text": "Resumen del capítulo\nLa estadística inferencial permite hacer estimaciones y contrastes sobre una población a partir de muestras. Su fundamento es el Teorema del Límite Central, que establece que, al tomar múltiples muestras de una población, la distribución de sus estadísticos se aproximará a una normal conforme el tamaño de la muestra sea suficientemente grande."
+  },
+  {
+    "objectID": "C2S2.html#ejercicios",
+    "href": "C2S2.html#ejercicios",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Ejercicios",
+    "text": "Ejercicios"
+  },
+  {
+    "objectID": "C2S3.html#comparación-entre-dos-medias",
+    "href": "C2S3.html#comparación-entre-dos-medias",
+    "title": "Semana 3: Comparación entre grupos",
+    "section": "Comparación entre dos medias",
+    "text": "Comparación entre dos medias\nFlor está investigando si existen diferencias en el tiempo de ocio semanal entre hombres y mujeres. Para ello, ha recolectado información sobre la cantidad de horas que cada persona dedica al ocio en una semana y desea comparar las medias de ambos grupos.\n\nocio = read_csv('horas_ocio.csv')"
+  },
+  {
+    "objectID": "C2S3.html#comparación-entre-proporciones",
+    "href": "C2S3.html#comparación-entre-proporciones",
+    "title": "Semana 3: Comparación entre grupos",
+    "section": "Comparación entre proporciones",
+    "text": "Comparación entre proporciones\nCuando trabajamos con variables cualitativas o categóricas, como el género, la preferencia electoral o la afiliación política, las comparaciones entre dos grupos se centran en analizar las proporciones asociadas a cada categoría. En lugar de comparar medias como en el caos anterior, aquí nos interesa evaluar si la proporción de individuos que pertenecen a una categoría específica difiere entre los grupos."
+  },
+  {
+    "objectID": "C2S3.html#comparaciones-de-dos-grupos-relacionados",
+    "href": "C2S3.html#comparaciones-de-dos-grupos-relacionados",
+    "title": "Semana 3: Comparación entre grupos",
+    "section": "Comparaciones de dos grupos relacionados",
+    "text": "Comparaciones de dos grupos relacionados\nImagina que Flor ahora está interesada en si existe una diferencia en el rendimiento de un grupo de estudiantes antes y después de una intervención educativa. Para ello, ha recopilado datos sobre el puntaje de los mismos estudiantes antes y después del programa, permitiendo analizar si hubo una mejora significativa en sus resultados.\nEste es un caso de muestras relacionadas o pareadas, ya que cada observación en la primera condición (antes de la intervención) tiene una relación directa con una observación en la segunda condición (después de la intervención). A diferencia de la comparación entre grupos independientes, aquí no estamos viendo si dos poblaciones son distintas, sino si hay un cambio dentro de la misma población en dos momentos distintos."
+  },
+  {
+    "objectID": "C2S3.html#comparación-de-múltiples-grupos",
+    "href": "C2S3.html#comparación-de-múltiples-grupos",
+    "title": "Semana 3: Comparación entre grupos",
+    "section": "Comparación de múltiples grupos",
+    "text": "Comparación de múltiples grupos\nPerfecto, ya sabemos que cuando queremos comparar dos grupos, utilizamos pruebas como el t-test para evaluar si hay diferencias significativas en sus medias. Pero, ¿qué sucede cuando tenemos más de dos grupos?"
+  },
+  {
+    "objectID": "C2S3.html#supuestos",
+    "href": "C2S3.html#supuestos",
+    "title": "Semana 3: Comparación entre grupos",
+    "section": "Supuestos",
+    "text": "Supuestos\nLos supuestos de estos tipos de pruebas guardan estrecha similitud con las pruebas para una muestra o proporción, con algunos ajustes necesarios:\nMuestreo Aleatorio e Independencia de las Observaciones\nEn la comparación de grupos, el supuesto de muestreo aleatorio y la independencia de las observaciones sigue siendo importante. Es necesario garantizar que las observaciones dentro de cada grupo sean independientes, lo que significa que el valor de una observación no debe influir en el valor de otra dentro del mismo grupo. Además, debe asegurarse que los grupos sean independientes entre sí, es decir, que no haya influencia o relación directa entre las muestras de los grupos comparados. En el ejemplo del estudio de zonas rurales y urbanas, es importante verificar que los participantes de una zona no pertenezcan o tengan algún tipo de relación con la otra (por ejemplo, alguien que vive en zona rural pero trabaja en zona urbana). La falta de independencia puede sesgar los resultados y hacer que las inferencias no sean confiables."
+  },
+  {
+    "objectID": "C2S3.html#pruebas-no-paramétricas",
+    "href": "C2S3.html#pruebas-no-paramétricas",
+    "title": "Semana 3: Comparación entre grupos",
+    "section": "Pruebas no paramétricas",
+    "text": "Pruebas no paramétricas\nYa vimos que cuando la prueba de normalidad no se cumple o cuando las varianzas son muy desiguales, las pruebas paramétricas como el t-test, el z-test de proporciones o el ANOVA pueden generar resultados poco confiables. En estos casos, podemos recurrir a pruebas no paramétricas, que son más flexibles y robustas frente a distribuciones desconocidas, datos asimétricos o la presencia de valores atípicos.\nLas pruebas no paramétricas no requieren que los datos sigan una distribución normal, y en lugar de trabajar directamente con los valores originales, suelen basarse en rangos, conteos o permutaciones para evaluar diferencias entre grupos o muestras. Estas pruebas son especialmente útiles en estudios con muestras pequeñas, donde la normalidad no puede asumirse con certeza."
+  },
+  {
+    "objectID": "C2S3.html#resumen-del-capítulo",
+    "href": "C2S3.html#resumen-del-capítulo",
+    "title": "Semana 3: Comparación entre grupos",
+    "section": "Resumen del capítulo",
+    "text": "Resumen del capítulo\nEn las ciencias sociales, la comparación entre grupos permite identificar patrones y diferencias en fenómenos de interés. Para ello, se analizan variables cuantitativas (como medias) y cualitativas (como proporciones), siempre considerando si la relación observada es significativa o producto del azar.\nCuando se comparan dos grupos, se diferencian la variable explicativa (criterio de clasificación) y la variable respuesta (lo que se mide). Dependiendo del tipo de variable respuesta, se aplican distintas herramientas estadísticas.\nEn el caso de comparación de medias, se utilizan intervalos de confianza y pruebas t para evaluar diferencias significativas. La estimación del error estándar permite cuantificar la variabilidad en la diferencia de medias, y el contraste de hipótesis determina si esta diferencia es estadísticamente relevante."
+  },
+  {
+    "objectID": "C2S3.html#ejercicios",
+    "href": "C2S3.html#ejercicios",
+    "title": "Semana 3: Comparación entre grupos",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n1: Un investigador realiza una prueba \\(t\\) de Student para comparar dos grupos y obtiene un valor de \\(t = 2.5\\). Sabiendo que el valor crítico para un nivel de significancia de \\(\\alpha = 0.05\\) es \\(t_\\text{crítrico} = 2.0\\), ¿cuál es la conclusión correcta?\n\nNo podemos concluir nada sin conocer los grados de libertad.\nSe acepta la hipótesis nula porque el valor crítico es menor.\nSe rechaza la hipótesis nula porque el valor de ( t ) supera el valor crítico.\nEl valor crítico indica que la diferencia entre grupos no es significativa."
   },
   {
     "objectID": "S1.html#variables-numéricas",

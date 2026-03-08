@@ -5,9 +5,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-
-
-
 ```{r}
 set.seed(123)
 
@@ -20,7 +17,6 @@ lanzamientos_10
 ```{r}
 sum(lanzamientos_10 == 3) / 10
 ```
-
 
 ```{r}
 set.seed(123)
@@ -35,7 +31,6 @@ lanzamientos_100
 sum(lanzamientos_100 == 3) / 100
 ```
 
-
 ```{r}
 set.seed(123)
 
@@ -48,6 +43,130 @@ lanzamientos_10000
 ```{r}
 sum(lanzamientos_10000 == 3) / 10000
 ```
+
+```{r}
+pnorm(mean = 170, sd = 14, q = 140)
+```
+
+```{r}
+1 - pnorm(mean = 170, sd = 14, q = 140)
+```
+
+```{r}
+pnorm(mean = 170, sd = 14, q = 160) - pnorm(mean = 170, sd = 14, q =150)
+```
+
+```{r}
+pnorm(mean = 170, sd = 14, q = 190) - pnorm(mean = 170, sd = 14, q =180)
+```
+
+```{r}
+qnorm(mean = 170, sd = 14, p = 0.9)
+```
+
+```{r}
+qnorm(mean = 170, sd = 14, p = 0.2)
+```
+
+```{r}
+set.seed(123)
+
+rnorm(mean = 170, sd = 14, n = 10)
+```
+
+```{r}
+hist(normal)
+```
+
+```{r}
+dnorm(mean = 170, sd = 14, x = 180)
+```
+
+```{r}
+dnorm(mean = 170, sd = 14, x = 170)
+```
+
+```{r}
+qnorm(mean = 170, sd = 14, p = 0.025)
+```
+
+```{r}
+qnorm(mean = 170, sd = 14, p = 0.975)
+```
+
+```{r}
+qnorm(mean = 0, sd = 1, p = 0.025)
+```
+
+```{r}
+qnorm(mean = 0, sd = 1, p = 0.975)
+```
+
+```{r}
+qnorm(mean = 0, sd = 1, p = 0.0015)
+```
+
+```{r}
+qnorm(mean = 0, sd = 1, p = 0.165)
+```
+
+```{r}
+pnorm(mean = 150, sd = 20, q = 90)
+
+```
+
+```{r}
+pnorm(mean = 175, sd = 10, q = 165)
+```
+
+```{r}
+qnorm(mean = 175, sd = 10, p = 0.95)
+```
+
+```{r}
+sd = 5.84
+
+mu = 21.75
+
+n = 2000
+```
+
+```{r}
+ee = sd / sqrt(n)
+```
+
+```{r}
+ee
+```
+
+```{r}
+qnorm(p = 0.005)
+```
+
+```{r}
+qnorm(p = 0.995)
+```
+
+```{r}
+qnorm(p = 0.025)
+```
+
+```{r}
+qt(p = .025, df = 400)
+```
+
+
+
+```{r}
+qnorm(p = 0.05)
+```
+
+
+
+```{r}
+t.test()
+```
+
 
 
 
