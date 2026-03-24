@@ -14,6 +14,7 @@ project:
     - C2S1.qmd
     - C2S2.qmd
     - C2S3.qmd
+    - C2S4.qmd
 
 format:
   revealjs:

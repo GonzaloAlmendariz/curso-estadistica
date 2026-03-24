@@ -1,52 +1,136 @@
 [
   {
-    "objectID": "S3.html#resúmenes-numéricos",
-    "href": "S3.html#resúmenes-numéricos",
-    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
-    "section": "Resúmenes numéricos",
-    "text": "Resúmenes numéricos\nSe generan resúmenes numéricos a partir de variables cuantitativas, ya sean continuas o discretas. Estos resúmenes incluyen:\n\nMedidas de tendencia central: Nos indican el valor central o típico en el conjunto de datos.\nMedidas de dispersión: Describen qué tan concentrados o dispersos están los datos en torno a la tendencia central.\nMedidas de posición: Ubican un valor dentro del conjunto de datos en función de su orden\nMedidas de forma: Caracterizan la estructura de la distribución en términos de simetría (asimetría) y concentración (curtosis)."
+    "objectID": "C2S4.html#regresión-lineal-simple",
+    "href": "C2S4.html#regresión-lineal-simple",
+    "title": "Semana 4: Regresión",
+    "section": "Regresión lineal simple",
+    "text": "Regresión lineal simple\n¿Recuerdas nuestro ejemplo sobre la relación entre el PIB per cápita y la esperanza de vida de los países en 2007, basado en el conjunto de datos de Gapminder? En ese análisis, utilizamos un gráfico de dispersión para visualizar la relación entre estas dos variables."
   },
   {
-    "objectID": "S3.html#resúmenes-categóricos",
-    "href": "S3.html#resúmenes-categóricos",
-    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
-    "section": "Resúmenes categóricos",
-    "text": "Resúmenes categóricos\nLas variables categóricas son aquellas que representan grupos o categorías en lugar de valores numéricos. A diferencia de las variables numéricas, que pueden ser descritas mediante medidas como la media o la desviación estándar, las variables categóricas no se prestan a una descripción numérica directa. En lugar de esto, necesitamos utilizar otras técnicas para resumir y entender estas variables."
+    "objectID": "C2S4.html#inferencia-de-coeficientes-para-el-modelo-lineal",
+    "href": "C2S4.html#inferencia-de-coeficientes-para-el-modelo-lineal",
+    "title": "Semana 4: Regresión",
+    "section": "Inferencia de coeficientes para el modelo lineal",
+    "text": "Inferencia de coeficientes para el modelo lineal\nHasta este punto, ya hemos explorado todas las características de un modelo lineal: cómo se ajusta, qué representa y cómo evaluamos su desempeño. Sin embargo, al igual que sucede con los resúmenes estadísticos como la media o la desviación estándar, en la práctica no trabajamos con toda la población, sino con una muestra limitada de datos. Esto significa que el modelo lineal que construimos no es el modelo de la población, sino una estimación basada en los datos a los que tuvimos acceso (la muestra). Y aquí es donde entra en juego la inferencia: lo que nos interesa ahora no es solo ajustar una línea, sino preguntarnos si esa relación entre las dos variables que observamos en la muestra es suficientemente fuerte o consistente como para pensar que también existe en la población completa. En este contexto, la fórmula cambia ligeramente, porque lo que estamos evaluando ya no es solo el modelo ajustado, sino la plausibilidad de esa relación a nivel poblacional.\nEn el caso de la regresión lineal, cuando hablamos del modelo poblacional, la relación entre las variables se expresa de la siguiente manera:"
   },
   {
-    "objectID": "S3.html#gráficos-descriptivos",
-    "href": "S3.html#gráficos-descriptivos",
-    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
-    "section": "Gráficos descriptivos",
-    "text": "Gráficos descriptivos\nLos gráficos descriptivos son herramientas esenciales al momento de realizar un análisis, ya que nos permiten visualizar y comprender de manera más intuitiva los patrones y distribuciones de nuestros datos, tanto numéricos como categóricos. A través de los gráficos, podemos identificar rápidamente tendencias, relaciones y posibles anomalías en los datos que podrían no ser evidentes solo con resúmenes numéricos."
+    "objectID": "C2S4.html#regresión-múltiple",
+    "href": "C2S4.html#regresión-múltiple",
+    "title": "Semana 4: Regresión",
+    "section": "Regresión múltiple",
+    "text": "Regresión múltiple\nComo vimos, la regresión lineal simple busca ajustar un modelo lineal que describa la relación entre una variable respuesta cuantitativa y una sola variable explicativa. Sin embargo, en muchos casos, especialmente en ciencias sociales, esta relación no puede entenderse de forma aislada. La realidad suele estar influida por múltiples factores al mismo tiempo, por lo que se vuelve necesario ampliar el enfoque e incorporar más de una variable explicativa. Esto puede responder a razones teóricas, cuando distintas variables son relevantes para explicar un fenómeno, o a motivaciones analíticas, como explorar mejor la estructura de los datos o evitar interpretaciones sesgadas por omisión de variables importantes."
   },
   {
-    "objectID": "S3.html#análisis-exploratorio-de-datos",
-    "href": "S3.html#análisis-exploratorio-de-datos",
-    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
-    "section": "Análisis exploratorio de datos",
-    "text": "Análisis exploratorio de datos\nEl EDA (Exploratory Data Analysis) es un proceso que integra de forma sistemática todo lo que hemos realizado previamente, como el cálculo de medidas de tendencia central, dispersión, asimetría, curtosis y la visualización de datos a través de gráficos. Es una forma estructurada de explorar los datos para detectar patrones, anomalías y relaciones importantes entre variables, combinando análisis numérico y visual. Tenemos que realizar dos tipos de análisis: en univariado y el bivariado."
+    "objectID": "C2S4.html#un-vistazo-a-otros-modelos-de-regresión",
+    "href": "C2S4.html#un-vistazo-a-otros-modelos-de-regresión",
+    "title": "Semana 4: Regresión",
+    "section": "Un vistazo a otros modelos de regresión",
+    "text": "Un vistazo a otros modelos de regresión\nHasta ahora hemos trabajado con el modelo lineal clásico y sus variaciones: simple, múltiple, con interacción. Hemos aprendido a leer pendientes, interpretar interceptos y evaluar supuestos. Pero también hemos visto que este modelo funciona bajo ciertas condiciones: que la variable respuesta sea continua, que la relación con los predictores sea aproximadamente lineal, y que los errores se comporten de forma razonable. Sin embargo, cuando salimos de los ejemplos didácticos y nos enfrentamos a fenómenos reales, especialmente en las ciencias sociales, esas condiciones se tensan o directamente se rompen. Hay variables que no son continuas, sino categóricas, ordinales, proporciones, conteos. Hay relaciones que no son lineales, sino curvas o de otra naturaleza. Hay fenómenos donde los errores no son normales, y donde la media no es un bien resumen numérico del comportamiento esperado."
   },
   {
-    "objectID": "S3.html#ejemplo-flor-analiza-la-confianza-en-instituciones",
-    "href": "S3.html#ejemplo-flor-analiza-la-confianza-en-instituciones",
-    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
-    "section": "Ejemplo: Flor analiza la confianza en instituciones",
-    "text": "Ejemplo: Flor analiza la confianza en instituciones\nFlor está interesada en comprender cómo la ciudadanía percibe y confía en las instituciones peruanas. Para ello, decide profundizar en los datos de Latinobarómetro 2023. El Latinobarómetro es un estudio de opinión pública que se realiza en 18 países de América Latina, con el objetivo de medir las actitudes, percepciones y comportamientos de la población sobre diversos temas sociales, políticos y económicos."
+    "objectID": "C2S4.html#resumen-del-capítulo",
+    "href": "C2S4.html#resumen-del-capítulo",
+    "title": "Semana 4: Regresión",
+    "section": "Resumen del capítulo",
+    "text": "Resumen del capítulo\nLa regresión es una herramienta estadística que permite modelar la relación entre una variable respuesta cuantitativa y una o más variables explicativas. Su forma más básica es la regresión lineal simple, que asume una relación lineal entre \\(x\\) e \\(y\\), expresada como \\(y = \\alpha + \\beta x\\). Los parámetros del modelo (\\(\\alpha\\) y \\(\\beta\\)) se estiman mediante el método de mínimos cuadrados ordinarios (OLS), que busca minimizar la suma de los errores al cuadrado."
   },
   {
-    "objectID": "S3.html#resumen",
-    "href": "S3.html#resumen",
-    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
-    "section": "Resumen",
-    "text": "Resumen\nLa estadística descriptiva constituye el primer paso para entender los datos y determinar patrones relevantes antes de aplicar técnicas inferenciales o modelos predictivos. En R, este proceso se desarrolla sobre estructuras tabulares como data.frame o tibble, haciendo uso de herramientas del ecosistema tidyverse y funciones adicionales de paquetes como dlookr y skimr."
+    "objectID": "C2S4.html#ejercicios",
+    "href": "C2S4.html#ejercicios",
+    "title": "Semana 4: Regresión",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n1. En un modelo de regresión lineal simple, ¿cuál de las siguientes afirmaciones describe correctamente el significado de la pendiente (\\(\\beta\\))?\n\nEs el valor promedio de la variable respuesta.\n\nEs el valor esperado de \\(y\\) cuando \\(x = 0\\).\n\nEs el cambio promedio en \\(y\\) por cada unidad adicional en \\(x\\).\n\nEs el punto donde la recta cruza el eje \\(x\\)."
   },
   {
-    "objectID": "S3.html#ejercicios",
-    "href": "S3.html#ejercicios",
-    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "objectID": "C2S2.html#estimación",
+    "href": "C2S2.html#estimación",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Estimación",
+    "text": "Estimación\nLa estimación es el proceso mediante el cual intentamos aproximarnos al verdadero valor de un parámetro poblacional, como la media o la proporción, utilizando los estadísticos de una muestra. Dado que rara vez es posible observar a toda la población, la estimación nos permite hacer inferencias sobre sus características con base en una parte representativa de ella, la muestra. Gracias al Teorema del Límite Central, sabemos que, aunque los estadísticos obtenidos en distintas muestras pueden variar, con una muestra suficientemente grande, estos tienden a aproximarse al parámetro poblacional, siguiendo una distribución normal. Esta propiedad es fundamental en la estadística inferencial, ya que nos permite no solo obtener una estimación del parámetro desconocido, sino también medir la incertidumbre asociada a dicha estimación."
+  },
+  {
+    "objectID": "C2S2.html#contraste-de-hipótesis",
+    "href": "C2S2.html#contraste-de-hipótesis",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Contraste de hipótesis",
+    "text": "Contraste de hipótesis\nEl contraste de hipótesis es una herramienta estadística que nos permite decidir si un resultado observado en una muestra nos da suficiente evidencia para apoyar una afirmación sobre una población. Existen varias pruebas pero se caracterizan por ser todas un proceso organizado que nos ayuda a diferenciar entre resultados que podrían ocurrir solo por variación aleatoria y aquellos que son lo suficientemente inusuales como para indicar un efecto real.\nAunque existen diversas pruebas, todas siguen un proceso estructurado y sistemático diseñado para diferenciar entre resultados que podrían ocurrir únicamente por variación aleatoria y aquellos que son estadísticamente significativos, es decir, lo suficientemente inusuales como para sugerir la presencia de un patrón o efecto real en la población."
+  },
+  {
+    "objectID": "C2S2.html#supuestos-en-la-inferencia",
+    "href": "C2S2.html#supuestos-en-la-inferencia",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Supuestos en la inferencia",
+    "text": "Supuestos en la inferencia\nTodo esto suena muy bien, pero cuidado: Hacer inferencia estadística implica asumir ciertos supuestos sobre los datos y la forma en que fueron recolectados. Estos supuestos no son simples formalidades, sino condiciones necesarias para que los métodos sean válidos y los resultados confiables. Si alguno de estos supuestos no se cumple, las conclusiones pueden ser erróneas o, peor aún, engañosas."
+  },
+  {
+    "objectID": "C2S2.html#resumen-del-capítulo",
+    "href": "C2S2.html#resumen-del-capítulo",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
+    "section": "Resumen del capítulo",
+    "text": "Resumen del capítulo\nLa estadística inferencial permite hacer estimaciones y contrastes sobre una población a partir de muestras. Su fundamento es el Teorema del Límite Central, que establece que, al tomar múltiples muestras de una población, la distribución de sus estadísticos se aproximará a una normal conforme el tamaño de la muestra sea suficientemente grande."
+  },
+  {
+    "objectID": "C2S2.html#ejercicios",
+    "href": "C2S2.html#ejercicios",
+    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
     "section": "Ejercicios",
     "text": "Ejercicios"
+  },
+  {
+    "objectID": "S4.html#tipos-de-variables",
+    "href": "S4.html#tipos-de-variables",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Tipos de variables",
+    "text": "Tipos de variables\n\nresumen %&gt;%\n  select(skim_variable, skim_type)\n\n# A tibble: 11 × 2\n   skim_variable           skim_type\n   &lt;chr&gt;                   &lt;chr&gt;    \n 1 peso                    numeric  \n 2 edad                    numeric  \n 3 sexo                    numeric  \n 4 percepcion_progreso     numeric  \n 5 situacion_economica     numeric  \n 6 economia_vs_anterior    numeric  \n 7 satisfaccion_democracia numeric  \n 8 confianza_iglesia       numeric  \n 9 confianza_congreso      numeric  \n10 confianza_gobierno      numeric  \n11 confianza_partidos      numeric"
+  },
+  {
+    "objectID": "S4.html#valores-faltantes",
+    "href": "S4.html#valores-faltantes",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Valores faltantes",
+    "text": "Valores faltantes\nSe identifican variables con mayor cantidad de faltantes.\n\nresumen %&gt;%\n  select(skim_variable, n_missing, complete_rate) %&gt;%\n  arrange(desc(n_missing))\n\n# A tibble: 11 × 3\n   skim_variable           n_missing complete_rate\n   &lt;chr&gt;                       &lt;int&gt;         &lt;dbl&gt;\n 1 economia_vs_anterior          448         0.627\n 2 situacion_economica           225         0.812\n 3 satisfaccion_democracia        16         0.987\n 4 confianza_iglesia              11         0.991\n 5 confianza_gobierno              7         0.994\n 6 confianza_congreso              6         0.995\n 7 percepcion_progreso             4         0.997\n 8 confianza_partidos              4         0.997\n 9 sexo                            0         1    \n10 peso                            0         1    \n11 edad                            0         1"
+  },
+  {
+    "objectID": "S4.html#limpieza-mínima-para-el-bloque-analizado",
+    "href": "S4.html#limpieza-mínima-para-el-bloque-analizado",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Limpieza mínima para el bloque analizado",
+    "text": "Limpieza mínima para el bloque analizado\nEn reportes descriptivos por bloques, una práctica estándar es crear una versión “cc” (complete cases) solo para las variables relevantes.\n\n# Crea una versión solo con casos completos\n# para variables clave del bloque bivariado\nconfianza_cc = confianza %&gt;%\n  drop_na(confianza_congreso, satisfaccion_democracia, sexo, edad)\n\n\n# Compara tamaños (antes/después)\ndim(confianza)\n\n[1] 1200   11\n\ndim(confianza_cc)\n\n[1] 1180   11"
+  },
+  {
+    "objectID": "S4.html#variables-numéricas",
+    "href": "S4.html#variables-numéricas",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Variables numéricas",
+    "text": "Variables numéricas\n\n# Se filtran numéricas y se seleccionan estadísticas clave\nresumen %&gt;%\n  filter(skim_type == \"numeric\") %&gt;%\n  select(skim_variable, numeric.mean, numeric.sd, numeric.p25, \n         numeric.p50, numeric.p75, numeric.hist)\n\n# A tibble: 2 × 7\n  skim_variable numeric.mean numeric.sd numeric.p25 numeric.p50 numeric.p75\n  &lt;chr&gt;                &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;\n1 peso                   1          0             1           1         1  \n2 edad                  39.6       16.0          26          38        51.2\n# ℹ 1 more variable: numeric.hist &lt;chr&gt;"
+  },
+  {
+    "objectID": "S4.html#variables-categóricas",
+    "href": "S4.html#variables-categóricas",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Variables categóricas",
+    "text": "Variables categóricas\n\nresumen %&gt;%\n  filter(skim_type %in% c(\"factor\")) %&gt;%\n  select(skim_variable, factor.n_unique, factor.top_counts)\n\n# A tibble: 9 × 3\n  skim_variable           factor.n_unique factor.top_counts                     \n  &lt;chr&gt;                             &lt;int&gt; &lt;chr&gt;                                 \n1 sexo                                  2 Hom: 600, Muj: 600                    \n2 percepcion_progreso                   3 Sin: 692, Ret: 409, Pro: 95, No : 0   \n3 situacion_economica                   4 Mal: 485, Muy: 401, Bue: 78, Muy: 11  \n4 economia_vs_anterior                  4 No : 393, Peo: 218, Igu: 121, Mej: 20 \n5 satisfaccion_democracia               4 Poc: 577, Nad: 512, Bas: 49, Muy: 46  \n6 confianza_iglesia                     4 Muc: 396, Alg: 316, Poc: 296, Nin: 181\n7 confianza_congreso                    4 Nin: 842, Poc: 292, Alg: 47, Muc: 13  \n8 confianza_gobierno                    4 Nin: 745, Poc: 337, Alg: 93, Muc: 18  \n9 confianza_partidos                    4 Nin: 790, Poc: 313, Alg: 70, Muc: 23"
+  },
+  {
+    "objectID": "S4.html#distribución-simple",
+    "href": "S4.html#distribución-simple",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Distribución simple",
+    "text": "Distribución simple\nEl gráfico de barras es la forma más directa de representar la distribución de una variable ordinal, ya que muestra cuántas observaciones se concentran en cada nivel.\n\nggplot(confianza_cc, aes(x = confianza_congreso)) +\n  geom_bar(fill = \"#1F4E79\", color = \"black\") +\n  labs(\n    title = \"Distribución de la confianza en el Congreso\",\n    x = \"Nivel de confianza\",\n    y = \"Frecuencia\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "S4.html#distribución-relativa",
+    "href": "S4.html#distribución-relativa",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Distribución relativa",
+    "text": "Distribución relativa\nEn reportes descriptivos, las proporciones suelen ser más informativas que las frecuencias absolutas, especialmente cuando se comparan subgrupos.\nEste gráfico responde a la pregunta:\n\n¿Qué porcentaje de la muestra se ubica en cada nivel de confianza?"
+  },
+  {
+    "objectID": "S4.html#comparación-por-grupo",
+    "href": "S4.html#comparación-por-grupo",
+    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
+    "section": "Comparación por grupo",
+    "text": "Comparación por grupo\nTambién podemos comparar la distribución de una variable ordinal según otra variable ordinal o categórica."
   },
   {
     "objectID": "S2.html#limpieza-de-datos",
@@ -119,6 +203,111 @@
     "text": "Gráfico de barras apilado o de posición\nCuando ambas variables son categóricas.\n\nggplot(df_22, aes(x = income, fill = region)) +\n  geom_bar(position = \"fill\") +\n  labs(x = \"Nivel de ingreso\", y = \"Proporción\", fill = \"Región\") +\n  theme_minimal()"
   },
   {
+    "objectID": "S1.html#variables-numéricas",
+    "href": "S1.html#variables-numéricas",
+    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
+    "section": "Variables Numéricas",
+    "text": "Variables Numéricas\nLos datos numéricos se refieren a cualquier tipo de información que puede ser medida y expresada en números. Estos datos pueden ser manipulados matemáticamente y se dividen en dos subcategorías:"
+  },
+  {
+    "objectID": "S1.html#varibles-categóricas",
+    "href": "S1.html#varibles-categóricas",
+    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
+    "section": "Varibles Categóricas",
+    "text": "Varibles Categóricas\nLos datos categóricos se refieren a información que puede ser dividida en grupos distintos, cada uno de los cuales representa una categoría o una cualidad diferente. Estos datos no tienen un valor numérico intrínseco y se dividen en tres subcategorías:"
+  },
+  {
+    "objectID": "S1.html#tipos-de-muestreo",
+    "href": "S1.html#tipos-de-muestreo",
+    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
+    "section": "Tipos de muestreo",
+    "text": "Tipos de muestreo\nUna muestra será representativa si todos los sujetos de la población tienen la misma posibilidad de ser seleccionados y si el tamaño de la muestra refleja adecuadamente las características de la población en términos de la distribución de las variables estudiadas\nEn el muestreo probabilístico, cada individuo de la población tiene una probabilidad conocida y no nula de ser seleccionado. Esto garantiza que la muestra sea representativa y que las conclusiones puedan generalizarse a la población total."
+  },
+  {
+    "objectID": "S1.html#crear-y-configurar-tu-carpeta-de-trabajo",
+    "href": "S1.html#crear-y-configurar-tu-carpeta-de-trabajo",
+    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
+    "section": "Crear y configurar tu carpeta de trabajo",
+    "text": "Crear y configurar tu carpeta de trabajo\n\nCrea una carpeta específica:\n\nEn tu dispositivo, crea una nueva carpeta para tu proyecto (por ejemplo, “MiProyectoR”). Este será el lugar donde guardarás todos los archivos relacionados.\n\nEstablece la carpeta como directorio de trabajo:\n\nEn RStudio, ve al panel Files, ubicado generalmente en la parte inferior derecha.\nPuedes usar el botón New Folder para crear una nueva carpeta si aún no lo has hecho.\nNavega hasta la carpeta que creaste y selecciona More &gt; Set As Working Directory. Esto le dice a RStudio que todos los archivos guardados o abiertos estarán relacionados con esta carpeta. Verás en la consola un mensaje como:\n\n\nsetwd(\"ruta/de/tu/carpeta\")\n\nSetwd viene de Set Working Directory."
+  },
+  {
+    "objectID": "S1.html#crear-un-archivo-de-script",
+    "href": "S1.html#crear-un-archivo-de-script",
+    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
+    "section": "Crear un archivo de script",
+    "text": "Crear un archivo de script\nCuando trabajamos en R, utilizamos diferentes tipos de archivos para organizar y guardar nuestro trabajo. Dos formatos comunes son el archivo R Script y el documento Quarto. Ambos se utilizan para escribir código, pero cumplen propósitos diferentes que es importante entender.\nUn archivo R Script es un archivo simple donde escribimos y guardamos nuestras instrucciones de código. Sirve como un registro de los comandos que ejecutamos, permitiendo reutilizarlos o ajustarlos más adelante. Sin embargo, este tipo de archivo no incluye espacio para explicaciones extensas ni muestra los resultados directamente junto al código."
+  },
+  {
+    "objectID": "S1.html#funciones",
+    "href": "S1.html#funciones",
+    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
+    "section": "Funciones",
+    "text": "Funciones\nAnteriormente mencionamos que R es un lenguaje de programación que nos permite comunicarnos con la computadora para que esta realice tareas utilizando nuestros datos (input) y nos devuelva un resultado (output). Para que estas tareas se lleven a cabo, primero debemos indicarle a la computadora cómo hacerlo, y estas indicaciones se dan a través de funciones. Las funciones son instrucciones representadas por palabras seguidas de paréntesis, que le dicen a R que ejecute una acción específica."
+  },
+  {
+    "objectID": "S1.html#paquetes",
+    "href": "S1.html#paquetes",
+    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
+    "section": "Paquetes",
+    "text": "Paquetes\nEn R, muchas de las cosas que queremos hacer se pueden realizar con “paquetes”. En R, un paquete es generalmente un conjunto de herramientas con funciones específicas para realizar tareas específicas. Existen paquetes para prácticamente todo. Por ejemplo, el paquete dplyr es un paquete ampliamente utilizado para la manipulación de datos como filtrar valores o crear nuevas columnas."
+  },
+  {
+    "objectID": "S1.html#elementos",
+    "href": "S1.html#elementos",
+    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
+    "section": "Elementos",
+    "text": "Elementos\nEn R, los elementos son las unidades básicas que componen los datos. Estos elementos tienen un tipo de dato que define su naturaleza, cómo pueden manipularse y las operaciones que pueden realizarse con ellos. Los tipos de elementos en R están directamente relacionados con los tipos de variables utilizados en análisis estadístico que vimos en el capítulo anterior, como variables numéricas (continuas y discretas), categóricas (nominales y ordinales) y lógicas (binarias)."
+  },
+  {
+    "objectID": "S3.html#resúmenes-numéricos",
+    "href": "S3.html#resúmenes-numéricos",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Resúmenes numéricos",
+    "text": "Resúmenes numéricos\nSe generan resúmenes numéricos a partir de variables cuantitativas, ya sean continuas o discretas. Estos resúmenes incluyen:\n\nMedidas de tendencia central: Nos indican el valor central o típico en el conjunto de datos.\nMedidas de dispersión: Describen qué tan concentrados o dispersos están los datos en torno a la tendencia central.\nMedidas de posición: Ubican un valor dentro del conjunto de datos en función de su orden\nMedidas de forma: Caracterizan la estructura de la distribución en términos de simetría (asimetría) y concentración (curtosis)."
+  },
+  {
+    "objectID": "S3.html#resúmenes-categóricos",
+    "href": "S3.html#resúmenes-categóricos",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Resúmenes categóricos",
+    "text": "Resúmenes categóricos\nLas variables categóricas son aquellas que representan grupos o categorías en lugar de valores numéricos. A diferencia de las variables numéricas, que pueden ser descritas mediante medidas como la media o la desviación estándar, las variables categóricas no se prestan a una descripción numérica directa. En lugar de esto, necesitamos utilizar otras técnicas para resumir y entender estas variables."
+  },
+  {
+    "objectID": "S3.html#gráficos-descriptivos",
+    "href": "S3.html#gráficos-descriptivos",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Gráficos descriptivos",
+    "text": "Gráficos descriptivos\nLos gráficos descriptivos son herramientas esenciales al momento de realizar un análisis, ya que nos permiten visualizar y comprender de manera más intuitiva los patrones y distribuciones de nuestros datos, tanto numéricos como categóricos. A través de los gráficos, podemos identificar rápidamente tendencias, relaciones y posibles anomalías en los datos que podrían no ser evidentes solo con resúmenes numéricos."
+  },
+  {
+    "objectID": "S3.html#análisis-exploratorio-de-datos",
+    "href": "S3.html#análisis-exploratorio-de-datos",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Análisis exploratorio de datos",
+    "text": "Análisis exploratorio de datos\nEl EDA (Exploratory Data Analysis) es un proceso que integra de forma sistemática todo lo que hemos realizado previamente, como el cálculo de medidas de tendencia central, dispersión, asimetría, curtosis y la visualización de datos a través de gráficos. Es una forma estructurada de explorar los datos para detectar patrones, anomalías y relaciones importantes entre variables, combinando análisis numérico y visual. Tenemos que realizar dos tipos de análisis: en univariado y el bivariado."
+  },
+  {
+    "objectID": "S3.html#ejemplo-flor-analiza-la-confianza-en-instituciones",
+    "href": "S3.html#ejemplo-flor-analiza-la-confianza-en-instituciones",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Ejemplo: Flor analiza la confianza en instituciones",
+    "text": "Ejemplo: Flor analiza la confianza en instituciones\nFlor está interesada en comprender cómo la ciudadanía percibe y confía en las instituciones peruanas. Para ello, decide profundizar en los datos de Latinobarómetro 2023. El Latinobarómetro es un estudio de opinión pública que se realiza en 18 países de América Latina, con el objetivo de medir las actitudes, percepciones y comportamientos de la población sobre diversos temas sociales, políticos y económicos."
+  },
+  {
+    "objectID": "S3.html#resumen",
+    "href": "S3.html#resumen",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Resumen",
+    "text": "Resumen\nLa estadística descriptiva constituye el primer paso para entender los datos y determinar patrones relevantes antes de aplicar técnicas inferenciales o modelos predictivos. En R, este proceso se desarrolla sobre estructuras tabulares como data.frame o tibble, haciendo uso de herramientas del ecosistema tidyverse y funciones adicionales de paquetes como dlookr y skimr."
+  },
+  {
+    "objectID": "S3.html#ejercicios",
+    "href": "S3.html#ejercicios",
+    "title": "Semana 3 y 4: Medidas descriptivas y análisis exploratorio",
+    "section": "Ejercicios",
+    "text": "Ejercicios"
+  },
+  {
     "objectID": "C2S1.html#la-probabilidad-como-frecuencia-relativa-a-largo-plazo",
     "href": "C2S1.html#la-probabilidad-como-frecuencia-relativa-a-largo-plazo",
     "title": "Semana 1: Probabilidad y fundamentos de la inferencia estadística",
@@ -189,97 +378,6 @@
     "text": "Ejercicios\n1. Se lanza un dado justo de seis caras. Queremos calcular la probabilidad de obtener un número mayor a 4 en un solo lanzamiento. ¿Cuál es la probabilidad de este evento?\n\n\\(\\frac{4}{6}\\) (0.6667)\n\n\\(\\frac{2}{6}\\) (0.3333)\n\n\\(\\frac{1}{6}\\) (0.1667)\n\n\\(\\frac{3}{6}\\) (0.5000)"
   },
   {
-    "objectID": "S4.html#tipos-de-variables",
-    "href": "S4.html#tipos-de-variables",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Tipos de variables",
-    "text": "Tipos de variables\n\nresumen %&gt;%\n  select(skim_variable, skim_type)\n\n# A tibble: 11 × 2\n   skim_variable           skim_type\n   &lt;chr&gt;                   &lt;chr&gt;    \n 1 peso                    numeric  \n 2 edad                    numeric  \n 3 sexo                    numeric  \n 4 percepcion_progreso     numeric  \n 5 situacion_economica     numeric  \n 6 economia_vs_anterior    numeric  \n 7 satisfaccion_democracia numeric  \n 8 confianza_iglesia       numeric  \n 9 confianza_congreso      numeric  \n10 confianza_gobierno      numeric  \n11 confianza_partidos      numeric"
-  },
-  {
-    "objectID": "S4.html#valores-faltantes",
-    "href": "S4.html#valores-faltantes",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Valores faltantes",
-    "text": "Valores faltantes\nSe identifican variables con mayor cantidad de faltantes.\n\nresumen %&gt;%\n  select(skim_variable, n_missing, complete_rate) %&gt;%\n  arrange(desc(n_missing))\n\n# A tibble: 11 × 3\n   skim_variable           n_missing complete_rate\n   &lt;chr&gt;                       &lt;int&gt;         &lt;dbl&gt;\n 1 economia_vs_anterior          448         0.627\n 2 situacion_economica           225         0.812\n 3 satisfaccion_democracia        16         0.987\n 4 confianza_iglesia              11         0.991\n 5 confianza_gobierno              7         0.994\n 6 confianza_congreso              6         0.995\n 7 percepcion_progreso             4         0.997\n 8 confianza_partidos              4         0.997\n 9 sexo                            0         1    \n10 peso                            0         1    \n11 edad                            0         1"
-  },
-  {
-    "objectID": "S4.html#limpieza-mínima-para-el-bloque-analizado",
-    "href": "S4.html#limpieza-mínima-para-el-bloque-analizado",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Limpieza mínima para el bloque analizado",
-    "text": "Limpieza mínima para el bloque analizado\nEn reportes descriptivos por bloques, una práctica estándar es crear una versión “cc” (complete cases) solo para las variables relevantes.\n\n# Crea una versión solo con casos completos\n# para variables clave del bloque bivariado\nconfianza_cc = confianza %&gt;%\n  drop_na(confianza_congreso, satisfaccion_democracia, sexo, edad)\n\n\n# Compara tamaños (antes/después)\ndim(confianza)\n\n[1] 1200   11\n\ndim(confianza_cc)\n\n[1] 1180   11"
-  },
-  {
-    "objectID": "S4.html#variables-numéricas",
-    "href": "S4.html#variables-numéricas",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Variables numéricas",
-    "text": "Variables numéricas\n\n# Se filtran numéricas y se seleccionan estadísticas clave\nresumen %&gt;%\n  filter(skim_type == \"numeric\") %&gt;%\n  select(skim_variable, numeric.mean, numeric.sd, numeric.p25, \n         numeric.p50, numeric.p75, numeric.hist)\n\n# A tibble: 2 × 7\n  skim_variable numeric.mean numeric.sd numeric.p25 numeric.p50 numeric.p75\n  &lt;chr&gt;                &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;\n1 peso                   1          0             1           1         1  \n2 edad                  39.6       16.0          26          38        51.2\n# ℹ 1 more variable: numeric.hist &lt;chr&gt;"
-  },
-  {
-    "objectID": "S4.html#variables-categóricas",
-    "href": "S4.html#variables-categóricas",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Variables categóricas",
-    "text": "Variables categóricas\n\nresumen %&gt;%\n  filter(skim_type %in% c(\"factor\")) %&gt;%\n  select(skim_variable, factor.n_unique, factor.top_counts)\n\n# A tibble: 9 × 3\n  skim_variable           factor.n_unique factor.top_counts                     \n  &lt;chr&gt;                             &lt;int&gt; &lt;chr&gt;                                 \n1 sexo                                  2 Hom: 600, Muj: 600                    \n2 percepcion_progreso                   3 Sin: 692, Ret: 409, Pro: 95, No : 0   \n3 situacion_economica                   4 Mal: 485, Muy: 401, Bue: 78, Muy: 11  \n4 economia_vs_anterior                  4 No : 393, Peo: 218, Igu: 121, Mej: 20 \n5 satisfaccion_democracia               4 Poc: 577, Nad: 512, Bas: 49, Muy: 46  \n6 confianza_iglesia                     4 Muc: 396, Alg: 316, Poc: 296, Nin: 181\n7 confianza_congreso                    4 Nin: 842, Poc: 292, Alg: 47, Muc: 13  \n8 confianza_gobierno                    4 Nin: 745, Poc: 337, Alg: 93, Muc: 18  \n9 confianza_partidos                    4 Nin: 790, Poc: 313, Alg: 70, Muc: 23"
-  },
-  {
-    "objectID": "S4.html#distribución-simple",
-    "href": "S4.html#distribución-simple",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Distribución simple",
-    "text": "Distribución simple\nEl gráfico de barras es la forma más directa de representar la distribución de una variable ordinal, ya que muestra cuántas observaciones se concentran en cada nivel.\n\nggplot(confianza_cc, aes(x = confianza_congreso)) +\n  geom_bar(fill = \"#1F4E79\", color = \"black\") +\n  labs(\n    title = \"Distribución de la confianza en el Congreso\",\n    x = \"Nivel de confianza\",\n    y = \"Frecuencia\"\n  ) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "S4.html#distribución-relativa",
-    "href": "S4.html#distribución-relativa",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Distribución relativa",
-    "text": "Distribución relativa\nEn reportes descriptivos, las proporciones suelen ser más informativas que las frecuencias absolutas, especialmente cuando se comparan subgrupos.\nEste gráfico responde a la pregunta:\n\n¿Qué porcentaje de la muestra se ubica en cada nivel de confianza?"
-  },
-  {
-    "objectID": "S4.html#comparación-por-grupo",
-    "href": "S4.html#comparación-por-grupo",
-    "title": "Semana 4: Reportes descriptivos, diagnóstico y presentación de resultados",
-    "section": "Comparación por grupo",
-    "text": "Comparación por grupo\nTambién podemos comparar la distribución de una variable ordinal según otra variable ordinal o categórica."
-  },
-  {
-    "objectID": "C2S2.html#estimación",
-    "href": "C2S2.html#estimación",
-    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
-    "section": "Estimación",
-    "text": "Estimación\nLa estimación es el proceso mediante el cual intentamos aproximarnos al verdadero valor de un parámetro poblacional, como la media o la proporción, utilizando los estadísticos de una muestra. Dado que rara vez es posible observar a toda la población, la estimación nos permite hacer inferencias sobre sus características con base en una parte representativa de ella, la muestra. Gracias al Teorema del Límite Central, sabemos que, aunque los estadísticos obtenidos en distintas muestras pueden variar, con una muestra suficientemente grande, estos tienden a aproximarse al parámetro poblacional, siguiendo una distribución normal. Esta propiedad es fundamental en la estadística inferencial, ya que nos permite no solo obtener una estimación del parámetro desconocido, sino también medir la incertidumbre asociada a dicha estimación."
-  },
-  {
-    "objectID": "C2S2.html#contraste-de-hipótesis",
-    "href": "C2S2.html#contraste-de-hipótesis",
-    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
-    "section": "Contraste de hipótesis",
-    "text": "Contraste de hipótesis\nEl contraste de hipótesis es una herramienta estadística que nos permite decidir si un resultado observado en una muestra nos da suficiente evidencia para apoyar una afirmación sobre una población. Existen varias pruebas pero se caracterizan por ser todas un proceso organizado que nos ayuda a diferenciar entre resultados que podrían ocurrir solo por variación aleatoria y aquellos que son lo suficientemente inusuales como para indicar un efecto real.\nAunque existen diversas pruebas, todas siguen un proceso estructurado y sistemático diseñado para diferenciar entre resultados que podrían ocurrir únicamente por variación aleatoria y aquellos que son estadísticamente significativos, es decir, lo suficientemente inusuales como para sugerir la presencia de un patrón o efecto real en la población."
-  },
-  {
-    "objectID": "C2S2.html#supuestos-en-la-inferencia",
-    "href": "C2S2.html#supuestos-en-la-inferencia",
-    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
-    "section": "Supuestos en la inferencia",
-    "text": "Supuestos en la inferencia\nTodo esto suena muy bien, pero cuidado: Hacer inferencia estadística implica asumir ciertos supuestos sobre los datos y la forma en que fueron recolectados. Estos supuestos no son simples formalidades, sino condiciones necesarias para que los métodos sean válidos y los resultados confiables. Si alguno de estos supuestos no se cumple, las conclusiones pueden ser erróneas o, peor aún, engañosas."
-  },
-  {
-    "objectID": "C2S2.html#resumen-del-capítulo",
-    "href": "C2S2.html#resumen-del-capítulo",
-    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
-    "section": "Resumen del capítulo",
-    "text": "Resumen del capítulo\nLa estadística inferencial permite hacer estimaciones y contrastes sobre una población a partir de muestras. Su fundamento es el Teorema del Límite Central, que establece que, al tomar múltiples muestras de una población, la distribución de sus estadísticos se aproximará a una normal conforme el tamaño de la muestra sea suficientemente grande."
-  },
-  {
-    "objectID": "C2S2.html#ejercicios",
-    "href": "C2S2.html#ejercicios",
-    "title": "Semana 2: Comportamiento muestral e inferencia estadística",
-    "section": "Ejercicios",
-    "text": "Ejercicios"
-  },
-  {
     "objectID": "C2S3.html#comparación-entre-dos-medias",
     "href": "C2S3.html#comparación-entre-dos-medias",
     "title": "Semana 3: Comparación entre grupos",
@@ -334,61 +432,5 @@
     "title": "Semana 3: Comparación entre grupos",
     "section": "Ejercicios",
     "text": "Ejercicios\n1: Un investigador realiza una prueba \\(t\\) de Student para comparar dos grupos y obtiene un valor de \\(t = 2.5\\). Sabiendo que el valor crítico para un nivel de significancia de \\(\\alpha = 0.05\\) es \\(t_\\text{crítrico} = 2.0\\), ¿cuál es la conclusión correcta?\n\nNo podemos concluir nada sin conocer los grados de libertad.\nSe acepta la hipótesis nula porque el valor crítico es menor.\nSe rechaza la hipótesis nula porque el valor de ( t ) supera el valor crítico.\nEl valor crítico indica que la diferencia entre grupos no es significativa."
-  },
-  {
-    "objectID": "S1.html#variables-numéricas",
-    "href": "S1.html#variables-numéricas",
-    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
-    "section": "Variables Numéricas",
-    "text": "Variables Numéricas\nLos datos numéricos se refieren a cualquier tipo de información que puede ser medida y expresada en números. Estos datos pueden ser manipulados matemáticamente y se dividen en dos subcategorías:"
-  },
-  {
-    "objectID": "S1.html#varibles-categóricas",
-    "href": "S1.html#varibles-categóricas",
-    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
-    "section": "Varibles Categóricas",
-    "text": "Varibles Categóricas\nLos datos categóricos se refieren a información que puede ser dividida en grupos distintos, cada uno de los cuales representa una categoría o una cualidad diferente. Estos datos no tienen un valor numérico intrínseco y se dividen en tres subcategorías:"
-  },
-  {
-    "objectID": "S1.html#tipos-de-muestreo",
-    "href": "S1.html#tipos-de-muestreo",
-    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
-    "section": "Tipos de muestreo",
-    "text": "Tipos de muestreo\nUna muestra será representativa si todos los sujetos de la población tienen la misma posibilidad de ser seleccionados y si el tamaño de la muestra refleja adecuadamente las características de la población en términos de la distribución de las variables estudiadas\nEn el muestreo probabilístico, cada individuo de la población tiene una probabilidad conocida y no nula de ser seleccionado. Esto garantiza que la muestra sea representativa y que las conclusiones puedan generalizarse a la población total."
-  },
-  {
-    "objectID": "S1.html#crear-y-configurar-tu-carpeta-de-trabajo",
-    "href": "S1.html#crear-y-configurar-tu-carpeta-de-trabajo",
-    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
-    "section": "Crear y configurar tu carpeta de trabajo",
-    "text": "Crear y configurar tu carpeta de trabajo\n\nCrea una carpeta específica:\n\nEn tu dispositivo, crea una nueva carpeta para tu proyecto (por ejemplo, “MiProyectoR”). Este será el lugar donde guardarás todos los archivos relacionados.\n\nEstablece la carpeta como directorio de trabajo:\n\nEn RStudio, ve al panel Files, ubicado generalmente en la parte inferior derecha.\nPuedes usar el botón New Folder para crear una nueva carpeta si aún no lo has hecho.\nNavega hasta la carpeta que creaste y selecciona More &gt; Set As Working Directory. Esto le dice a RStudio que todos los archivos guardados o abiertos estarán relacionados con esta carpeta. Verás en la consola un mensaje como:\n\n\nsetwd(\"ruta/de/tu/carpeta\")\n\nSetwd viene de Set Working Directory."
-  },
-  {
-    "objectID": "S1.html#crear-un-archivo-de-script",
-    "href": "S1.html#crear-un-archivo-de-script",
-    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
-    "section": "Crear un archivo de script",
-    "text": "Crear un archivo de script\nCuando trabajamos en R, utilizamos diferentes tipos de archivos para organizar y guardar nuestro trabajo. Dos formatos comunes son el archivo R Script y el documento Quarto. Ambos se utilizan para escribir código, pero cumplen propósitos diferentes que es importante entender.\nUn archivo R Script es un archivo simple donde escribimos y guardamos nuestras instrucciones de código. Sirve como un registro de los comandos que ejecutamos, permitiendo reutilizarlos o ajustarlos más adelante. Sin embargo, este tipo de archivo no incluye espacio para explicaciones extensas ni muestra los resultados directamente junto al código."
-  },
-  {
-    "objectID": "S1.html#funciones",
-    "href": "S1.html#funciones",
-    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
-    "section": "Funciones",
-    "text": "Funciones\nAnteriormente mencionamos que R es un lenguaje de programación que nos permite comunicarnos con la computadora para que esta realice tareas utilizando nuestros datos (input) y nos devuelva un resultado (output). Para que estas tareas se lleven a cabo, primero debemos indicarle a la computadora cómo hacerlo, y estas indicaciones se dan a través de funciones. Las funciones son instrucciones representadas por palabras seguidas de paréntesis, que le dicen a R que ejecute una acción específica."
-  },
-  {
-    "objectID": "S1.html#paquetes",
-    "href": "S1.html#paquetes",
-    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
-    "section": "Paquetes",
-    "text": "Paquetes\nEn R, muchas de las cosas que queremos hacer se pueden realizar con “paquetes”. En R, un paquete es generalmente un conjunto de herramientas con funciones específicas para realizar tareas específicas. Existen paquetes para prácticamente todo. Por ejemplo, el paquete dplyr es un paquete ampliamente utilizado para la manipulación de datos como filtrar valores o crear nuevas columnas."
-  },
-  {
-    "objectID": "S1.html#elementos",
-    "href": "S1.html#elementos",
-    "title": "Semana 1: Conceptos básicos de estadística e introducción a R",
-    "section": "Elementos",
-    "text": "Elementos\nEn R, los elementos son las unidades básicas que componen los datos. Estos elementos tienen un tipo de dato que define su naturaleza, cómo pueden manipularse y las operaciones que pueden realizarse con ellos. Los tipos de elementos en R están directamente relacionados con los tipos de variables utilizados en análisis estadístico que vimos en el capítulo anterior, como variables numéricas (continuas y discretas), categóricas (nominales y ordinales) y lógicas (binarias)."
   }
 ]

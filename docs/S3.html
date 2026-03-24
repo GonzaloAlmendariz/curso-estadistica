@@ -6,9 +6,8 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.57">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-f1aadacce99040138bbb613f9330654f.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.27">
 
   <title>Semana 3 y 4: Medidas descriptivas y análisis exploratorio</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -29,8 +28,9 @@
       vertical-align: middle;
     }
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -41,7 +41,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -94,209 +94,11 @@
     code span.vs { color: #9ecbff; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-b3c3e3206ca972053ce55adc022c9f6e.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
-  <style type="text/css">
-
-  .callout {
-    margin-top: 1em;
-    margin-bottom: 1em;  
-    border-radius: .25rem;
-  }
-
-  .callout.callout-style-simple { 
-    padding: 0em 0.5em;
-    border-left: solid #acacac .3rem;
-    border-right: solid 1px silver;
-    border-top: solid 1px silver;
-    border-bottom: solid 1px silver;
-    display: flex;
-  }
-
-  .callout.callout-style-default {
-    border-left: solid #acacac .3rem;
-    border-right: solid 1px silver;
-    border-top: solid 1px silver;
-    border-bottom: solid 1px silver;
-  }
-
-  .callout .callout-body-container {
-    flex-grow: 1;
-  }
-
-  .callout.callout-style-simple .callout-body {
-    font-size: 1rem;
-    font-weight: 400;
-  }
-
-  .callout.callout-style-default .callout-body {
-    font-size: 0.9rem;
-    font-weight: 400;
-  }
-
-  .callout.callout-titled.callout-style-simple .callout-body {
-    margin-top: 0.2em;
-  }
-
-  .callout:not(.callout-titled) .callout-body {
-      display: flex;
-  }
-
-  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
-    padding-left: 1.6em;
-  }
-
-  .callout.callout-titled .callout-header {
-    padding-top: 0.2em;
-    margin-bottom: -0.2em;
-  }
-
-  .callout.callout-titled .callout-title  p {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-  }
-    
-  .callout.callout-titled.callout-style-simple .callout-content  p {
-    margin-top: 0;
-  }
-
-  .callout.callout-titled.callout-style-default .callout-content  p {
-    margin-top: 0.7em;
-  }
-
-  .callout.callout-style-simple div.callout-title {
-    border-bottom: none;
-    font-size: .9rem;
-    font-weight: 600;
-    opacity: 75%;
-  }
-
-  .callout.callout-style-default  div.callout-title {
-    border-bottom: none;
-    font-weight: 600;
-    opacity: 85%;
-    font-size: 0.9rem;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-  }
-
-  .callout.callout-style-default div.callout-content {
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-  }
-
-  .callout.callout-style-simple .callout-icon::before {
-    height: 1rem;
-    width: 1rem;
-    display: inline-block;
-    content: "";
-    background-repeat: no-repeat;
-    background-size: 1rem 1rem;
-  }
-
-  .callout.callout-style-default .callout-icon::before {
-    height: 0.9rem;
-    width: 0.9rem;
-    display: inline-block;
-    content: "";
-    background-repeat: no-repeat;
-    background-size: 0.9rem 0.9rem;
-  }
-
-  .callout-title {
-    display: flex
-  }
-    
-  .callout-icon::before {
-    margin-top: 1rem;
-    padding-right: .5rem;
-  }
-
-  .callout.no-icon::before {
-    display: none !important;
-  }
-
-  .callout.callout-titled .callout-body > .callout-content > :last-child {
-    padding-bottom: 0.5rem;
-    margin-bottom: 0;
-  }
-
-  .callout.callout-titled .callout-icon::before {
-    margin-top: .5rem;
-    padding-right: .5rem;
-  }
-
-  .callout:not(.callout-titled) .callout-icon::before {
-    margin-top: 1rem;
-    padding-right: .5rem;
-  }
-
-  /* Callout Types */
-
-  div.callout-note {
-    border-left-color: #4582ec !important;
-  }
-
-  div.callout-note .callout-icon::before {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
-  }
-
-  div.callout-note.callout-style-default .callout-title {
-    background-color: #dae6fb
-  }
-
-  div.callout-important {
-    border-left-color: #d9534f !important;
-  }
-
-  div.callout-important .callout-icon::before {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
-  }
-
-  div.callout-important.callout-style-default .callout-title {
-    background-color: #f7dddc
-  }
-
-  div.callout-warning {
-    border-left-color: #f0ad4e !important;
-  }
-
-  div.callout-warning .callout-icon::before {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
-  }
-
-  div.callout-warning.callout-style-default .callout-title {
-    background-color: #fcefdc
-  }
-
-  div.callout-tip {
-    border-left-color: #02b875 !important;
-  }
-
-  div.callout-tip .callout-icon::before {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
-  }
-
-  div.callout-tip.callout-style-default .callout-title {
-    background-color: #ccf1e3
-  }
-
-  div.callout-caution {
-    border-left-color: #fd7e14 !important;
-  }
-
-  div.callout-caution .callout-icon::before {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
-  }
-
-  div.callout-caution.callout-style-default .callout-title {
-    background-color: #ffe5d0
-  }
-
-  </style>
   <style type="text/css">
     .reveal div.sourceCode {
       margin: 0;
@@ -450,19 +252,19 @@
 
 <p>En esta sesión haremos uso de los paquetes del <code>tidyverse</code> y el conjunto de datos <code>gapminder</code>, filtrado al 2007 y categorizando la variable continente:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="ot">=</span> gapminder <span class="sc">%&gt;%</span> </span>
 <span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">continent =</span> <span class="fu">as.factor</span>(continent))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">continent =</span> <span class="fu">as.factor</span>(continent))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
 
 <p>Otro paquete muy útil para la descripción de variables es <code>dlookr</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dlookr)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dlookr)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="resúmenes-numéricos" class="slide level2">
@@ -499,7 +301,7 @@
 
 <p>Por ejemplo, para calcular la media de la esperanza de vida en el conjunto de datos filtrados al año 2007, utilizamos la función <code>mean()</code> en R, especificando la variable de interés (<code>lifeExp</code>, que representa la esperanza de vida) del conjunto de datos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 67.00742</code></pre>
 </div>
@@ -524,7 +326,7 @@
 <p>La mediana es otra medida de tendencia central, pero su definición es diferente a la media. No se basa en magnitudes acumuladas, sino en el orden de los datos. Corresponde al valor que divide al conjunto en dos mitades: el 50 % de los datos se encuentra por debajo de la mediana, y el otro 50 % por encima.</p>
 <p>Para calcular la mediana de la esperanza de vida en el conjunto de datos filtrado al año 2007, utilizamos la función <code>median()</code> en R, especificando la variable de interés (lifeExp):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 71.9355</code></pre>
 </div>
@@ -599,7 +401,7 @@
 
 <p>Por ejemplo, para calcular el rango de la esperanza de vida en el conjunto de datos filtrado al año 2007, simplemente restamos el valor mínimo del valor máximo:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(gapminder_2007<span class="sc">$</span>lifeExp) <span class="sc">-</span> <span class="fu">min</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(gapminder_2007<span class="sc">$</span>lifeExp) <span class="sc">-</span> <span class="fu">min</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 42.99</code></pre>
 </div>
@@ -609,7 +411,7 @@
 
 <p>O con la función <code>range()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 39.613 82.603</code></pre>
 </div>
@@ -622,7 +424,7 @@
 <p>La varianza y la desviación estándar son medidas de dispersión que nos indican, en promedio, cuánto se desvían los datos del valor central, que en este caso es la media. Aunque estos conceptos pueden sonar un poco complicados al principio, los vamos a desglosar paso a paso.</p>
 <p>Primero, recordemos que la media es el promedio de todos los valores de esperanza de vida en nuestro conjunto de datos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 67.00742</code></pre>
 </div>
@@ -667,7 +469,7 @@
 
 <p>La varianza nos da una idea de cuánta variabilidad hay en las esperanzas de vida de los diferentes países en comparación con la media de 67 años. Podemos calcular la varianza en R fácilmente:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 145.7578</code></pre>
 </div>
@@ -688,7 +490,7 @@
 
 <p>En R, calculamos la desviación estándar usando <code>sd()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12.07302</code></pre>
 </div>
@@ -723,7 +525,7 @@
 
 <p>Para calcular los cuartiles de la esperanza de vida en el conjunto de datos filtrado al año 2007, podemos utilizar la función <code>quantile()</code> en R:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      0%      25%      50%      75%     100% 
 39.61300 57.16025 71.93550 76.41325 82.60300 </code></pre>
@@ -739,7 +541,7 @@
 
 <p>Podemos calcular cualquier percentil en R utilizando la función <code>quantile()</code>, especificando el porcentaje deseado. Por ejemplo, el percentil 90 de la esperanza de vida sería:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(gapminder_2007<span class="sc">$</span>lifeExp, <span class="fl">0.90</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(gapminder_2007<span class="sc">$</span>lifeExp, <span class="fl">0.90</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    90% 
 79.8223 </code></pre>
@@ -755,7 +557,7 @@
 
 <p>Podemos calcular el rango intercuartílico en R utilizando la función <code>IQR()</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 19.253</code></pre>
 </div>
@@ -783,7 +585,7 @@
 <figure>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><a href="https://www.biologyforlife.com/skew.html"><img data-src="clipboard-1551515960.png" class="quarto-figure quarto-figure-center" alt="Extraído de: https://www.biologyforlife.com/skew.html"></a></p>
+<p><a href="https://www.biologyforlife.com/skew.html"><img data-src="clipboard-1551515960.png" class="quarto-figure quarto-figure-center"></a></p>
 </figure>
 </div>
 <figcaption>Extraído de: https://www.biologyforlife.com/skew.html</figcaption>
@@ -812,7 +614,7 @@
 
 <p>Podemos calcular la asimetría en R usando la función <code>skewness()</code> del paquete <code>dlookr</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">skewness</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">skewness</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.6814798</code></pre>
 </div>
@@ -852,7 +654,7 @@
 
 <p>Podemos calcular la curtosis en R usando también la función <code>kurtosis()</code> del paquete <code>dlookr</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">kurtosis</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">kurtosis</span>(gapminder_2007<span class="sc">$</span>lifeExp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.157154</code></pre>
 </div>
@@ -868,13 +670,13 @@
 
 <p>Para la demostración, modificaremos la base de datos para agregarle una variable categórica adicional:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_mod <span class="ot">=</span> gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_mod <span class="ot">=</span> gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb27-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nivel_esp =</span> <span class="fu">cut</span>(lifeExp,</span>
 <span id="cb27-3"><a aria-hidden="true" tabindex="-1"></a>                         <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">65</span>, <span class="dv">80</span>, <span class="cn">Inf</span>),</span>
 <span id="cb27-4"><a aria-hidden="true" tabindex="-1"></a>                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"bajo"</span>, <span class="st">"medio"</span>, <span class="st">"alto"</span>)))  <span class="sc">%&gt;%</span> </span>
 <span id="cb27-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, continent, lifeExp, nivel_esp)</span>
 <span id="cb27-6"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-7"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gapminder_mod)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-7"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gapminder_mod)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   country     continent lifeExp nivel_esp
@@ -905,7 +707,7 @@
 <p>Por ejemplo, si estamos analizando las categorías de esperanza de vida en el conjunto de datos <code>gapminder_mod</code>, la frecuencia nos dirá cuántos países caen en cada una de las categorías de esperanza de vida (<code>bajo</code>, <code>medio</code>, <code>alto</code>).</p>
 <p>Para calcular las frecuencias en R, usamos la función <code>table</code> para contar el número de países en cada categoría de <code>nivel_esp</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(gapminder_mod<span class="sc">$</span>nivel_esp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(gapminder_mod<span class="sc">$</span>nivel_esp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  bajo medio  alto 
@@ -925,7 +727,7 @@
 
 <p>Siguiendo el mismo ejemplo, la proporción nos indicará qué fracción del total de países cae en cada categoría de esperanza de vida. Usamos <code>prop.table</code> sobre la tabla de frecuencias (es posible aplicar un función dentro de otra):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(gapminder_mod<span class="sc">$</span>nivel_esp))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(gapminder_mod<span class="sc">$</span>nivel_esp))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      bajo     medio      alto 
@@ -938,7 +740,7 @@
 
 <p>En el apartado de medidas de tendencia central, mencionamos brevemente la <strong>moda</strong>. Podemos retomarla en el contexto de las variables categóricas. A diferencia de otras medidas como la <strong>media</strong> o la <strong>mediana</strong>, que son más adecuadas para variables numéricas, la moda es especialmente útil en variables categóricas, ya que nos permite identificar cuál es la categoría que predomina en un grupo o conjunto de observaciones.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(gapminder_mod<span class="sc">$</span>nivel_esp)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(gapminder_mod<span class="sc">$</span>nivel_esp)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  bajo medio  alto 
@@ -964,7 +766,7 @@
 <section class="slide level2">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb35-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lifeExp)) <span class="sc">+</span>  </span>
 <span id="cb35-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
 <span id="cb35-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># Color de relleno del histograma </span></span>
@@ -976,7 +778,7 @@
 <span id="cb35-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Distribución de la esperanza de vida (2007)'</span>,  </span>
 <span id="cb35-11"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Esperanza de vida'</span>,  </span>
 <span id="cb35-12"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Frecuencia'</span>) <span class="sc">+</span>  </span>
-<span id="cb35-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -991,7 +793,7 @@
 
 <p>Con <code>binwidth</code> de 10:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb36-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lifeExp)) <span class="sc">+</span>  </span>
 <span id="cb36-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
 <span id="cb36-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># Color de relleno del histograma </span></span>
@@ -1003,7 +805,7 @@
 <span id="cb36-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Distribución de la esperanza de vida (2007)'</span>,  </span>
 <span id="cb36-11"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Esperanza de vida'</span>,  </span>
 <span id="cb36-12"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Frecuencia'</span>) <span class="sc">+</span>  </span>
-<span id="cb36-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()  </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1014,13 +816,13 @@
 
 <p>Con <code>binwidth</code> de 2:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb37-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lifeExp)) <span class="sc">+</span></span>
 <span id="cb37-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">'#2ecc71'</span>, <span class="at">color =</span> <span class="st">'black'</span>, <span class="at">binwidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
 <span id="cb37-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Distribución de la esperanza de vida (2007)'</span>,</span>
 <span id="cb37-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Esperanza de vida'</span>,</span>
 <span id="cb37-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Frecuencia'</span>) <span class="sc">+</span></span>
-<span id="cb37-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1057,7 +859,7 @@
 
 <p>Podemos realizarlo para la variable a nivel mundial:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb38-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lifeExp, <span class="at">y =</span> <span class="dv">1</span>)) <span class="sc">+</span>  </span>
 <span id="cb38-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(</span>
 <span id="cb38-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># Color de relleno del boxplot </span></span>
@@ -1067,7 +869,7 @@
 <span id="cb38-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Distribución de la esperanza de vida mundial (2007)'</span>,  </span>
 <span id="cb38-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Continente'</span>,  </span>
 <span id="cb38-10"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>) <span class="sc">+</span>  </span>
-<span id="cb38-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1078,7 +880,7 @@
 
 <p>O por cada continente definiendo el otro eje del gráfico:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb39-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> lifeExp, </span>
 <span id="cb39-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> continent)) <span class="sc">+</span></span>
 <span id="cb39-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">'#2ecc71'</span>, </span>
@@ -1086,7 +888,7 @@
 <span id="cb39-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Distribución de la esperanza de vida por continente (2007)'</span>,</span>
 <span id="cb39-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Continente'</span>,</span>
 <span id="cb39-8"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>) <span class="sc">+</span></span>
-<span id="cb39-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1098,14 +900,14 @@
 <p><strong>Gráficos de dispersión (Scatterplots):</strong></p>
 <p>Los gráficos de dispersión son ideales para visualizar la relación entre dos variables numéricas. Los argumentos como <code>color</code>, <code>size</code> y <code>alpha</code> y <code>shape</code> pueden ajustarse directamente dentro de <code>geom_point()</code> para aplicar efectos visuales fijos a todos los puntos, o bien dentro de <code>aes()</code> para mapear nuevas variables:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb40-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), </span>
 <span id="cb40-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
 <span id="cb40-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">'#2ecc71'</span>) <span class="sc">+</span></span>
 <span id="cb40-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Relación entre PIB per cápita y esperanza de vida (2007)'</span>,</span>
 <span id="cb40-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,</span>
 <span id="cb40-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>) <span class="sc">+</span></span>
-<span id="cb40-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1116,7 +918,7 @@
 
 <p>Agregando <code>size</code> modificamos el tamaño:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb41-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), </span>
 <span id="cb41-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
 <span id="cb41-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
@@ -1127,7 +929,7 @@
 <span id="cb41-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Relación entre PIB per cápita y esperanza de vida (2007)'</span>,</span>
 <span id="cb41-10"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,</span>
 <span id="cb41-11"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>) <span class="sc">+</span></span>
-<span id="cb41-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1138,7 +940,7 @@
 
 <p>Agregando <code>alpha</code> modificamos la transparencia:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb42-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap),  </span>
 <span id="cb42-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
 <span id="cb42-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
@@ -1151,7 +953,7 @@
 <span id="cb42-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Relación entre PIB per cápita y esperanza de vida (2007)'</span>,  </span>
 <span id="cb42-12"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,  </span>
 <span id="cb42-13"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>) <span class="sc">+</span>  </span>
-<span id="cb42-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1162,7 +964,7 @@
 
 <p>Podemos modificar los puntos por otras formas geométrias con <code>shape</code></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb43-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap),  </span>
 <span id="cb43-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> lifeExp)) <span class="sc">+</span>  </span>
 <span id="cb43-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
@@ -1177,7 +979,7 @@
 <span id="cb43-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Relación entre PIB per cápita y esperanza de vida (2007)'</span>,  </span>
 <span id="cb43-14"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,  </span>
 <span id="cb43-15"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>) <span class="sc">+</span>  </span>
-<span id="cb43-16"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()  </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-16"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1187,7 +989,7 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb44-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
 <span id="cb44-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">'#2ecc71'</span>, </span>
 <span id="cb44-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>, </span>
@@ -1197,7 +999,7 @@
 <span id="cb44-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Relación entre PIB per cápita y esperanza de vida (2007)'</span>,</span>
 <span id="cb44-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,</span>
 <span id="cb44-10"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>) <span class="sc">+</span></span>
-<span id="cb44-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1209,7 +1011,7 @@
 
 <p>Puedes usar <code>color</code> para asignar colores a los puntos según una variable como continente.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb45-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), </span>
 <span id="cb45-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> lifeExp, </span>
 <span id="cb45-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="co"># Asigna un color diferente a cada continente</span></span>
@@ -1219,7 +1021,7 @@
 <span id="cb45-8"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,</span>
 <span id="cb45-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>,</span>
 <span id="cb45-10"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Continente'</span>) <span class="sc">+</span></span>
-<span id="cb45-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb45-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1230,7 +1032,7 @@
 
 <p>El tamaño de los puntos (<code>size</code>) puede reflejar una variable numérica, como la población.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb46-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), </span>
 <span id="cb46-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> lifeExp, </span>
 <span id="cb46-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="co"># El tamaño de los puntos se asigna según la población</span></span>
@@ -1240,7 +1042,7 @@
 <span id="cb46-8"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,</span>
 <span id="cb46-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>,</span>
 <span id="cb46-10"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Continente'</span>) <span class="sc">+</span></span>
-<span id="cb46-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1251,7 +1053,7 @@
 
 <p><code>alpha</code> controla la transparencia de los puntos, y puede estar vinculado a una variable numérica para indicar niveles de intensidad. Podemos usar una escala logarítmica para la población (<code>pop</code>)</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb47-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), </span>
 <span id="cb47-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> lifeExp, </span>
 <span id="cb47-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="co"># Se asigna la transparencia según el logaritmo de la población</span></span>
@@ -1261,7 +1063,7 @@
 <span id="cb47-8"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,</span>
 <span id="cb47-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>,</span>
 <span id="cb47-10"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Continente'</span>) <span class="sc">+</span></span>
-<span id="cb47-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1273,7 +1075,7 @@
 
 <p><code>shape</code> puede asignar diferentes formas a los puntos en función de una variable categórica.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb48-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), </span>
 <span id="cb48-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> lifeExp, </span>
 <span id="cb48-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> continent)) <span class="sc">+</span></span>
@@ -1282,7 +1084,7 @@
 <span id="cb48-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,</span>
 <span id="cb48-8"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>,</span>
 <span id="cb48-9"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">'Continente'</span>) <span class="sc">+</span></span>
-<span id="cb48-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-10"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1297,7 +1099,7 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb49-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap),  </span>
 <span id="cb49-3"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> lifeExp,  </span>
 <span id="cb49-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="co"># Asigna colores según el continente</span></span>
@@ -1323,7 +1125,7 @@
 <span id="cb49-24"><a aria-hidden="true" tabindex="-1"></a>                        <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">1e6</span>, <span class="fl">1e8</span>, <span class="fl">1e9</span>),  </span>
 <span id="cb49-25"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># Etiquetas de los tamaños (1 millón, 100 millones, 1 mil millones) </span></span>
 <span id="cb49-26"><a aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"1M"</span>,<span class="st">"100M"</span>, <span class="st">"1B"</span>)) <span class="sc">+</span>  </span>
-<span id="cb49-27"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()  </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb49-27"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1334,7 +1136,7 @@
 
 <p>Como tercera variable podemos resaltar el continente</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb50-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp, <span class="at">color =</span> continent)) <span class="sc">+</span></span>
 <span id="cb50-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>  <span class="co"># Mantener el tamaño fijo y más pequeño</span></span>
 <span id="cb50-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Relación entre PIB per cápita y esperanza de vida (2007)'</span>,</span>
@@ -1346,7 +1148,7 @@
 <span id="cb50-10"><a aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Africa"</span> <span class="ot">=</span> <span class="st">"#a93226"</span>, </span>
 <span id="cb50-11"><a aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Americas"</span> <span class="ot">=</span> <span class="st">"#884ea0"</span>, </span>
 <span id="cb50-12"><a aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Oceania"</span> <span class="ot">=</span> <span class="st">"#d4ac0d"</span>)) <span class="sc">+</span> </span>
-<span id="cb50-13"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-13"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1357,7 +1159,7 @@
 
 <p>O podemos resaltar la población</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb51-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp, <span class="at">size =</span> pop)) <span class="sc">+</span></span>
 <span id="cb51-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">'#229954'</span>) <span class="sc">+</span></span>
 <span id="cb51-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Relación entre PIB per cápita y esperanza de vida (2007)'</span>,</span>
@@ -1367,7 +1169,7 @@
 <span id="cb51-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">20</span>),             </span>
 <span id="cb51-9"><a aria-hidden="true" tabindex="-1"></a>                          <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">1e6</span>, <span class="fl">1e8</span>, <span class="fl">1e9</span>),  </span>
 <span id="cb51-10"><a aria-hidden="true" tabindex="-1"></a>                          <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"1M"</span>,<span class="st">"100M"</span>, <span class="st">"1000M"</span>)) <span class="sc">+</span> </span>
-<span id="cb51-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1387,10 +1189,10 @@
 
 <p>Los gráficos más comunes para visualizar variables categóricas son los gráficos de barras, los diagramas de torta y los diagramas de mosaico. Cada uno de estos gráficos cumple un propósito particular, pero todos nos ofrecen una representación visual clara de la frecuencia o proporción de cada categoría.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="ot">=</span> gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="ot">=</span> gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb52-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nivel =</span> <span class="fu">cut</span>(lifeExp, </span>
 <span id="cb52-3"><a aria-hidden="true" tabindex="-1"></a>                                <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">70</span>, <span class="cn">Inf</span>), </span>
-<span id="cb52-4"><a aria-hidden="true" tabindex="-1"></a>                                <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Baja"</span>, <span class="st">"Media"</span>, <span class="st">"Alta"</span>)))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-4"><a aria-hidden="true" tabindex="-1"></a>                                <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Baja"</span>, <span class="st">"Media"</span>, <span class="st">"Alta"</span>)))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1398,13 +1200,13 @@
 <p><strong>Gráficos de barras:</strong></p>
 <p>Un gráfico de barras es ideal para visualizar la distribución de categorías de una variable. Cada barra representa una categoría y su altura (o longitud) corresponde a la frecuencia o proporción de datos en dicha categoría. Es muy útil cuando se quiere comparar la frecuencia de varias categorías.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb53-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> nivel)) <span class="sc">+</span></span>
 <span id="cb53-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">'#884ea0'</span>, <span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span></span>
 <span id="cb53-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Distribución de países por esperanza de vida (2007)'</span>,</span>
 <span id="cb53-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Nivel de Esperanza de Vida'</span>,</span>
 <span id="cb53-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Cantidad de países'</span>) <span class="sc">+</span></span>
-<span id="cb53-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb53-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1415,14 +1217,14 @@
 
 <p>En este gráfico, el eje x representa las categorías de expectativa de vida, y el eje y muestra la cantidad de países en cada categoría. Si queremos destacar visualmente algunas categorías, podemos usar fill para asignar un color específico a cada una:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb54-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> nivel, <span class="at">fill =</span> nivel)) <span class="sc">+</span></span>
 <span id="cb54-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span></span>
 <span id="cb54-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Distribución de países por esperanza de vida (2007)'</span>,</span>
 <span id="cb54-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Nivel de Esperanza de Vida'</span>,</span>
 <span id="cb54-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Cantidad de países'</span>,</span>
 <span id="cb54-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">'Niveles'</span>) <span class="sc">+</span></span>
-<span id="cb54-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1433,7 +1235,7 @@
 
 <p>Incluso con <code>facet_wrap()</code> podemos crear un gráfico de barras para cada continente</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb55-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> nivel, <span class="at">fill =</span> nivel)) <span class="sc">+</span></span>
 <span id="cb55-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span></span>
 <span id="cb55-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Distribución de países por esperanza de vida (2007)'</span>,</span>
@@ -1441,7 +1243,7 @@
 <span id="cb55-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Cantidad de países'</span>,</span>
 <span id="cb55-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">'Niveles'</span>) <span class="sc">+</span></span>
 <span id="cb55-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb55-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>continent)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>continent)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1453,14 +1255,14 @@
 <p><strong>Gráfico de Barras Apiladas:</strong></p>
 <p>Una variación del gráfico de barras tradicional pero introducimos la relación con una variable adicional. En este gráfico cada barra está dividida en segmentos que representan subcategorías de una variable adicional.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb56-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> nivel, <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
 <span id="cb56-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">'stack'</span>, <span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span></span>
 <span id="cb56-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Distribución de países por esperanza de vida y continente (2007)'</span>,</span>
 <span id="cb56-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Nivel de Esperanza de Vida'</span>,</span>
 <span id="cb56-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Cantidad de países'</span>,</span>
 <span id="cb56-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">'Continente'</span>) <span class="sc">+</span></span>
-<span id="cb56-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1475,14 +1277,14 @@
 
 <p>Normalmente, si queremos facilitar la comparación entre subcategorías, podemos usar <code>position = 'fill'</code> para normalizar las alturas de las barras y convertirlo en un gráfico de <strong>proporciones</strong>:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb57-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> nivel, <span class="at">fill =</span> continent)) <span class="sc">+</span></span>
 <span id="cb57-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">'fill'</span>, <span class="at">color =</span> <span class="st">'black'</span>) <span class="sc">+</span></span>
 <span id="cb57-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Proporción de países por esperanza de vida y continente (2007)'</span>,</span>
 <span id="cb57-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Nivel de Esperanza de Vida'</span>,</span>
 <span id="cb57-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Proporción'</span>,</span>
 <span id="cb57-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">'Continente'</span>) <span class="sc">+</span></span>
-<span id="cb57-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb57-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1497,7 +1299,7 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb58-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">fill =</span> nivel)) <span class="sc">+</span></span>
 <span id="cb58-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">width =</span> <span class="dv">1</span>, <span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span></span>
 <span id="cb58-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="at">theta =</span> <span class="st">"y"</span>) <span class="sc">+</span></span>
@@ -1509,7 +1311,7 @@
 <span id="cb58-10"><a aria-hidden="true" tabindex="-1"></a>                  scales<span class="sc">::</span><span class="fu">percent</span>(<span class="fu">after_stat</span>(count)<span class="sc">/</span><span class="fu">sum</span>(<span class="fu">after_stat</span>(count)))), </span>
 <span id="cb58-11"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">stat =</span> <span class="st">'count'</span>, </span>
 <span id="cb58-12"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>), </span>
-<span id="cb58-13"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">'white'</span>) <span class="co"># Añadir etiquetas con porcentajes</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb58-13"><a aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">'white'</span>) <span class="co"># Añadir etiquetas con porcentajes</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1521,17 +1323,17 @@
 <p><strong>Diagramas de mosaico:</strong></p>
 <p>ste tipo de gráfico es útil para visualizar la relación entre dos variables categóricas mediante un diagrama de mosaico. Conceptualmente, estos gráficos permiten representar tablas de contingencia de forma gráfica, mostrando simultáneamente la distribución conjunta de las categorías y la posible asociación entre ellas. En R, una implementación robusta de este tipo de gráficos se encuentra en el paquete <code>vcd</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a aria-hidden="true" tabindex="-1"></a>vcd<span class="sc">::</span><span class="fu">mosaic</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a aria-hidden="true" tabindex="-1"></a>vcd<span class="sc">::</span><span class="fu">mosaic</span>(</span>
 <span id="cb60-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> continent <span class="sc">+</span> nivel,</span>
 <span id="cb60-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">data   =</span> gapminder_2007,</span>
 <span id="cb60-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">main   =</span> <span class="st">"Relación entre continente y esperanza de vida (2007)"</span></span>
-<span id="cb60-5"><a aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb60-5"><a aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1549,13 +1351,13 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a aria-hidden="true" tabindex="-1"></a>vcd<span class="sc">::</span><span class="fu">mosaic</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a aria-hidden="true" tabindex="-1"></a>vcd<span class="sc">::</span><span class="fu">mosaic</span>(</span>
 <span id="cb61-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span> continent <span class="sc">+</span> nivel,</span>
 <span id="cb61-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">data   =</span> gapminder_2007,</span>
 <span id="cb61-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">shade  =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb61-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb61-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">main   =</span> <span class="st">"Relación entre continente y esperanza de vida (2007)"</span></span>
-<span id="cb61-7"><a aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb61-7"><a aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1594,7 +1396,7 @@
 
 <p>Vamos a recordar la estructura del dataset <code>gapminder_2007</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(gapminder_2007)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(gapminder_2007)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [142 × 7] (S3: tbl_df/tbl/data.frame)
  $ country  : Factor w/ 142 levels "Afghanistan",..: 1 2 3 4 5 6 7 8 9 10 ...
@@ -1612,7 +1414,7 @@
 <h3 id="análisis-univariado">Análisis univariado</h3>
 <p>Seguiremos haciendo uso del paquete <code>dlookr</code>. Esta paquete nos ofrece una función muy práctica, <code>describe()</code>, que nos permite generar un resumen detallado de nuestras variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(gapminder_2007)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(gapminder_2007)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 26
   described_variables     n    na   mean     sd se_mean    IQR skewness kurtosis
@@ -1651,7 +1453,7 @@
 
 <p>Podemos visualizar todos los valores que calcula por nosotros y seleccionar lo que queremos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(<span class="fu">describe</span>(gapminder_2007))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(<span class="fu">describe</span>(gapminder_2007))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "described_variables" "n"                   "na"                 
  [4] "mean"                "sd"                  "se_mean"            
@@ -1669,8 +1471,8 @@
 
 <p>Utilizando la selección, podemos ser más específicos con lo que queremos mostrar con describe.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(gapminder_2007)[<span class="fu">c</span>(<span class="st">"described_variables"</span>, <span class="st">"n"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"IQR"</span>, </span>
-<span id="cb68-2"><a aria-hidden="true" tabindex="-1"></a>                           <span class="st">"skewness"</span>, <span class="st">"kurtosis"</span>, <span class="st">"p50"</span>)]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(gapminder_2007)[<span class="fu">c</span>(<span class="st">"described_variables"</span>, <span class="st">"n"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"IQR"</span>, </span>
+<span id="cb68-2"><a aria-hidden="true" tabindex="-1"></a>                           <span class="st">"skewness"</span>, <span class="st">"kurtosis"</span>, <span class="st">"p50"</span>)]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 8
   described_variables     n       mean        sd    IQR skewness kurtosis    p50
@@ -1686,8 +1488,8 @@
 
 <p>Podemos especificar las variable que queremos describir introduciendo el nombre del dataset como primer argumento y las variables de interés luego.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(gapminder_2007, lifeExp)[<span class="fu">c</span>(<span class="st">"described_variables"</span>, <span class="st">"n"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"IQR"</span>, </span>
-<span id="cb70-2"><a aria-hidden="true" tabindex="-1"></a>                           <span class="st">"skewness"</span>, <span class="st">"kurtosis"</span>, <span class="st">"p50"</span>)]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(gapminder_2007, lifeExp)[<span class="fu">c</span>(<span class="st">"described_variables"</span>, <span class="st">"n"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"IQR"</span>, </span>
+<span id="cb70-2"><a aria-hidden="true" tabindex="-1"></a>                           <span class="st">"skewness"</span>, <span class="st">"kurtosis"</span>, <span class="st">"p50"</span>)]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 8
   described_variables     n  mean    sd   IQR skewness kurtosis   p50
@@ -1700,8 +1502,8 @@
 
 <p>Puede ser que queramos que no tome en cuenta una variable, por ejemplo aquí el año no es muy útil para el análisis ya que esta filtrado al 2007. La podemos excluir con un signo <code>-</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(gapminder_2007, <span class="sc">-</span>year)[<span class="fu">c</span>(<span class="st">"described_variables"</span>, <span class="st">"n"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"IQR"</span>, </span>
-<span id="cb72-2"><a aria-hidden="true" tabindex="-1"></a>                           <span class="st">"skewness"</span>, <span class="st">"kurtosis"</span>, <span class="st">"p50"</span>)]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(gapminder_2007, <span class="sc">-</span>year)[<span class="fu">c</span>(<span class="st">"described_variables"</span>, <span class="st">"n"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"IQR"</span>, </span>
+<span id="cb72-2"><a aria-hidden="true" tabindex="-1"></a>                           <span class="st">"skewness"</span>, <span class="st">"kurtosis"</span>, <span class="st">"p50"</span>)]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 8
   described_variables     n       mean        sd    IQR skewness kurtosis    p50
@@ -1716,9 +1518,9 @@
 
 <p>Otra forma alternativa es haciendo uso del paquete <code>dplyr</code> y <code>select()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
 <span id="cb74-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">describe</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb74-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(described_variables, mean, p25, p50, p75)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb74-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(described_variables, mean, p25, p50, p75)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 5
   described_variables       mean       p25       p50        p75
@@ -1734,7 +1536,7 @@
 
 <p>Podemos hacer uso de las funciones de agrupamiento que nos proporciona <code>dplyr</code> para hacer una análisis por categoría. Por ejemplo, filtremos el conjunto de datos <code>gapminder_2007</code> para excluir a Oceanía, ya que solo contiene dos países (Australia y Nueva Zelanda). Luego, agrupamos los datos por continente y utilizamos <code>describe()</code> para calcular estadísticas descriptivas para todas las variables numéricas excepto el año. Seleccionamos y mostramos la media, mediana y desviación estándar de cada variable</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb76-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># Filtramos el continente "Oceania"</span></span>
 <span id="cb76-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent <span class="sc">!=</span> <span class="st">'Oceania'</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb76-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># Agrupamos los datos por continente</span></span>
@@ -1742,7 +1544,7 @@
 <span id="cb76-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># Resumen estadístico excluyendo la columna "year"</span></span>
 <span id="cb76-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">describe</span>(<span class="sc">-</span>year) <span class="sc">%&gt;%</span></span>
 <span id="cb76-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># Seleccionamos las columnas relevantes del resumen</span></span>
-<span id="cb76-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(continent, described_variables, mean, p50, sd)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb76-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(continent, described_variables, mean, p50, sd)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 5
    continent described_variables        mean        p50           sd
@@ -1766,7 +1568,7 @@
 
 <p>Hasta ahora, hemos estado enfocados en variables numéricas, pero ¿qué pasa con las categóricas? Aquí es donde entra la función <code>univar_category()</code>, que nos permite describir variables categóricas, como el continente o el país:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">univar_category</span>(gapminder_2007)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">univar_category</span>(gapminder_2007)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$country
 # A tibble: 142 × 3
@@ -1808,22 +1610,22 @@ $nivel
 
 <p>Finalmente, podemos utilizar otra herramienta útil para un resumen general del dataset: <code>skimr</code>. Este paquete nos da una visión rápida de todas las variables, tanto numéricas como categóricas:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a aria-hidden="true" tabindex="-1"></a>resumen <span class="ot">=</span> gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a aria-hidden="true" tabindex="-1"></a>resumen <span class="ot">=</span> gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb81-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>pop) <span class="sc">%&gt;%</span>  </span>
-<span id="cb81-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">skim</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb81-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">skim</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a aria-hidden="true" tabindex="-1"></a>resumen <span class="sc">%&gt;%</span></span>
-<span id="cb82-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(skim_variable, skim_type)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a aria-hidden="true" tabindex="-1"></a>resumen <span class="sc">%&gt;%</span></span>
+<span id="cb82-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(skim_variable, skim_type)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
   skim_variable skim_type
@@ -1840,7 +1642,7 @@ $nivel
 <section class="slide level2">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a aria-hidden="true" tabindex="-1"></a>resumen <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a aria-hidden="true" tabindex="-1"></a>resumen <span class="sc">%&gt;%</span></span>
 <span id="cb84-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(skim_type <span class="sc">==</span> <span class="st">"numeric"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb84-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
 <span id="cb84-4"><a aria-hidden="true" tabindex="-1"></a>    skim_variable,</span>
@@ -1849,7 +1651,7 @@ $nivel
 <span id="cb84-7"><a aria-hidden="true" tabindex="-1"></a>    numeric.p25,</span>
 <span id="cb84-8"><a aria-hidden="true" tabindex="-1"></a>    numeric.p50,</span>
 <span id="cb84-9"><a aria-hidden="true" tabindex="-1"></a>    numeric.p75</span>
-<span id="cb84-10"><a aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb84-10"><a aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 6
   skim_variable numeric.mean numeric.sd numeric.p25 numeric.p50 numeric.p75
@@ -1909,15 +1711,15 @@ $nivel
 <p>El paquete <code>dlookr</code> también puede ayudarnos a realizar este análisis bivariado de manera sencilla y visual.</p>
 <p>Seleccionamos las variables de interés y eliminamos cualquier columna innecesaria (en este caso, el año).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="ot">=</span> gapminder_2007 <span class="sc">%&gt;%</span> </span>
-<span id="cb86-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="ot">=</span> gapminder_2007 <span class="sc">%&gt;%</span> </span>
+<span id="cb86-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
 
 <p>Con la función <code>correlate()</code> de <code>dlookr</code>, podemos obtener una tabla con los coeficientes de correlación para todas las combinaciones de variables cuantitativas en el conjunto de datos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">correlate</span>(gapminder_2007)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">correlate</span>(gapminder_2007)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   var1      var2      coef_corr
@@ -1942,7 +1744,7 @@ $nivel
 <section class="slide level2">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot_correlate</span>(gapminder_2007)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">plot_correlate</span>(gapminder_2007)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="S3_files/figure-revealjs/unnamed-chunk-93-1.svg" class="r-stretch"><p>El gráfico muestra un mapa de calor donde el color y la intensidad indican la fuerza de la correlación.</p>
@@ -1951,13 +1753,13 @@ $nivel
 
 <p>La mejor forma de poder visualizar la correlación es con un gráfico de dispersión. Utilicemos la relación entre PBI per cápita y esperanza de vida como hicimos anteriormente. Generalmente el eje x contiene la variable explicativa y el eje y la variable respuesta.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb90-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
 <span id="cb90-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">'#2ecc71'</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
 <span id="cb90-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Relación entre PIB per cápita y esperanza de vida (2007)'</span>,</span>
 <span id="cb90-5"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,</span>
 <span id="cb90-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>) <span class="sc">+</span></span>
-<span id="cb90-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb90-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -1968,7 +1770,7 @@ $nivel
 
 <p>Con la función <code>geom_smooth</code>, podemos agregar una línea de tendencia que visualiza la relación lineal entre las dos variables. Mostrando cómo sería una correlación perfecta <span class="math inline">\(r = 1\)</span>. La correlación entre estas dos variables nos dio 0.68 por lo que tiene sentido que la mayoría de las observaciones se aproximen a la recta.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb91-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(gdpPercap), <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
 <span id="cb91-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">'#2ecc71'</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
 <span id="cb91-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, </span>
@@ -1979,7 +1781,7 @@ $nivel
 <span id="cb91-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">'Relación entre PIB per cápita y esperanza de vida (2007)'</span>,</span>
 <span id="cb91-10"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'PIB per cápita'</span>,</span>
 <span id="cb91-11"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Esperanza de vida'</span>) <span class="sc">+</span></span>
-<span id="cb91-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb91-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -2013,10 +1815,10 @@ $nivel
 <p>Por ejemplo, si estamos interesados en entender cómo se distribuyen los niveles de expectativa de vida entre diferentes continentes, una tabla de contingencia puede ser extremadamente útil. Esta tabla nos permite ver cuántos países en cada continente se agrupan en cada nivel de expectativa de vida (bajo, medio, alto).</p>
 <p>Podemos usar <code>count</code> para contar observaciones por las variables especificadas:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a aria-hidden="true" tabindex="-1"></a>tabla_cont <span class="ot">=</span> gapminder_2007 <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a aria-hidden="true" tabindex="-1"></a>tabla_cont <span class="ot">=</span> gapminder_2007 <span class="sc">%&gt;%</span></span>
 <span id="cb92-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(continent, nivel)</span>
 <span id="cb92-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-4"><a aria-hidden="true" tabindex="-1"></a>tabla_cont</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb92-4"><a aria-hidden="true" tabindex="-1"></a>tabla_cont</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 3
    continent nivel     n
@@ -2038,10 +1840,10 @@ $nivel
 
 <p>Para obtener una tabla de contingencia con frecuencias absolutas y relativas, puedes usar la función <code>table()</code> que usamos anteriormente:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a aria-hidden="true" tabindex="-1"></a>tabla_contingencia <span class="ot">=</span> <span class="fu">table</span>(gapminder_2007<span class="sc">$</span>continent, gapminder_2007<span class="sc">$</span>nivel)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a aria-hidden="true" tabindex="-1"></a>tabla_contingencia <span class="ot">=</span> <span class="fu">table</span>(gapminder_2007<span class="sc">$</span>continent, gapminder_2007<span class="sc">$</span>nivel)</span>
 <span id="cb94-2"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb94-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-4"><a aria-hidden="true" tabindex="-1"></a>tabla_contingencia</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb94-4"><a aria-hidden="true" tabindex="-1"></a>tabla_contingencia</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          
            Baja Media Alta
@@ -2057,9 +1859,9 @@ $nivel
 
 <p>Para obtener proporciones, usa <code>prop.table()</code> dentro de la tabla generada con <code>table()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a aria-hidden="true" tabindex="-1"></a>tabla_proporciones <span class="ot">=</span> <span class="fu">prop.table</span>(tabla_contingencia)  </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a aria-hidden="true" tabindex="-1"></a>tabla_proporciones <span class="ot">=</span> <span class="fu">prop.table</span>(tabla_contingencia)  </span>
 <span id="cb96-2"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-3"><a aria-hidden="true" tabindex="-1"></a>tabla_proporciones</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb96-3"><a aria-hidden="true" tabindex="-1"></a>tabla_proporciones</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          
                   Baja       Media        Alta
@@ -2136,26 +1938,26 @@ $nivel
 
 <p>Lo primero que hace Flor es cargar las librerías necesarias, que incluyen herramientas para manipulación de datos (<code>dplyr</code>), visualización (<code>ggplot2</code>), resumen (<code>dlookr</code>) e importación de datos (<code>readr</code>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Carga paquetes necesarios</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Carga paquetes necesarios</span></span>
 <span id="cb98-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr) <span class="co"># Importación</span></span>
 <span id="cb98-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)    <span class="co"># Para manipulación de datos</span></span>
 <span id="cb98-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co"># Para visualización de datos</span></span>
-<span id="cb98-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dlookr)   <span class="co"># Para EDA </span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb98-5"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dlookr)   <span class="co"># Para EDA </span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
 
 <p>Luego, importa el conjunto de datos</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Importa la base de datos </span></span>
-<span id="cb99-2"><a aria-hidden="true" tabindex="-1"></a>latb2023 <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"latb2023.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Importa la base de datos </span></span>
+<span id="cb99-2"><a aria-hidden="true" tabindex="-1"></a>latb2023 <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"latb2023.csv"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
 
 <p>Flor selecciona las variables seleccionadas para analizar la confianza en instituciones.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Filtra datos de Perú y selecciona variables clave</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Filtra datos de Perú y selecciona variables clave</span></span>
 <span id="cb100-2"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="ot">=</span> latb2023 <span class="sc">%&gt;%</span></span>
 <span id="cb100-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># Filtra solo las respuestas de Perú (Código 604)</span></span>
 <span id="cb100-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(IDENPA <span class="sc">==</span> <span class="dv">604</span>) <span class="sc">%&gt;%</span>  </span>
@@ -2166,14 +1968,14 @@ $nivel
 <span id="cb100-9"><a aria-hidden="true" tabindex="-1"></a>         <span class="co"># Variables económicas</span></span>
 <span id="cb100-10"><a aria-hidden="true" tabindex="-1"></a>         P5STGBS, P6STGBS,  </span>
 <span id="cb100-11"><a aria-hidden="true" tabindex="-1"></a>        <span class="co"># Opinión sobre democracia y progreso del país</span></span>
-<span id="cb100-12"><a aria-hidden="true" tabindex="-1"></a>         P11STGBS.A, P2ST)  </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb100-12"><a aria-hidden="true" tabindex="-1"></a>         P11STGBS.A, P2ST)  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
 
 <p>Comprueba el nuevo data.frame y sus variables</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(confianza)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(confianza)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 1,200
 Columns: 15
@@ -2201,7 +2003,7 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 <p>Flor se da cuenta de que las variables tienen nombres poco intuitivos. Por lo tanto, decide renombrarlas con nombres más descriptivos, para ello puede hacer uso de <code>rename</code>.</p>
 <p>Primero las de confianza</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Renombra variables de confianza en instituciones</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Renombra variables de confianza en instituciones</span></span>
 <span id="cb103-2"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="ot">=</span> confianza <span class="sc">%&gt;%</span></span>
 <span id="cb103-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
 <span id="cb103-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">confianza_ejercito =</span> P13STGBS.A,</span>
@@ -2213,14 +2015,14 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 <span id="cb103-10"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">confianza_partidos =</span> P13ST.G,</span>
 <span id="cb103-11"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">confianza_electoral =</span> P13ST.H,</span>
 <span id="cb103-12"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">confianza_presidente =</span> P13ST.I</span>
-<span id="cb103-13"><a aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb103-13"><a aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
 
 <p>Luego la demás</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Renombra variables de percepción económica</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Renombra variables de percepción económica</span></span>
 <span id="cb104-2"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="ot">=</span> confianza <span class="sc">%&gt;%</span></span>
 <span id="cb104-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
 <span id="cb104-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">situacion_economica =</span> P5STGBS,    </span>
@@ -2239,19 +2041,19 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 <span id="cb104-17"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
 <span id="cb104-18"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">sexo =</span> SEXO,  </span>
 <span id="cb104-19"><a aria-hidden="true" tabindex="-1"></a>    <span class="at">edad =</span> EDAD     </span>
-<span id="cb104-20"><a aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb104-20"><a aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
 
 <p>Antes de calcular estadísticas descriptivas, Flor elimina las filas con valores faltantes (NA)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Elimina valores NA</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Elimina valores NA</span></span>
 <span id="cb105-2"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="ot">=</span> confianza <span class="sc">%&gt;%</span></span>
-<span id="cb105-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb105-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(confianza)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(confianza)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1147   15</code></pre>
 </div>
@@ -2278,14 +2080,14 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 <section class="slide level2">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen estadístico de confianza en instituciones</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen estadístico de confianza en instituciones</span></span>
 <span id="cb108-2"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="sc">%&gt;%</span> </span>
 <span id="cb108-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Selecciona las variables de confianza  </span></span>
 <span id="cb108-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"confianza_"</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb108-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">describe</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb108-6"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(described_variables, mean, p50, sd, skewness, kurtosis) <span class="sc">%&gt;%</span> </span>
 <span id="cb108-7"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Los ordena por orden de confianza</span></span>
-<span id="cb108-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(mean)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb108-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(mean)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 9 × 6
   described_variables   mean   p50    sd skewness kurtosis
@@ -2322,14 +2124,14 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 
 <p>Como la confianza en la Iglesia</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Histograma de confianza en la Iglesia</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Histograma de confianza en la Iglesia</span></span>
 <span id="cb110-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(confianza, <span class="fu">aes</span>(<span class="at">x =</span> confianza_iglesia)) <span class="sc">+</span></span>
 <span id="cb110-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"#1F618D"</span>, </span>
 <span id="cb110-4"><a aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
 <span id="cb110-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de confianza en la Iglesia"</span>, </span>
 <span id="cb110-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Nivel de confianza"</span>, </span>
 <span id="cb110-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frecuencia"</span>) <span class="sc">+</span></span>
-<span id="cb110-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb110-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -2340,14 +2142,14 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 
 <p>O en el Congreso</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Histograma de confianza en el Congreso</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Histograma de confianza en el Congreso</span></span>
 <span id="cb111-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(confianza, <span class="fu">aes</span>(<span class="at">x =</span> confianza_congreso)) <span class="sc">+</span></span>
 <span id="cb111-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"#1F618D"</span>, </span>
 <span id="cb111-4"><a aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
 <span id="cb111-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribución de confianza en el Gobierno"</span>, </span>
 <span id="cb111-6"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Nivel de confianza"</span>, </span>
 <span id="cb111-7"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frecuencia"</span>) <span class="sc">+</span></span>
-<span id="cb111-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb111-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -2373,12 +2175,12 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 
 <p>Por lo que Flor, calcula el promedio de confianza dentro de cada grupo. Esto le permite observar si aquellos que se sienten más satisfechos con la democracia tienden a confiar más en el Gobierno o, por el contrario, si el descontento democrático está asociado con una mayor desconfianza en esta institución.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="sc">%&gt;%</span></span>
 <span id="cb112-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># Agrupa por satisfacción con la democracia</span></span>
 <span id="cb112-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(satisfaccion_democracia) <span class="sc">%&gt;%</span>  </span>
 <span id="cb112-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calcula la media de confianza en el Gobierno</span></span>
 <span id="cb112-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">media_confianza_gobierno =</span> </span>
-<span id="cb112-6"><a aria-hidden="true" tabindex="-1"></a>            <span class="fu">mean</span>(confianza_gobierno))  </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb112-6"><a aria-hidden="true" tabindex="-1"></a>            <span class="fu">mean</span>(confianza_gobierno))  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
   satisfaccion_democracia media_confianza_gobierno
@@ -2405,7 +2207,7 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(confianza, <span class="fu">aes</span>(<span class="at">x =</span> satisfaccion_democracia, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(confianza, <span class="fu">aes</span>(<span class="at">x =</span> satisfaccion_democracia, </span>
 <span id="cb114-2"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">y =</span> confianza_gobierno, </span>
 <span id="cb114-3"><a aria-hidden="true" tabindex="-1"></a>                      <span class="co"># Usa colores diferentes para cada nivel de satisfacción</span></span>
 <span id="cb114-4"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">fill =</span> <span class="fu">as.factor</span>(satisfaccion_democracia))) <span class="sc">+</span>  </span>
@@ -2419,7 +2221,7 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 <span id="cb114-12"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Confianza"</span>) <span class="sc">+</span></span>
 <span id="cb114-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span>  </span>
 <span id="cb114-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># Elimina la leyenda para evitar redundancia</span></span>
-<span id="cb114-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)  </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb114-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)  </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -2449,10 +2251,10 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 
 <p>Calcula la media de confianza en el Congreso según la percepción económica de los encuestados.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="sc">%&gt;%</span></span>
 <span id="cb115-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(situacion_economica) <span class="sc">%&gt;%</span></span>
 <span id="cb115-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">media_confianza_congreso =</span> </span>
-<span id="cb115-4"><a aria-hidden="true" tabindex="-1"></a>            <span class="fu">mean</span>(confianza_congreso))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb115-4"><a aria-hidden="true" tabindex="-1"></a>            <span class="fu">mean</span>(confianza_congreso))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   situacion_economica media_confianza_congreso
@@ -2473,7 +2275,7 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(confianza, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(confianza_congreso), </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(confianza, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(confianza_congreso), </span>
 <span id="cb117-2"><a aria-hidden="true" tabindex="-1"></a>                      <span class="at">fill =</span> <span class="fu">as.factor</span>(situacion_economica))) <span class="sc">+</span></span>
 <span id="cb117-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># Usa "fill" para apilar las barras proporcionalmente</span></span>
 <span id="cb117-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span>  </span>
@@ -2487,7 +2289,7 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 <span id="cb117-12"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Confianza en el Congreso"</span>,</span>
 <span id="cb117-13"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proporción"</span>,</span>
 <span id="cb117-14"><a aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Situación Económica"</span>) <span class="sc">+</span></span>
-<span id="cb117-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb117-15"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section class="slide level2">
@@ -2526,10 +2328,10 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 
 <p><strong>1.Flor analiza la confianza en el Gobierno en Perú. La variable <code>confianza_gobierno</code> está codificada en una escala de 1 a 4, donde valores menores indican mayor confianza.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="sc">%&gt;%</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a aria-hidden="true" tabindex="-1"></a>confianza <span class="sc">%&gt;%</span> </span>
 <span id="cb118-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(confianza_gobierno) <span class="sc">%&gt;%</span> </span>
 <span id="cb118-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">describe</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb118-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(described_variables, mean, p50, sd) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb118-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(described_variables, mean, p50, sd) </span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 4
   described_variables  mean   p50    sd
@@ -2643,13 +2445,13 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 <p><strong>6.Flor quiere explorar la variable <code>edad</code> en el conjunto de datos de Latinobarómetro y obtener un resumen completo de sus estadísticas descriptivas.</strong></p>
 <p>¿Cuál de las siguientes líneas de código en <strong>R</strong> generaría correctamente un <strong>EDA con <code>dlookr</code></strong> sobre esta variable?</p>
 <p>a)</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(confianza<span class="sc">$</span>edad)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(confianza<span class="sc">$</span>edad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>b)</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(confianza<span class="sc">$</span>edad)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(confianza<span class="sc">$</span>edad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>c)</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(confianza<span class="sc">$</span>edad)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(confianza<span class="sc">$</span>edad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>d)</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(confianza<span class="sc">$</span>edad)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(confianza<span class="sc">$</span>edad)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section class="slide level2">
 
@@ -2779,14 +2581,14 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 <section id="gracias-por-tu-atención" class="title-slide slide level1 center">
 <h1>Gracias por tu atención</h1>
 
-<div class="quarto-auto-generated-content">
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
 
 </div>
-</div>
-</section>
-    </div>
-  </div>
+</div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
   <script src="site_libs/revealjs/dist/reveal.js"></script>
@@ -2815,7 +2617,8 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -3253,192 +3056,173 @@ $ P2ST       &lt;dbl&gt; 2, 2, 3, 2, 3, 3, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 3, 3, 2
     </script>
 
     <script id="quarto-html-after-body" type="application/javascript">
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-      const toggleBodyColorMode = (bsSheetEl) => {
-        const mode = bsSheetEl.getAttribute("data-mode");
-        const bodyEl = window.document.querySelector("body");
-        if (mode === "dark") {
-          bodyEl.classList.add("quarto-dark");
-          bodyEl.classList.remove("quarto-light");
-        } else {
-          bodyEl.classList.add("quarto-light");
-          bodyEl.classList.remove("quarto-dark");
-        }
-      }
-      const toggleBodyColorPrimary = () => {
-        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-        if (bsSheetEl) {
-          toggleBodyColorMode(bsSheetEl);
-        }
-      }
-      toggleBodyColorPrimary();  
-      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-      tabsets.forEach(function(tabset) {
-        const tabby = new Tabby('#' + tabset.id);
-      });
-      const isCodeAnnotation = (el) => {
-        for (const clz of el.classList) {
-          if (clz.startsWith('code-annotation-')) {                     
-            return true;
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      }
-      const onCopySuccess = function(e) {
-        // button target
-        const button = e.trigger;
-        // don't keep focus
-        button.blur();
-        // flash "checked"
-        button.classList.add('code-copy-button-checked');
-        var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copiado");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copiado");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
-        setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copiado");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copiado");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
           }
-          button.setAttribute("title", currentTitle);
-          button.classList.remove('code-copy-button-checked');
-        }, 1000);
-        // clear code selection
-        e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
           for (const childEl of codeEl.children) {
             if (isCodeAnnotation(childEl)) {
               childEl.remove();
             }
           }
           return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
-      });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        // For code content inside modals, clipBoardJS needs to be initialized with a container option
-        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
             }
           }
-        }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-        const config = {
-          allowHTML: true,
-          maxWidth: 500,
-          delay: 100,
-          arrow: false,
-          appendTo: function(el) {
-              return el.closest('section.slide') || el.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start',
-        };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
-          config['offset'] = [0,0];
-          config['maxWidth'] = 700;
-        window.tippy(el, config); 
-      }
-      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-      for (var i=0; i<noterefs.length; i++) {
-        const ref = noterefs[i];
-        tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-          try { href = new URL(href).hash; } catch {}
-          const id = href.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
           }
-        });
-      }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
           }
-        } else {
-          return undefined;
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
         }
-      };
-      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-      for (var i=0; i<bibliorefs.length; i++) {
-        const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
-              }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
           });
         }
-      }
-    });
-    </script>
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
     
 
 </body></html>

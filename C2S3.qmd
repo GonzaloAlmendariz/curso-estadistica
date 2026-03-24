@@ -176,7 +176,7 @@ De la misma forma que para construir un intervalo de confianza con una media. Pa
 
 $$
 \text{IC}_{\Delta \bar{x}} = \Delta \bar{x} \pm z/t \cdot \text{EE}
-$$ 
+$$
 
 ------------------------------------------------------------------------
 
@@ -277,13 +277,11 @@ ic
 
 ------------------------------------------------------------------------
 
-
 $$
 \text{IC}_{\Delta \bar{x}} = -3.6 \pm 0.5 = [-4.26, -2.93]
 $$
 
 ------------------------------------------------------------------------
-
 
 Representado graficamente tenemos lo siguiente:
 
@@ -572,7 +570,6 @@ prueba_t = t.test(horas_ocio ~ genero,
 tidy(prueba_t)
 ```
 
-
 ------------------------------------------------------------------------
 
 La prueba nos proporciona el **p-valor**, que representa la probabilidad de obtener una diferencia tan extrema como la observada si la hipótesis nula $H_0$ fuera cierta. Del capítulo anterior, sabemos que el valor está directamente relacionado con el **estadístico t**, ya que **a mayor valor absoluto de t, menor será el p-valor, lo que indica que la diferencia observada es menos probable bajo** $H_0$. En este caso, el **p-valor es menor que** $\alpha = 0.05$ ($2.2e-16$), por lo que rechazamos $H_0$ y concluimos que la diferencia en las horas de ocio entre hombres y mujeres es **estadísticamente significativa**.
@@ -635,7 +632,6 @@ glimpse(votantes)
 
 ------------------------------------------------------------------------
 
-
 Visualizamos las proporciones de cada grupo, al ser variables categóricas utilizaremos una gráfico de barras apilado.
 
 ------------------------------------------------------------------------
@@ -667,9 +663,7 @@ $$
 \Delta {p} = \hat{p}_1 - \hat{p}_2
 $$
 
-
 ------------------------------------------------------------------------
-
 
 En este caso, las proporciones observadas para las zonas urbanas y rurales son
 
@@ -758,7 +752,7 @@ Por lo tanto, la diferencia muestral de proporciones es:
 
 $$
 \Delta \hat{p} = 0.705 - 0.467 = 0.238
-$$ 
+$$
 
 ------------------------------------------------------------------------
 
@@ -826,7 +820,6 @@ tabla = table(votantes$zona, votantes$apoyo)
 tabla
 ```
 
-
 ------------------------------------------------------------------------
 
 ```{r}
@@ -835,7 +828,6 @@ prueba_prop = prop.test(tabla, conf.level = 0.95)
 
 prueba_prop$conf.int
 ```
-
 
 ------------------------------------------------------------------------
 
@@ -921,24 +913,20 @@ Sabemos realizar la estimación que:
 -   Proporción de apoyo en zonas rurales ($\hat{p}_2$): $$
     \hat{p}_2 = 0.467
     $$
-    
-    
+
 ------------------------------------------------------------------------
 
-
-La diferencia observada entre las proporciones es: 
+La diferencia observada entre las proporciones es:
 
 $$
 \Delta \hat{p} = \hat{p}_1 - \hat{p}_2 = 0.705 - 0.467 = 0.238.
 $$
-
 
 Las muestras de cada grupo son:
 
 $$
 n_1 = 200, \quad n_2 = 150.
 $$
-
 
 ------------------------------------------------------------------------
 
@@ -1028,12 +1016,11 @@ $$ Siendo $\hat{\pi}$ es la porción combinada.
 
 ------------------------------------------------------------------------
 
-Sustituyendo: 
+Sustituyendo:
 
 $$
 se_0 = \sqrt{0.603 \cdot (1 - 0.603) \left(\frac{1}{200} + \frac{1}{150}\right)} = \sqrt{0.603 \cdot 0.397 \cdot 0.01167} = 0.0528.
 $$
-
 
 ------------------------------------------------------------------------
 
@@ -1056,12 +1043,11 @@ $$
 z = \frac{\Delta \hat{p} - 0}{se_0}.
 $$
 
-Sustituyendo: 
+Sustituyendo:
 
 $$
 z = \frac{0.238}{0.0528} \approx 4.51.
 $$
-
 
 ------------------------------------------------------------------------
 
@@ -1081,12 +1067,11 @@ z_alpha
 
 ------------------------------------------------------------------------
 
-Sustituyendo $p_0 = 0$, $z_{\alpha/2} = 1.96$, y $se_0 = 0.0528$: 
+Sustituyendo $p_0 = 0$, $z_{\alpha/2} = 1.96$, y $se_0 = 0.0528$:
 
 $$
 [-1.96 \cdot 0.0528, 1.96 \cdot 0.0528] = [-0.1035, 0.1035].
-$$ 
-
+$$
 
 ------------------------------------------------------------------------
 
@@ -1205,7 +1190,6 @@ glimpse(rendimiento)
 
 ------------------------------------------------------------------------
 
-
 Para entender la distribución de los puntajes antes y después de la intervención, utilizamos `describeBy` del paquete `psych`.
 
 ```{r, warning=FALSE}
@@ -1241,7 +1225,6 @@ rendimiento %>%
 
 Vemos que efectivamente hay una diferencia. La clave aquí es determinar **qué tan grande es la diferencia y si puede atribuirse al azar o a un efecto real del programa**.
 
-
 ------------------------------------------------------------------------
 
 Dado que estamos trabajando con **muestras pareadas**, en lugar de comparar las medias de dos grupos independientes, calculamos **las diferencias dentro de cada individuo**
@@ -1269,7 +1252,6 @@ estadisticas
 ```
 
 ------------------------------------------------------------------------
-
 
 Esto nos da la diferencia promedio observada en los puntajes tras la intervención.
 
@@ -1307,7 +1289,6 @@ gl = n - 1 = 50 - 1 = 49
 $$
 
 ------------------------------------------------------------------------
-
 
 ```{r}
 gl = estadisticas$n - 1  
@@ -1380,7 +1361,6 @@ Cuando comparamos variación en las medias de los dinstitnos grupos, la prueba d
 
 Imagina que Flor está investigando si existe una **diferencia en la satisfacción laboral** entre distintos sectores económicos. Para ello, ha recopilado datos de empleados en cinco sectores: **Tecnología, Finanzas, Educación, Salud y Manufactura**. Su objetivo es determinar si el nivel de satisfacción laboral varía significativamente entre los grupos.
 
-
 ------------------------------------------------------------------------
 
 Para medir la satisfacción, cada empleado calificó su experiencia laboral en una escala de **0 a 10**, donde:
@@ -1392,7 +1372,6 @@ Para medir la satisfacción, cada empleado calificó su experiencia laboral en u
 | 5 - 6          | Neutral                   |
 | 7 - 8          | Satisfecho                |
 | 9 - 10         | Muy satisfecho            |
-
 
 ------------------------------------------------------------------------
 
@@ -1409,7 +1388,6 @@ F = \frac{\text{Variabilidad entre grupos}}{\text{Variabilidad dentro de los gru
 $$\
 
 ------------------------------------------------------------------------
-
 
 ¿Pero por qué nos interesa comparar la **variabilidad entre los grupos** con la **variabilidad dentro de los grupos**? Porque esto nos dice si las diferencias observadas son reales o simplemente producto del azar. Si la variabilidad entre los grupos es similar a la variabilidad dentro de ellos, significa que las diferencias en las medias no son mayores que las fluctuaciones normales que ocurren dentro de cada grupo. En otras palabras, aunque haya cierta dispersión en los datos, esta dispersión es comparable en todos los grupos, por lo que no hay razones para pensar que alguno de ellos sea realmente diferente. Sin embargo, si la variabilidad entre los grupos es mucho mayor que la variabilidad dentro de ellos, entonces estamos viendo diferencias que van más allá de la variación esperada dentro de cada grupo. Esto nos sugiere que al menos un grupo tiene una media que se aleja significativamente de los demás. Esa es la clave del ANOVA.
 
@@ -1478,7 +1456,6 @@ satisfaccion = read_csv('base_satisfaccion.csv')
 
 ------------------------------------------------------------------------
 
-
 ```{r}
 glimpse(satisfaccion)
 ```
@@ -1498,7 +1475,6 @@ satisfaccion %>%
   )
 ```
 
-
 Para visualizar las diferencias en satisfacción laboral entre sectores, podemos utilizar un **boxplot**:
 
 ------------------------------------------------------------------------
@@ -1517,7 +1493,6 @@ ggplot(satisfaccion, aes(x = sector,
 ------------------------------------------------------------------------
 
 Vemos que los niveles de satisfacción varían entre los sectores, pero ¿son estas diferencias lo suficientemente grandes como para concluir que el sector influye en la satisfacción laboral? En otras palabras, ¿la variabilidad en la satisfacción está asociada al sector o varía de forma independiente? En ANOVA, el concepto de **independencia** significa que, si no hay relación entre el sector y la satisfacción laboral, la variabilidad en los niveles de satisfacción sería similar tanto dentro de cada sector como entre ellos. En este caso, diríamos que la satisfacción laboral es **independiente** del sector, ya que pertenecer a uno u otro no influye en la percepción de satisfacción.
-
 
 ------------------------------------------------------------------------
 
@@ -1548,7 +1523,6 @@ Podmeos usar `tidy()` de la misma forma
 tidy(anova_resultado)
 ```
 
-
 El **p-valor de 2.1e-06** indica los mismo que anteriores pruebas, es decir, **la probabilidad de obtener una variabilidad entre los sectores tan grande como la observada si en realidad no hubiera ninguna diferencia real en la satisfacción laboral** (es decir, si la hipótesis nula fuera cierta). Dado que este valor es mucho menor que 0.05, rechazamos la hipótesis nula con un alto nivel de confianza. Esto significa que la satisfacción laboral **no varía de manera independiente del sector económico, sino que existe una diferencia significativa entre al menos uno de los sectores**, lo que sugiere que el sector de trabajo influye en el nivel de satisfacción.
 
 ------------------------------------------------------------------------
@@ -1577,7 +1551,7 @@ En nuestra muestra, los resultados muestran que **manufactura tiene una satisfac
 
 ------------------------------------------------------------------------
 
-Para verificar si la variabilidad detectada en el ANOVA se debe principalmente a **manufactura**, realizamos nuevamente la prueba excluyendo este sector y comparando únicamente **Tecnología, Finanzas, Educación y Salud**. 
+Para verificar si la variabilidad detectada en el ANOVA se debe principalmente a **manufactura**, realizamos nuevamente la prueba excluyendo este sector y comparando únicamente **Tecnología, Finanzas, Educación y Salud**.
 
 ```{r}
 # Filtrar la base de datos excluyendo el sector Manufactura
@@ -1591,7 +1565,6 @@ anova_sin_manufactura = aov(nivel_satisfaccion ~ sector,
 # Mostrar los resultados del ANOVA
 tidy(anova_sin_manufactura)
 ```
-
 
 ------------------------------------------------------------------------
 
@@ -1761,9 +1734,7 @@ $$
   \text{k} = (\text{número de filas} - 1) \times (\text{número de columnas} - 1)
 $$
 
-
 ------------------------------------------------------------------------
-
 
 En este caso, tenemos 3 niveles educativos y 2 tipos de empleo, por lo que:
 
@@ -1772,7 +1743,6 @@ $$
 $$\
 
 El **p-valor de 0.00585** es menor que **0.05**. Por lo tanto, **rechazamos la hipótesis nula** y concluimos que **el nivel educativo y el tipo de empleo no son independientes**. Es decir, el hecho de que una persona tenga empleo formal o informal en nuestra población de estudio **es altamente improbable que sea debido al azar**, sino que está influenciado por su nivel educativo. En an análisis descriptivos observamos que en los niveles **medio y superior**, hay una mayor proporción de empleo formal en comparación con el nivel básico, lo que nos indica que **a mayor nivel educativo, mayor es la probabilidad de acceder a un empleo formal**.
-
 
 ------------------------------------------------------------------------
 
@@ -1902,9 +1872,7 @@ tidy(
 )
 ```
 
-
 ------------------------------------------------------------------------
-
 
 | **Situación** | **Prueba Paramétrica** | **Alternativa No Paramétrica** |
 |------------------------|------------------------|------------------------|
@@ -1913,7 +1881,6 @@ tidy(
 | Medias entre más de dos grupos | ANOVA | Kruskal-Wallis Test + Prueba de Dunn |
 | Proporción en una muestra | z-test de proporciones | Prueba Binomial |
 | Proporciones entre grupos | z-test de diferencia de proporciones | Fisher o Chi-Cuadrado |
-
 
 ------------------------------------------------------------------------
 
@@ -1978,8 +1945,8 @@ C)  La hipótesis nula y la alternativa se formulan en términos de medias muest
 
 D)  La hipótesis nula afirma que el primer método es mejor que el segundo, mientras que la hipótesis alternativa establece que el segundo método es superior al primero.\
     $H_0: \mu_1 > \mu_2$ y $H_a: \mu_1 < \mu_2$
-    
-------------------------------------------------------------------------    
+
+------------------------------------------------------------------------
 
 **4.Se quiere quiere comparar las medias de dos grupos diferentes con distribución normal y varianzas desconocidas. ¿Qué prueba se debería usar?**\
 A. ANOVA
@@ -2046,7 +2013,6 @@ B\) Que las varianzas de los grupos sean iguales.
 C\) Que la distribución de los datos sea normal en todos los casos.
 
 D\) Que siempre se rechace la hipótesis nula.
-
 
 ------------------------------------------------------------------------
 

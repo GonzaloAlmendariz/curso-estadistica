@@ -48,7 +48,7 @@ lang: es
         <div class="meta-item">
           <div class="meta-label">Estado</div>
           <div class="meta-value">
-            <span class="status ok">Curso 1 completo · Curso 2 (Semanas 1–3 disponibles)</span>
+            <span class="status ok">Curso 1 completo · Curso 2 (Semanas 1–4 disponibles)</span>
           </div>
         </div>
       </div>
@@ -239,16 +239,20 @@ lang: es
         </a>
 
         <!-- Semana 4 -->
-        <div class="week-card disabled" aria-label="Curso 2 próximamente">
+        <a class="week-card" href="C2S4.html" aria-label="Ir a la Semana 4 del Curso 2">
           <div class="week-top">
             <span class="week-pill">Semana 4</span>
-            <span class="week-lock"><i class="fa-solid fa-lock"></i></span>
+            <span class="week-arrow">→</span>
           </div>
-          <div class="week-title">Próximamente</div>
+          <div class="week-title">Regresión y modelos lineales generalizados</div>
           <div class="week-desc">
-            • Material en desarrollo
+            • Regresión lineal simple y múltiple<br>
+            • OLS, inferencia de coeficientes y supuestos<br>
+            • Diagnóstico de ajuste y multicolinealidad<br>
+            • Interacciones y control de variables<br>
+            • Panorama de modelos GLM para datos sociales
           </div>
-        </div>
+        </a>
 
       </div>
     </section>

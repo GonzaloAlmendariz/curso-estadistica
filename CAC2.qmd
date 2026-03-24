@@ -72,6 +72,8 @@ qnorm(mean = 170, sd = 14, p = 0.2)
 set.seed(123)
 
 rnorm(mean = 170, sd = 14, n = 10)
+
+normal = rnorm(mean = 170, sd = 14, n = 10)
 ```
 
 ```{r}
@@ -155,25 +157,535 @@ qnorm(p = 0.025)
 qt(p = .025, df = 400)
 ```
 
-
-
 ```{r}
 qnorm(p = 0.05)
 ```
 
-
+# Diferencia de grupos
 
 ```{r}
-t.test()
+library(readr)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+ocio = read_csv('horas_ocio.csv')
+```
+
+```{r}
+head(ocio) 
+
+glimpse(ocio)
+```
+
+```{r}
+ library(psych)
+```
+
+```{r}
+describeBy(ocio$horas_ocio, ocio$genero)
+```
+
+```{r}
+ocio %>% 
+  ggplot(aes(x = genero, y = horas_ocio, fill = genero)) +
+  geom_boxplot() +
+  labs(title = 'Horas de ocio semanal por género', 
+       y = 'Cantidad de horas') +
+  theme_minimal()
+```
+
+```{r}
+estadisticas = ocio %>%
+  group_by(genero) %>%
+  summarise(
+    promedio = mean(horas_ocio),
+    sd = sd(horas_ocio),
+    n = n()
+  )
+```
+
+```{r}
+estadisticas
+```
+
+```{r}
+diferencia = diff(estadisticas$promedio)
+diferencia
+```
+
+```{r}
+ee = sqrt((estadisticas$sd[1]^2 / estadisticas$n[1]) +
+          (estadisticas$sd[2]^2 / estadisticas$n[2]))
+
+ee
+```
+
+```{r}
+# Cálculo de los grados de libertad con varianzas iguales
+gl = estadisticas$n[1] + estadisticas$n[2] - 2  
+
+t = qt(0.975, df = gl)  
+
+t
+```
+
+```{r}
+diferencia = diff(estadisticas$promedio) 
+
+diferencia
+```
+
+```{r}
+ic = c(diferencia - t * ee, diferencia + t *ee)
+
+ic
+```
+
+```{r}
+prueba_t = t.test(horas_ocio ~ genero, 
+                  data = ocio)
+
+prueba_t$conf.int
+```
+
+```{r}
+n_hombres = ocio %>% 
+  filter(genero == "hombre") %>% 
+  nrow()
+n_mujeres = ocio %>% 
+  filter(genero == "mujer") %>% 
+  nrow()
+
+n_hombres
+
+n_mujeres
+```
+
+```{r}
+ocio %>%
+  group_by(genero) %>%
+  summarise(
+    promedio = mean(horas_ocio),
+    sd = sd(horas_ocio)
+  )
+```
+
+```{r}
+t = diferencia / ee
+
+t
+```
+
+```{r}
+library(broom)
+```
+
+```{r}
+prueba_t = t.test(horas_ocio ~ genero, 
+                  data = ocio, 
+                  conf.level = 0.95)
+
+tidy(prueba_t)
+```
+
+```{r}
+votantes = read_csv("votantes.csv")
+```
+
+```{r}
+glimpse(votantes)
+```
+
+```{r}
+votantes %>%
+  group_by(zona, apoyo) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  mutate(proporcion = n / sum(n)) %>%
+  ggplot(aes(x = zona, y = proporcion, fill = apoyo)) +
+  # Esto permite realizar barras apiladas
+  geom_bar(stat = "identity", position = "fill") + 
+  labs(
+    title = "Proporción de apoyo por zona",
+    y = "Proporción",
+    x = "Zona",
+    fill = "Apoyo"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+# Calcular las proporciones de apoyo en cada zona
+proporciones = votantes %>%
+  group_by(zona) %>%
+  summarise(
+    total = n(),
+    apoyo_si = sum(apoyo == "sí"),
+    proporcion_apoyo = apoyo_si / total
+  )
+
+proporciones
+```
+
+```{r}
+# Proporción de apoyo en zonas urbanas
+prop_urbanos = votantes %>%
+  filter(zona == "urbana", apoyo == "sí") %>%
+  nrow() / votantes %>%
+  filter(zona == "urbana") %>%
+  nrow()
+
+# Proporción de apoyo en zonas rurales
+prop_rurales = votantes %>%
+  filter(zona == "rural", apoyo == "sí") %>%
+  nrow() / votantes %>%
+  filter(zona == "rural") %>%
+  nrow()
+
+prop_urbanos
+
+prop_rurales
+```
+
+```{r}
+diferencia_prop = prop_urbanos - prop_rurales
+diferencia_prop
+```
+
+```{r}
+n_urbanos = votantes %>% 
+  filter(zona == "urbana") %>% nrow()
+
+n_rurales = votantes %>% 
+  filter(zona == "rural") %>% nrow()
+
+ee = sqrt(
+  (prop_urbanos * (1 - prop_urbanos) / n_urbanos) +
+  (prop_rurales * (1 - prop_rurales) / n_rurales)
+)
+
+ee
+```
+
+```{r}
+z = qnorm(0.975)
+
+# Siendo
+z
+```
+
+```{r}
+# Intervalo de confianza
+ic = c(diferencia_prop - z * ee, 
+        diferencia_prop + z * ee)
+
+ic
+```
+
+```{r}
+tabla = table(votantes$zona, votantes$apoyo)
+
+tabla
+```
+
+```{r}
+prueba_prop = prop.test(tabla, conf.level = 0.95)
+
+
+prueba_prop$conf.int
+```
+
+```{r}
+pi_combinada = votantes %>%
+  group_by(zona) %>%
+  summarise(
+    exitos = sum(apoyo == "sí"),   
+    total = n()                    
+  ) %>%
+  summarise(
+    exitos_totales = sum(exitos),  
+    total_muestra = sum(total),   
+    pi = exitos_totales / total_muestra  
+  ) %>%
+  pull(pi) 
+```
+
+```{r}
+pi_combinada
+```
+
+```{r}
+se_nula = sqrt(
+  pi_combinada * (1 - pi_combinada) * (1 / n_urbanos + 1 / n_rurales)
+)
+se_nula
+```
+
+```{r}
+z_alpha = qnorm(0.975) 
+
+z_alpha
+```
+
+```{r}
+# Límites de las zonas de rechazo
+lim_inf <- 0 - z_alpha * se_nula
+lim_sup <- 0 + z_alpha * se_nula
+
+lim_inf
+
+lim_sup
+```
+
+```{r}
+prueba_prop = prop.test(tabla, conf.level = 0.95)
+
+tidy(prueba_prop)
 ```
 
 
 
 
+```{r}
+rendimiento = read_csv('rendimiento.csv')
+```
+
+
+```{r}
+glimpse(rendimiento)
+```
 
 
 
+```{r}
+library(psych)
+library(tidyverse)
+
+describeBy(rendimiento, group = NULL)
+```
+
+
+```{r}
+rendimiento |> 
+  select(antes) |> 
+  describe()
+```
+
+```{r}
+rendimiento |> 
+  select(después) |> 
+  describe()
+```
+
+
+```{r}
+rendimiento %>%
+  pivot_longer(cols = c(antes, después), names_to = "momento", values_to = "puntaje") %>%
+  ggplot(aes(x = momento, y = puntaje, fill = momento)) +
+  geom_boxplot() +
+  labs(title = "Distribución de puntajes antes y después del programa", 
+       x = "", y = "Puntaje") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+
+```{r}
+rendimiento = rendimiento %>%
+  mutate(diferencia = después - antes)
+
+estadisticas = rendimiento %>%
+  summarise(
+    promedio = mean(diferencia),
+    sd = sd(diferencia),
+    n = n()
+  )
+
+estadisticas
+```
+
+
+```{r}
+ee = estadisticas$sd / sqrt(estadisticas$n)
+ee
+```
+
+
+```{r}
+gl = estadisticas$n - 1  
 
 
 
+t = qt(0.975, df = gl)
+t
+```
 
+
+```{r}
+ic = c(estadisticas$promedio - t * ee, estadisticas$promedio + t * ee)
+
+ic
+```
+
+
+```{r}
+prueba_pareada = t.test(rendimiento$antes, 
+                        rendimiento$después, 
+                        # Indicamos que los datos están relacionados
+                        paired = TRUE,  
+                        mu = 0, 
+                        alternative = "two.sided", 
+                        conf.level = 0.95)
+
+tidy(prueba_pareada)
+```
+
+
+```{r}
+satisfaccion = read_csv('base_satisfaccion.csv')
+```
+
+
+```{r}
+glimpse(satisfaccion)
+```
+
+
+
+```{r}
+# Estadísticas descriptivas por sector
+satisfaccion %>%
+  group_by(sector) %>%
+  summarise(
+    media = mean(nivel_satisfaccion),
+    desviacion = sd(nivel_satisfaccion),
+    n = n()
+  )
+```
+
+
+```{r}
+ggplot(satisfaccion, aes(x = sector, 
+                         y = nivel_satisfaccion, 
+                         fill = sector)) +
+  geom_boxplot() +
+  labs(title = "Distribución de la satisfacción laboral por sector",
+       x = "Sector Económico",
+       y = "Nivel de Satisfacción") +
+  theme_minimal()
+```
+
+
+
+```{r}
+# Realizar ANOVA de una vía para comparar la satisfacción laboral entre sectores
+anova_resultado = aov(nivel_satisfaccion ~ sector, 
+                      data = satisfaccion)
+
+# Mostrar el resumen del ANOVA con el estadístico F y el p-valor
+summary(anova_resultado)
+```
+
+
+```{r}
+tidy(anova_resultado)
+```
+
+
+```{r}
+tukey = TukeyHSD(anova_resultado)
+
+tidy(tukey)
+```
+
+
+
+```{r}
+# Filtrar la base de datos excluyendo el sector Manufactura
+satisfaccion_sin_manufactura = satisfaccion %>%
+  filter(sector != "Manufactura")
+
+# Realizar ANOVA de una vía sin Manufactura
+anova_sin_manufactura = aov(nivel_satisfaccion ~ sector, 
+                             data = satisfaccion_sin_manufactura)
+
+# Mostrar los resultados del ANOVA
+tidy(anova_sin_manufactura)
+```
+
+
+```{r}
+edu_emp = read_csv("educacion_emp.csv")
+```
+
+
+```{r}
+glimpse(edu_emp)
+```
+
+
+```{r}
+edu_emp %>%
+  ggplot(aes(x = nivel_educativo, fill = tipo_empleo)) +
+  geom_bar(position = "fill") +
+  labs(title = "Distribución del tipo de empleo según nivel educativo",
+       x = "Nivel Educativo",
+       y = "Proporción",
+       fill = "Tipo de empleo") +
+  theme_minimal()
+```
+
+
+
+```{r}
+tabla_educacion = table(edu_emp)
+
+prueba_chi = chisq.test(tabla_educacion)
+
+tidy(prueba_chi)
+```
+
+
+
+```{r}
+casas = read_csv('taiwan_casas.csv')
+```
+
+
+```{r}
+g_casa = casas %>%
+  ggplot(aes(x = dist_to_mrt_m, y = price_twd_msq)) +
+  geom_point(alpha = 0.6, # Útil para distinguir mejor la aglomeración
+             color = "darkblue") +  # Puntos semitransparentes en azul
+  labs(
+    title = "Relación entre distancia al Metro y precio por metro cuadrado",
+    x = "Distancia al metro (metros)",
+    y = "Precio (TWD/m²)"
+  ) +
+  theme_minimal()  
+
+g_casa
+```
+
+
+```{r}
+g_casa +
+  geom_smooth(method = 'lm', 
+              color = 'red',
+              se = F)
+```
+
+
+```{r}
+# Ajustamos el modelo lineal
+modelo = lm(price_twd_msq ~ dist_to_mrt_m, data = casas)
+
+# Vemos los coeficientes (intercepto y pendiente)
+coef(modelo)
+```
+
+
+```{r}
+summary(modelo)
+```
